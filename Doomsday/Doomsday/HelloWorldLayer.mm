@@ -12,11 +12,9 @@
 // Not included in "cocos2d.h"
 #import "CCPhysicsSprite.h"
 
-//Pixel to metres ratio. Box2D uses metres as the unit for measurement.
-//This ratio defines how many pixels correspond to 1 Box2D "metre"
-//Box2D is optimized for objects of 1x1 metre therefore it makes sense
-//to define the ratio so that your most common object type is 1x1 metre.
-#define PTM_RATIO 32
+// Needed to obtain the Navigation Controller
+#import "AppDelegate.h"
+
 
 enum {
 	kTagParentNode = 1,
@@ -28,10 +26,25 @@ enum {
 @interface HelloWorldLayer()
 -(void) initPhysics;
 -(void) addNewSpriteAtPosition:(CGPoint)p;
--(void) createResetButton;
+-(void) createMenu;
 @end
 
 @implementation HelloWorldLayer
+
++(CCScene *) scene
+{
+	// 'scene' is an autorelease object.
+	CCScene *scene = [CCScene node];
+	
+	// 'layer' is an autorelease object.
+	HelloWorldLayer *layer = [HelloWorldLayer node];
+	
+	// add layer as a child to scene
+	[scene addChild: layer];
+	
+	// return the scene
+	return scene;
+}
 
 -(id) init
 {
@@ -39,19 +52,15 @@ enum {
 		
 		// enable events
 		
-#ifdef __IPHONE_OS_VERSION_MAX_ALLOWED
 		self.touchEnabled = YES;
 		self.accelerometerEnabled = YES;
-#elif defined(__MAC_OS_X_VERSION_MAX_ALLOWED)
-		self.mouseEnabled = YES;
-#endif
 		CGSize s = [CCDirector sharedDirector].winSize;
 		
 		// init physics
 		[self initPhysics];
 		
 		// create reset button
-		[self createResetButton];
+		[self createMenu];
 		
 		//Set up sprite
 		
@@ -90,22 +99,56 @@ enum {
 	[super dealloc];
 }	
 
--(void) createResetButton
+-(void) createMenu
 {
+	// Default font size will be 22 points.
+	[CCMenuItemFont setFontSize:22];
+	
+	// Reset Button
 	CCMenuItemLabel *reset = [CCMenuItemFont itemWithString:@"Reset" block:^(id sender){
-		CCScene *s = [CCScene node];
-		id child = [HelloWorldLayer node];
-		[s addChild:child];
-		[[CCDirector sharedDirector] replaceScene: s];
+		[[CCDirector sharedDirector] replaceScene: [HelloWorldLayer scene]];
+	}];
+
+	// to avoid a retain-cycle with the menuitem and blocks
+	__block id copy_self = self;
+
+	// Achievement Menu Item using blocks
+	CCMenuItem *itemAchievement = [CCMenuItemFont itemWithString:@"Achievements" block:^(id sender) {
+		
+		
+		GKAchievementViewController *achivementViewController = [[GKAchievementViewController alloc] init];
+		achivementViewController.achievementDelegate = copy_self;
+		
+		AppController *app = (AppController*) [[UIApplication sharedApplication] delegate];
+		
+		[[app navController] presentModalViewController:achivementViewController animated:YES];
+		
+		[achivementViewController release];
 	}];
 	
-	CCMenu *menu = [CCMenu menuWithItems:reset, nil];
+	// Leaderboard Menu Item using blocks
+	CCMenuItem *itemLeaderboard = [CCMenuItemFont itemWithString:@"Leaderboard" block:^(id sender) {
+		
+		
+		GKLeaderboardViewController *leaderboardViewController = [[GKLeaderboardViewController alloc] init];
+		leaderboardViewController.leaderboardDelegate = copy_self;
+		
+		AppController *app = (AppController*) [[UIApplication sharedApplication] delegate];
+		
+		[[app navController] presentModalViewController:leaderboardViewController animated:YES];
+		
+		[leaderboardViewController release];
+	}];
 	
-	CGSize s = [[CCDirector sharedDirector] winSize];
+	CCMenu *menu = [CCMenu menuWithItems:itemAchievement, itemLeaderboard, reset, nil];
 	
-	menu.position = ccp(s.width/2, 30);
+	[menu alignItemsVertically];
+	
+	CGSize size = [[CCDirector sharedDirector] winSize];
+	[menu setPosition:ccp( size.width/2, size.height/2)];
+	
+	
 	[self addChild: menu z:-1];	
-	
 }
 
 -(void) initPhysics
@@ -199,12 +242,12 @@ enum {
 	
 	// Define the dynamic body fixture.
 	b2FixtureDef fixtureDef;
-	fixtureDef.shape = &dynamicBox;
+	fixtureDef.shape = &dynamicBox;	
 	fixtureDef.density = 1.0f;
 	fixtureDef.friction = 0.3f;
 	body->CreateFixture(&fixtureDef);
 	
-	
+
 	CCNode *parent = [self getChildByTag:kTagParentNode];
 	
 	//We have a 64x64 sprite sheet with 4 different 32x32 images.  The following code is
@@ -217,9 +260,8 @@ enum {
 	[sprite setPTMRatio:PTM_RATIO];
 	[sprite setB2Body:body];
 	[sprite setPosition: ccp( p.x, p.y)];
-	
-}
 
+}
 
 -(void) update: (ccTime) dt
 {
@@ -236,8 +278,6 @@ enum {
 	world->Step(dt, velocityIterations, positionIterations);	
 }
 
-#ifdef __IPHONE_OS_VERSION_MAX_ALLOWED
-
 - (void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
 	//Add a new body/atlas sprite at the touched location
@@ -250,15 +290,18 @@ enum {
 	}
 }
 
-#elif defined(__MAC_OS_X_VERSION_MAX_ALLOWED)
+#pragma mark GameKit delegate
 
-- (BOOL) ccMouseDown:(NSEvent *)event
+-(void) achievementViewControllerDidFinish:(GKAchievementViewController *)viewController
 {
-	CGPoint location = [(CCDirectorMac*)[CCDirector sharedDirector] convertEventToGL:event];
-	[self addNewSpriteAtPosition: location];
-	
-	return YES;
+	AppController *app = (AppController*) [[UIApplication sharedApplication] delegate];
+	[[app navController] dismissModalViewControllerAnimated:YES];
 }
-#endif
+
+-(void) leaderboardViewControllerDidFinish:(GKLeaderboardViewController *)viewController
+{
+	AppController *app = (AppController*) [[UIApplication sharedApplication] delegate];
+	[[app navController] dismissModalViewControllerAnimated:YES];
+}
 
 @end

@@ -6,17 +6,23 @@
 //  Copyright TeamDoomsday 2014. All rights reserved.
 //
 
+#import <UIKit/UIKit.h>
 #import "cocos2d.h"
 
-@interface DoomsdayAppDelegate : NSObject <NSApplicationDelegate>
+// Added only for iOS 6 support
+@interface MyNavigationController : UINavigationController <CCDirectorDelegate>
+@end
+
+@interface AppController : NSObject <UIApplicationDelegate>
 {
-	NSWindow	*window_;
-	CCGLView	*glView_;
+	UIWindow *window_;
+	MyNavigationController *navController_;
+	
+	CCDirectorIOS	*director_;							// weak ref
 }
 
-@property (assign) IBOutlet NSWindow	*window;
-@property (assign) IBOutlet CCGLView	*glView;
-
-- (IBAction)toggleFullScreen:(id)sender;
+@property (nonatomic, retain) UIWindow *window;
+@property (readonly) MyNavigationController *navController;
+@property (readonly) CCDirectorIOS *director;
 
 @end

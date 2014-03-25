@@ -1,17 +1,17 @@
 //
 //  main.m
-//  cocos2d-mac
+//  Doomsday
 //
-//  Created by Ricardo Quesada on 8/17/10.
-//  Copyright 2010 __MyCompanyName__. All rights reserved.
+//  Created by Andrew Han on 3/24/14.
+//  Copyright TeamDoomsday 2014. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
+#import <UIKit/UIKit.h>
 
-#import "cocos2d.h"
-
-int main(int argc, char *argv[])
-{
-	[CCGLView load_];
-    return NSApplicationMain(argc,  (const char **) argv);
+int main(int argc, char *argv[]) {
+    
+    NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
+    int retVal = UIApplicationMain(argc, argv, nil, @"AppController");
+    [pool release];
+    return retVal;
 }
