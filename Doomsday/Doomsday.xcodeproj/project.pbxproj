@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3D97F9A618E8E45D00FE374E /* GameplayScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D97F9A518E8E45D00FE374E /* GameplayScene.m */; };
 		497A4FC318E11B8500B19D54 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 497A4FC218E11B8500B19D54 /* QuartzCore.framework */; };
 		497A4FC518E11B8500B19D54 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 497A4FC418E11B8500B19D54 /* OpenGLES.framework */; };
 		497A4FC718E11B8500B19D54 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 497A4FC618E11B8500B19D54 /* OpenAL.framework */; };
@@ -191,6 +192,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3D97F9A418E8E45D00FE374E /* GameplayScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameplayScene.h; sourceTree = "<group>"; };
+		3D97F9A518E8E45D00FE374E /* GameplayScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameplayScene.m; sourceTree = "<group>"; };
 		497A4FBF18E11B8500B19D54 /* Doomsday.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Doomsday.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		497A4FC218E11B8500B19D54 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		497A4FC418E11B8500B19D54 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -630,6 +633,8 @@
 			isa = PBXGroup;
 			children = (
 				497A51FA18E11B8800B19D54 /* AppDelegate.h */,
+				3D97F9A418E8E45D00FE374E /* GameplayScene.h */,
+				3D97F9A518E8E45D00FE374E /* GameplayScene.m */,
 				497A51FB18E11B8800B19D54 /* AppDelegate.mm */,
 				497A51FD18E11B8800B19D54 /* HelloWorldLayer.h */,
 				497A51FE18E11B8800B19D54 /* HelloWorldLayer.mm */,
@@ -1416,6 +1421,7 @@
 				497A50E118E11B8600B19D54 /* CCTouchDispatcher.m in Sources */,
 				497A51F918E11B8800B19D54 /* main.m in Sources */,
 				497A506418E11B8600B19D54 /* CCNode.m in Sources */,
+				3D97F9A618E8E45D00FE374E /* GameplayScene.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1533,6 +1539,7 @@
 				497A520C18E11B8800B19D54 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
