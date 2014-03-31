@@ -10,4 +10,24 @@
 
 @implementation GameplayScene
 
+-(id) init
+{
+    
+    if(self = [super init])
+	{
+        spriteLayer = [SpriteLayer node];
+        uiLayer = [UILayer node];
+        bgLayer = [BackgroundLayer node];
+    }
+    
+    [self addChild:spriteLayer z:1];
+    [self addChild:uiLayer z:4];
+    [self addChild:bgLayer z:0];
+    [self scheduleUpdate];
+   
+    return self;
+    
+}
+
+
 @end

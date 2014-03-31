@@ -7,7 +7,16 @@
 //
 
 #import "CCLayer.h"
+#import "AppDelegate.h"
+#import "Box2D.h"
+#import "Ship.h"
+@interface SpriteLayer : CCLayer{
+    b2World* _world;
+    b2Body* _body;
+    Ship* _ship;
+}
 
-@interface SpriteLayer : CCLayer
+- (void)kick;
+
 
 @end
