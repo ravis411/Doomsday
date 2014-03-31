@@ -17,6 +17,7 @@
         CGSize size = [[CCDirector sharedDirector] winSize];
         CCSprite *sky = [CCSprite node];
         [sky setTextureRectInPixels:CGRectMake(0,0,size.width,size.height)];
+        [self addChild:sky];
         
         distanceTraveled = 0;
     }
