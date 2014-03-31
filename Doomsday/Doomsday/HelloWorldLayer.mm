@@ -8,6 +8,7 @@
 
 // Import the interfaces
 #import "HelloWorldLayer.h"
+#import "GameplayScene.h"
 
 // Not included in "cocos2d.h"
 #import "CCPhysicsSprite.h"
@@ -139,9 +140,16 @@ enum {
 		
 		[leaderboardViewController release];
 	}];
+    
+    CCMenuItem *itemNewGame = [CCMenuItemFont itemWithString:@"New Game" block:^(id sender) {
+        [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.0 scene:[GameplayScene node]]];
+    }];
 	
-	CCMenu *menu = [CCMenu menuWithItems:itemAchievement, itemLeaderboard, reset, nil];
+	CCMenu *menu = [CCMenu menuWithItems:itemAchievement, itemLeaderboard, reset, itemNewGame, nil];
 	
+    
+    
+    
 	[menu alignItemsVertically];
 	
 	CGSize size = [[CCDirector sharedDirector] winSize];
