@@ -10,10 +10,12 @@
 #import "AppDelegate.h"
 #import "Box2D.h"
 #import "Ship.h"
+#import "Hoipolloi.h"
 @interface SpriteLayer : CCLayer{
     b2World* _world;
     b2Body* _body;
     Ship* _ship;
+    Hoipolloi* _hoipolloi;
 }
 
 - (void)kick;

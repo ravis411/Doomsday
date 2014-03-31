@@ -200,6 +200,7 @@
 		497A520718E11B8800B19D54 /* blocks.png in Resources */ = {isa = PBXBuildFile; fileRef = 497A520618E11B8800B19D54 /* blocks.png */; };
 		49EC18A418E900CB00186109 /* rifle.png in Resources */ = {isa = PBXBuildFile; fileRef = 49EC18A318E900CB00186109 /* rifle.png */; };
 		49EC18A718E9348A00186109 /* Ship.mm in Sources */ = {isa = PBXBuildFile; fileRef = 49EC18A618E9348A00186109 /* Ship.mm */; };
+		49EC18AA18E9400E00186109 /* Hoipolloi.mm in Sources */ = {isa = PBXBuildFile; fileRef = 49EC18A918E9400E00186109 /* Hoipolloi.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -599,6 +600,8 @@
 		49EC18A318E900CB00186109 /* rifle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = rifle.png; path = Resources/rifle.png; sourceTree = "<group>"; };
 		49EC18A518E9348A00186109 /* Ship.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Ship.h; sourceTree = "<group>"; };
 		49EC18A618E9348A00186109 /* Ship.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Ship.mm; sourceTree = "<group>"; };
+		49EC18A818E9400E00186109 /* Hoipolloi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Hoipolloi.h; sourceTree = "<group>"; };
+		49EC18A918E9400E00186109 /* Hoipolloi.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Hoipolloi.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -664,6 +667,8 @@
 				3D97F9B018E8E72000FE374E /* UILayer.mm */,
 				49EC18A518E9348A00186109 /* Ship.h */,
 				49EC18A618E9348A00186109 /* Ship.mm */,
+				49EC18A818E9400E00186109 /* Hoipolloi.h */,
+				49EC18A918E9400E00186109 /* Hoipolloi.mm */,
 				3D97F9A718E8E5D600FE374E /* SpriteLayer.h */,
 				3D97F9AF18E8E72000FE374E /* SpriteLayer.mm */,
 				3D97F9B918E8EE4700FE374E /* AttackLayer.h */,
@@ -1404,6 +1409,7 @@
 				497A502018E11B8500B19D54 /* CCAtlasNode.m in Sources */,
 				497A51FC18E11B8800B19D54 /* AppDelegate.mm in Sources */,
 				497A50E418E11B8600B19D54 /* CCTouchHandler.m in Sources */,
+				49EC18AA18E9400E00186109 /* Hoipolloi.mm in Sources */,
 				497A505E18E11B8600B19D54 /* CCMotionStreak.m in Sources */,
 				497A519018E11B8700B19D54 /* b2Draw.cpp in Sources */,
 				497A50DD18E11B8600B19D54 /* CCGLView.m in Sources */,

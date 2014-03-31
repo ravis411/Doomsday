@@ -18,11 +18,15 @@
         CGSize size = [[CCDirector sharedDirector] winSize];
         _ship = [CCSprite spriteWithFile:@"ship.png"];
         _ship.position = ccp(100, 300);
+        
+        _hoipolloi = [CCSprite spriteWithFile:@"hoipolloi.png"];
+        _hoipolloi.position = ccp(100,0);
+        
         [self addChild:_ship];
+        [self addChild:_hoipolloi];
         
         b2Vec2 gravity = b2Vec2(0.0f, -8.0f);
         _world = new b2World(gravity);
-        
         
         
         b2BodyDef groundBodyDef;
@@ -52,6 +56,9 @@
         ballBodyDef.type = b2_dynamicBody;
         ballBodyDef.position.Set(100/PTM_RATIO, 300/PTM_RATIO);
         ballBodyDef.userData = _ship;
+        ballBodyDef.fixedRotation = true;
+        
+        
         _body = _world->CreateBody(&ballBodyDef);
         
         b2CircleShape circle;
@@ -63,9 +70,9 @@
         ballShapeDef.friction = 0.2f;
         ballShapeDef.restitution = 0.8f;
         _body->CreateFixture(&ballShapeDef);
-        
+        _body->SetGravityScale(-2);
         [self schedule:@selector(tick:)];
-        [self schedule:@selector(kick) interval:10.0];
+        //[self schedule:@selector(kick) interval:10.0];
     }
     return self;
 }
