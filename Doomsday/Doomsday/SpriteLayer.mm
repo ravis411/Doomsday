@@ -7,7 +7,7 @@
 //
 
 #import "SpriteLayer.h"
-#define PTM_RATIO 32.0
+#define PTM_RATIO 32.0f
 @implementation SpriteLayer
 
 -(id)init{
@@ -16,19 +16,20 @@
         CCLayerColor* color = [CCLayerColor layerWithColor:ccc4(255,0,255,255)];
         [self addChild:color z:0];
         CGSize size = [[CCDirector sharedDirector] winSize];
+        
+        //Initializing Sprites + Position
         _ship = [CCSprite spriteWithFile:@"ship.png"];
-        _ship.position = ccp(100, 300);
-        
         _hoipolloi = [CCSprite spriteWithFile:@"hoipolloi.png"];
-        _hoipolloi.position = ccp(100,0);
-        
+        [_ship setScale:0.3];
+        [_hoipolloi setScale:0.3];
         [self addChild:_ship];
         [self addChild:_hoipolloi];
         
-        b2Vec2 gravity = b2Vec2(0.0f, -8.0f);
+        //Creating Box2D World
+        b2Vec2 gravity = b2Vec2(0.0f, -100.0f);
         _world = new b2World(gravity);
         
-        
+        //Creating Edges around the screen
         b2BodyDef groundBodyDef;
         groundBodyDef.position.Set(0,0);
         
@@ -38,39 +39,35 @@
         boxShapeDef.shape = &groundEdge;
         
         //wall definitions
+        //Creating the ground
         groundEdge.Set(b2Vec2(0,0), b2Vec2(size.width/PTM_RATIO, 0));
         groundBody->CreateFixture(&boxShapeDef);
         
-        groundEdge.Set(b2Vec2(0,0), b2Vec2(0,size.height/PTM_RATIO));
-        groundBody->CreateFixture(&boxShapeDef);
-        
+        //Creating the ceiling
         groundEdge.Set(b2Vec2(0, size.height/PTM_RATIO), b2Vec2(size.width/PTM_RATIO, size.height/PTM_RATIO));
         groundBody->CreateFixture(&boxShapeDef);
         
-        groundEdge.Set(b2Vec2(size.width/PTM_RATIO, size.height/PTM_RATIO), b2Vec2(size.width/PTM_RATIO, 0));
-        groundBody->CreateFixture(&boxShapeDef);
         
         
-        
-        b2BodyDef ballBodyDef;
-        ballBodyDef.type = b2_dynamicBody;
-        ballBodyDef.position.Set(100/PTM_RATIO, 300/PTM_RATIO);
-        ballBodyDef.userData = _ship;
-        ballBodyDef.fixedRotation = true;
-        
-        
-        _body = _world->CreateBody(&ballBodyDef);
+        b2BodyDef shipBodyDef;
+        shipBodyDef.type = b2_dynamicBody;
+        shipBodyDef.position.Set((size.width/2)/PTM_RATIO, (size.height-50)/PTM_RATIO);
+        shipBodyDef.userData = _ship;
+        shipBodyDef.fixedRotation = true;
+        _body = _world->CreateBody(&shipBodyDef);
         
         b2CircleShape circle;
         circle.m_radius = 26.0/PTM_RATIO;
         
-        b2FixtureDef ballShapeDef;
-        ballShapeDef.shape = &circle;
-        ballShapeDef.density = 1.0f;
-        ballShapeDef.friction = 0.2f;
-        ballShapeDef.restitution = 0.8f;
-        _body->CreateFixture(&ballShapeDef);
-        _body->SetGravityScale(-2);
+        b2FixtureDef shipShapeDef;
+        shipShapeDef.shape = &circle;
+        shipShapeDef.density = 1.0f;
+        shipShapeDef.friction = 0.2f;
+        shipShapeDef.restitution = 0.4f;
+        _body->CreateFixture(&shipShapeDef);
+        
+        
+//        _body->SetGravityScale(-2);
         [self schedule:@selector(tick:)];
         //[self schedule:@selector(kick) interval:10.0];
     }
@@ -83,8 +80,7 @@
     for(b2Body *b = _world->GetBodyList(); b; b=b->GetNext()) {
         if (b->GetUserData() != NULL) {
             CCSprite *ballData = (CCSprite *)b->GetUserData();
-            ballData.position = ccp(b->GetPosition().x * 32,
-                                    b->GetPosition().y * 32);
+            ballData.position = ccp(b->GetPosition().x * 32, b->GetPosition().y * 32);
             ballData.rotation = -1 * CC_RADIANS_TO_DEGREES(b->GetAngle());
         }
     }
