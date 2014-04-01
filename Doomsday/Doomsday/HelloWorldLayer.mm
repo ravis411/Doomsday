@@ -77,7 +77,10 @@ enum {
 		[self addChild:parent z:0 tag:kTagParentNode];
 		
 		
-		[self addNewSpriteAtPosition:ccp(s.width/2, s.height/2)];
+		[self addNewSpriteAtPosition:ccp(s.width/1, s.height/10)];
+        [self addNewSpriteAtPosition:ccp(s.width/2, s.height/2)];
+        [self addNewSpriteAtPosition:ccp(s.width/3, s.height/1.5)];
+        [self addNewSpriteAtPosition:ccp(5, s.height)];
 		
 		CCLabelTTF *label = [CCLabelTTF labelWithString:@"Tap screen" fontName:@"Marker Felt" fontSize:32];
 		[self addChild:label z:0];
