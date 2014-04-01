@@ -195,7 +195,6 @@
 		497A51F918E11B8800B19D54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 497A51F818E11B8800B19D54 /* main.m */; };
 		497A51FC18E11B8800B19D54 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 497A51FB18E11B8800B19D54 /* AppDelegate.mm */; };
 		497A51FF18E11B8800B19D54 /* HelloWorldLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 497A51FE18E11B8800B19D54 /* HelloWorldLayer.mm */; };
-		497A520218E11B8800B19D54 /* IntroLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 497A520118E11B8800B19D54 /* IntroLayer.mm */; };
 		497A520518E11B8800B19D54 /* GLES-Render.mm in Sources */ = {isa = PBXBuildFile; fileRef = 497A520418E11B8800B19D54 /* GLES-Render.mm */; };
 		497A520718E11B8800B19D54 /* blocks.png in Resources */ = {isa = PBXBuildFile; fileRef = 497A520618E11B8800B19D54 /* blocks.png */; };
 		56682CF618EA47E6001377CA /* rifle.png in Resources */ = {isa = PBXBuildFile; fileRef = 56682CF518EA47E6001377CA /* rifle.png */; };
@@ -590,8 +589,6 @@
 		497A51FB18E11B8800B19D54 /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
 		497A51FD18E11B8800B19D54 /* HelloWorldLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HelloWorldLayer.h; sourceTree = "<group>"; };
 		497A51FE18E11B8800B19D54 /* HelloWorldLayer.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = HelloWorldLayer.mm; sourceTree = "<group>"; };
-		497A520018E11B8800B19D54 /* IntroLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IntroLayer.h; sourceTree = "<group>"; };
-		497A520118E11B8800B19D54 /* IntroLayer.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = IntroLayer.mm; sourceTree = "<group>"; };
 		497A520318E11B8800B19D54 /* GLES-Render.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GLES-Render.h"; sourceTree = "<group>"; };
 		497A520418E11B8800B19D54 /* GLES-Render.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = "GLES-Render.mm"; sourceTree = "<group>"; };
 		497A520618E11B8800B19D54 /* blocks.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = blocks.png; path = Resources/blocks.png; sourceTree = "<group>"; };
@@ -670,8 +667,6 @@
 				497A51FB18E11B8800B19D54 /* AppDelegate.mm */,
 				497A51FD18E11B8800B19D54 /* HelloWorldLayer.h */,
 				497A51FE18E11B8800B19D54 /* HelloWorldLayer.mm */,
-				497A520018E11B8800B19D54 /* IntroLayer.h */,
-				497A520118E11B8800B19D54 /* IntroLayer.mm */,
 				497A520318E11B8800B19D54 /* GLES-Render.h */,
 				497A520418E11B8800B19D54 /* GLES-Render.mm */,
 				497A4FD718E11B8500B19D54 /* Resources */,
@@ -1439,7 +1434,6 @@
 				497A51BE18E11B8700B19D54 /* b2Contact.cpp in Sources */,
 				497A503318E11B8500B19D54 /* CCDrawingPrimitives.m in Sources */,
 				497A509B18E11B8600B19D54 /* ccShaders.m in Sources */,
-				497A520218E11B8800B19D54 /* IntroLayer.mm in Sources */,
 				497A51B118E11B8700B19D54 /* b2WorldCallbacks.cpp in Sources */,
 				497A51D118E11B8700B19D54 /* b2DistanceJoint.cpp in Sources */,
 				497A50F118E11B8600B19D54 /* CCWindow.m in Sources */,
