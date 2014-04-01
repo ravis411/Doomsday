@@ -16,6 +16,7 @@
     b2Body* _body;
     Ship* _ship;
     Hoipolloi* _hoipolloi;
+    CGSize size;
 }
 
 - (void)kick;

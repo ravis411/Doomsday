@@ -29,5 +29,10 @@
     
 }
 
+-(void)update:(ccTime)dt{
+    [spriteLayer update:dt];
+    
+}
+
 
 @end

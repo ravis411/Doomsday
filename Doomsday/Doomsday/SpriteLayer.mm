@@ -15,8 +15,7 @@
         [self setTouchEnabled:YES];
         CCLayerColor* color = [CCLayerColor layerWithColor:ccc4(255,0,255,255)];
         [self addChild:color z:0];
-        CGSize size = [[CCDirector sharedDirector] winSize];
-        
+        size = [[CCDirector sharedDirector] winSize];
         //Initializing Sprites + Position
         _ship = [CCSprite spriteWithFile:@"ship.png"];
         _hoipolloi = [CCSprite spriteWithFile:@"hoipolloi.png"];
@@ -26,7 +25,7 @@
         [self addChild:_hoipolloi];
         
         //Creating Box2D World
-        b2Vec2 gravity = b2Vec2(0.0f, -100.0f);
+        b2Vec2 gravity = b2Vec2(0.0f, 00.0f);
         _world = new b2World(gravity);
         
         //Creating Edges around the screen
@@ -42,6 +41,19 @@
         //Creating the ground
         groundEdge.Set(b2Vec2(0,0), b2Vec2(size.width/PTM_RATIO, 0));
         groundBody->CreateFixture(&boxShapeDef);
+        
+        
+        groundEdge.Set(b2Vec2(0,0), b2Vec2(0,size.height/PTM_RATIO));
+        groundBody->CreateFixture(&boxShapeDef);
+        
+        groundEdge.Set(b2Vec2(0, size.height/PTM_RATIO),
+                       b2Vec2(size.width/PTM_RATIO, size.height/PTM_RATIO));
+        groundBody->CreateFixture(&boxShapeDef);
+        
+        groundEdge.Set(b2Vec2(size.width/PTM_RATIO, size.height/PTM_RATIO),
+                       b2Vec2(size.width/PTM_RATIO, 0));
+        groundBody->CreateFixture(&boxShapeDef);
+        
         
         //Creating the ceiling
         groundEdge.Set(b2Vec2(0, size.height/PTM_RATIO), b2Vec2(size.width/PTM_RATIO, size.height/PTM_RATIO));
@@ -63,11 +75,11 @@
         shipShapeDef.shape = &circle;
         shipShapeDef.density = 1.0f;
         shipShapeDef.friction = 0.2f;
-        shipShapeDef.restitution = 0.4f;
+        shipShapeDef.restitution = 0.6f;
         _body->CreateFixture(&shipShapeDef);
         
         
-//        _body->SetGravityScale(-2);
+        _body->SetGravityScale(0);
         [self schedule:@selector(tick:)];
         //[self schedule:@selector(kick) interval:10.0];
     }
@@ -86,6 +98,16 @@
     }
     
 }
+
+-(void)update:(ccTime)dt{
+    b2Vec2 pos = _body->GetPosition();
+    b2Vec2 center = b2Vec2((size.width/2)/PTM_RATIO,(size.height-50)/PTM_RATIO);
+    if((pos - center).Length() != 0){
+        [self gravitateToCenter];
+    }
+    
+}
+
 - (void)ccTouchesBegan:(UITouch *)touch withEvent:(UIEvent *)event {
     b2Vec2 force = b2Vec2(-30, 30);
     _body->ApplyLinearImpulse(force, _body->GetPosition());
@@ -93,6 +115,28 @@
 - (void)kick {
     b2Vec2 force = b2Vec2(30, 30);
     _body->ApplyLinearImpulse(force,_body->GetPosition());
+}
+
+-(void)gravitateToCenter{
+    b2Vec2 pos = _body->GetPosition();
+     b2Vec2 center = b2Vec2((size.width/2)/PTM_RATIO,(size.height-50)/PTM_RATIO);
+    if(pos.x < center.x){
+        _body->ApplyForce(b2Vec2(100*(center.x-pos.x), 0), center);
+        _body->SetLinearDamping(2);
+    }
+    if(pos.x > center.x){
+        _body->ApplyForce(b2Vec2(-100*(pos.x-center.x), 0), center);
+        _body->SetLinearDamping(2);
+    }
+    if(pos.y > center.y){
+        _body->ApplyForce(b2Vec2(0, -10*(pos.y-center.y)), center);
+        _body->SetLinearDamping(2);
+    }
+    if(pos.y < center.y){
+        _body->ApplyForce(b2Vec2(0, 10*(center.y-pos.y)), center);
+        _body->SetLinearDamping(2);
+    }
+    
 }
 
 - (void)dealloc {
