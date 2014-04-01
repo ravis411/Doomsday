@@ -13,8 +13,8 @@
 -(id)init{
     if(self = [super init]){
         [self setTouchEnabled:YES];
-        CCLayerColor* color = [CCLayerColor layerWithColor:ccc4(255,0,255,255)];
-        [self addChild:color z:0];
+//        CCLayerColor* color = [CCLayerColor layerWithColor:ccc4(255,0,255,255)];
+//        [self addChild:color z:0];
         size = [[CCDirector sharedDirector] winSize];
         //Initializing Sprites + Position
         _shipSprite = [CCSprite spriteWithFile:@"ship.png"];

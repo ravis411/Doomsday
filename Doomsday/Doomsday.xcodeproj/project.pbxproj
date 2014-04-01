@@ -201,6 +201,8 @@
 		49EC18A418E900CB00186109 /* rifle.png in Resources */ = {isa = PBXBuildFile; fileRef = 49EC18A318E900CB00186109 /* rifle.png */; };
 		49EC18A718E9348A00186109 /* Ship.mm in Sources */ = {isa = PBXBuildFile; fileRef = 49EC18A618E9348A00186109 /* Ship.mm */; };
 		49EC18AA18E9400E00186109 /* Hoipolloi.mm in Sources */ = {isa = PBXBuildFile; fileRef = 49EC18A918E9400E00186109 /* Hoipolloi.mm */; };
+		A2ADA11118EA737500B53109 /* rsz_background.png in Resources */ = {isa = PBXBuildFile; fileRef = A2ADA10F18EA737500B53109 /* rsz_background.png */; };
+		A2ADA11218EA737500B53109 /* rsz_ground.png in Resources */ = {isa = PBXBuildFile; fileRef = A2ADA11018EA737500B53109 /* rsz_ground.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -602,6 +604,8 @@
 		49EC18A618E9348A00186109 /* Ship.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Ship.mm; sourceTree = "<group>"; };
 		49EC18A818E9400E00186109 /* Hoipolloi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Hoipolloi.h; sourceTree = "<group>"; };
 		49EC18A918E9400E00186109 /* Hoipolloi.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Hoipolloi.mm; sourceTree = "<group>"; };
+		A2ADA10F18EA737500B53109 /* rsz_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = rsz_background.png; path = Resources/rsz_background.png; sourceTree = "<group>"; };
+		A2ADA11018EA737500B53109 /* rsz_ground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = rsz_ground.png; path = Resources/rsz_ground.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -694,6 +698,8 @@
 		497A4FD718E11B8500B19D54 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				A2ADA10F18EA737500B53109 /* rsz_background.png */,
+				A2ADA11018EA737500B53109 /* rsz_ground.png */,
 				49EC18A318E900CB00186109 /* rifle.png */,
 				3D97F9BC18E8F15D00FE374E /* background.png */,
 				3D97F9BD18E8F15D00FE374E /* dashboard.png */,
@@ -1299,6 +1305,7 @@
 				497A520718E11B8800B19D54 /* blocks.png in Resources */,
 				49EC18A418E900CB00186109 /* rifle.png in Resources */,
 				497A4FE718E11B8500B19D54 /* Icon-Small@2x.png in Resources */,
+				A2ADA11218EA737500B53109 /* rsz_ground.png in Resources */,
 				497A4FDF18E11B8500B19D54 /* Default-Landscape~ipad.png in Resources */,
 				497A4FDD18E11B8500B19D54 /* Default-568h@2x.png in Resources */,
 				497A4FEB18E11B8500B19D54 /* Icon@2x.png in Resources */,
@@ -1307,6 +1314,7 @@
 				3D97F9C318E8F15D00FE374E /* ground.png in Resources */,
 				3D97F9C418E8F15D00FE374E /* hoipolloi.png in Resources */,
 				3D97F9C518E8F15D00FE374E /* ship.png in Resources */,
+				A2ADA11118EA737500B53109 /* rsz_background.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
