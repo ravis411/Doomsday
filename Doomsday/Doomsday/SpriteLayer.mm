@@ -136,7 +136,7 @@
 //    _shipBody->ApplyLinearImpulse(force,_shipBody->GetPosition());
     //Creating Hoipolloi Box2D Body
      _bombSprite = [CCSprite spriteWithFile:@"bomb.png"];
-    [_bombSprite setScale:0.2f];
+    [_bombSprite setScale:0.15f];
      [_bombSprite setPosition:CGPointMake(_shipSprite.position.x, _shipSprite.position.y)];
     [self addChild:_bombSprite];
     
