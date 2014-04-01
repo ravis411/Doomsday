@@ -19,6 +19,9 @@
     SpriteLayer *spriteLayer;
     UILayer *uiLayer;
     BackgroundLayer *bgLayer;
+    
+    CCLabelTTF *exitLabel;
+    CGSize winSize;
 //    int m_Level;
 //    int m_Lives;
 //    int m_WeaponLevel;

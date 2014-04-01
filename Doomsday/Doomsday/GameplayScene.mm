@@ -10,4 +10,20 @@
 
 @implementation GameplayScene
 
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        
+        winSize = [[CCDirector sharedDirector] winSize];
+        
+        exitLabel = [CCLabelTTF labelWithString:@"Exit" fontName:(@"Helvetica") fontSize:(42)];
+        exitLabel.position = ccp(winSize.width/2 , winSize.height/2);
+        exitLabel.color = ccGREEN;
+        [ self addChild: exitLabel ];
+        
+    }
+    return self;
+}
+
 @end
