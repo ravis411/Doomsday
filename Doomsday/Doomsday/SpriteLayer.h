@@ -14,8 +14,11 @@
 @interface SpriteLayer : CCLayer{
     b2World* _world;
     b2Body* _shipBody;
+    b2Body* _hoipolloiBody;
+    b2Body* _bombBody;
     Ship* _shipSprite;
-    Hoipolloi* _hoipolloi;
+    Hoipolloi* _hoipolloiSprite;
+    CCSprite* _bombSprite;
     CGSize size;
 }
 

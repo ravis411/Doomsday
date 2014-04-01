@@ -198,6 +198,7 @@
 		497A520218E11B8800B19D54 /* IntroLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 497A520118E11B8800B19D54 /* IntroLayer.mm */; };
 		497A520518E11B8800B19D54 /* GLES-Render.mm in Sources */ = {isa = PBXBuildFile; fileRef = 497A520418E11B8800B19D54 /* GLES-Render.mm */; };
 		497A520718E11B8800B19D54 /* blocks.png in Resources */ = {isa = PBXBuildFile; fileRef = 497A520618E11B8800B19D54 /* blocks.png */; };
+		49D35A5F18EA8AAA002D5E12 /* bomb.png in Resources */ = {isa = PBXBuildFile; fileRef = 49D35A5E18EA8AAA002D5E12 /* bomb.png */; };
 		49EC18A418E900CB00186109 /* rifle.png in Resources */ = {isa = PBXBuildFile; fileRef = 49EC18A318E900CB00186109 /* rifle.png */; };
 		49EC18A718E9348A00186109 /* Ship.mm in Sources */ = {isa = PBXBuildFile; fileRef = 49EC18A618E9348A00186109 /* Ship.mm */; };
 		49EC18AA18E9400E00186109 /* Hoipolloi.mm in Sources */ = {isa = PBXBuildFile; fileRef = 49EC18A918E9400E00186109 /* Hoipolloi.mm */; };
@@ -597,6 +598,7 @@
 		497A520318E11B8800B19D54 /* GLES-Render.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GLES-Render.h"; sourceTree = "<group>"; };
 		497A520418E11B8800B19D54 /* GLES-Render.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = "GLES-Render.mm"; sourceTree = "<group>"; };
 		497A520618E11B8800B19D54 /* blocks.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = blocks.png; path = Resources/blocks.png; sourceTree = "<group>"; };
+		49D35A5E18EA8AAA002D5E12 /* bomb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bomb.png; sourceTree = "<group>"; };
 		49EC18A318E900CB00186109 /* rifle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = rifle.png; path = Resources/rifle.png; sourceTree = "<group>"; };
 		49EC18A518E9348A00186109 /* Ship.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Ship.h; sourceTree = "<group>"; };
 		49EC18A618E9348A00186109 /* Ship.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Ship.mm; sourceTree = "<group>"; };
@@ -694,6 +696,7 @@
 		497A4FD718E11B8500B19D54 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				49D35A5E18EA8AAA002D5E12 /* bomb.png */,
 				49EC18A318E900CB00186109 /* rifle.png */,
 				3D97F9BC18E8F15D00FE374E /* background.png */,
 				3D97F9BD18E8F15D00FE374E /* dashboard.png */,
@@ -1299,6 +1302,7 @@
 				497A520718E11B8800B19D54 /* blocks.png in Resources */,
 				49EC18A418E900CB00186109 /* rifle.png in Resources */,
 				497A4FE718E11B8500B19D54 /* Icon-Small@2x.png in Resources */,
+				49D35A5F18EA8AAA002D5E12 /* bomb.png in Resources */,
 				497A4FDF18E11B8500B19D54 /* Default-Landscape~ipad.png in Resources */,
 				497A4FDD18E11B8500B19D54 /* Default-568h@2x.png in Resources */,
 				497A4FEB18E11B8500B19D54 /* Icon@2x.png in Resources */,

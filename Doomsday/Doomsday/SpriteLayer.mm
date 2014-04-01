@@ -18,15 +18,18 @@
         size = [[CCDirector sharedDirector] winSize];
         //Initializing Sprites + Position
         _shipSprite = [CCSprite spriteWithFile:@"ship.png"];
-        _hoipolloi = [CCSprite spriteWithFile:@"hoipolloi.png"];
-        _hoipolloi.position = CGPointMake(size.width/2, size.height/2);
+        _hoipolloiSprite = [CCSprite spriteWithFile:@"hoipolloi.png"];
+       
+        _hoipolloiSprite.position = CGPointMake(size.width/2, size.height/2);
+       
         [_shipSprite setScale:0.3];
-        [_hoipolloi setScale:0.3];
+        [_hoipolloiSprite setScale:0.3];
+//        [_bombSprite setScale:0.2];
         [self addChild:_shipSprite];
-        [self addChild:_hoipolloi];
+        [self addChild:_hoipolloiSprite];
         
         //Creating Box2D World
-        b2Vec2 gravity = b2Vec2(0.0f, 00.0f);
+        b2Vec2 gravity = b2Vec2(0.0f, -80.0f);
         _world = new b2World(gravity);
         
         //Creating Edges around the screen
@@ -42,26 +45,18 @@
         //Creating the ground
         groundEdge.Set(b2Vec2(0,0), b2Vec2(size.width/PTM_RATIO, 0));
         groundBody->CreateFixture(&boxShapeDef);
-        
+
         
         groundEdge.Set(b2Vec2(0,0), b2Vec2(0,size.height/PTM_RATIO));
         groundBody->CreateFixture(&boxShapeDef);
-        
-        groundEdge.Set(b2Vec2(0, size.height/PTM_RATIO),
-                       b2Vec2(size.width/PTM_RATIO, size.height/PTM_RATIO));
-        groundBody->CreateFixture(&boxShapeDef);
-        
-        groundEdge.Set(b2Vec2(size.width/PTM_RATIO, size.height/PTM_RATIO),
-                       b2Vec2(size.width/PTM_RATIO, 0));
-        groundBody->CreateFixture(&boxShapeDef);
-        
-        
-        //Creating the ceiling
-        groundEdge.Set(b2Vec2(0, size.height/PTM_RATIO), b2Vec2(size.width/PTM_RATIO, size.height/PTM_RATIO));
+
+
+        groundEdge.Set(b2Vec2(size.width/PTM_RATIO, size.height/PTM_RATIO),b2Vec2(size.width/PTM_RATIO, 0));
         groundBody->CreateFixture(&boxShapeDef);
         
         
         
+        //Creating Ship Box2D Body
         b2BodyDef shipBodyDef;
         shipBodyDef.type = b2_dynamicBody;
         shipBodyDef.position.Set((size.width/2)/PTM_RATIO, (size.height-50)/PTM_RATIO);
@@ -72,15 +67,37 @@
         b2CircleShape circle;
         circle.m_radius = 26.0/PTM_RATIO;
         
+        
         b2FixtureDef shipShapeDef;
         shipShapeDef.shape = &circle;
         shipShapeDef.density = 1.0f;
         shipShapeDef.friction = 0.2f;
         shipShapeDef.restitution = 0.6f;
         _shipBody->CreateFixture(&shipShapeDef);
-        
-        
+    
         _shipBody->SetGravityScale(0);
+        
+        
+        //Creating Hoipolloi Box2D Body
+        b2BodyDef hoipolloiBodyDef;
+        hoipolloiBodyDef.type = b2_dynamicBody;
+        hoipolloiBodyDef.position.Set((size.width/2)/PTM_RATIO, (size.height/2)/PTM_RATIO);
+        hoipolloiBodyDef.userData = _hoipolloiSprite;
+        hoipolloiBodyDef.fixedRotation = false;
+        _hoipolloiBody = _world->CreateBody(&hoipolloiBodyDef);
+        
+        
+        b2FixtureDef hoipolloiShapeDef;
+        hoipolloiShapeDef.shape = &circle;
+        hoipolloiShapeDef.density = 2.0f;
+        hoipolloiShapeDef.friction = 0.2f;
+        hoipolloiShapeDef.restitution = 0.2f;
+        _hoipolloiBody->CreateFixture(&hoipolloiShapeDef);
+        
+        
+        
+//        _hoipolloiBody->SetGravityScale(2);
+        
         [self schedule:@selector(tick:)];
         //[self schedule:@selector(kick) interval:10.0];
     }
@@ -110,12 +127,35 @@
 }
 
 - (void)ccTouchesBegan:(UITouch *)touch withEvent:(UIEvent *)event {
-    b2Vec2 force = b2Vec2(-30, 30);
-    _shipBody->ApplyLinearImpulse(force, _shipBody->GetPosition());
+//    b2Vec2 force = b2Vec2(-50, 80);
+//    _hoipolloiBody->ApplyLinearImpulse(force, _shipBody->GetPosition());
+    [self kick];
 }
 - (void)kick {
-    b2Vec2 force = b2Vec2(30, 30);
-    _shipBody->ApplyLinearImpulse(force,_shipBody->GetPosition());
+//    b2Vec2 force = b2Vec2(30, 30);
+//    _shipBody->ApplyLinearImpulse(force,_shipBody->GetPosition());
+    //Creating Hoipolloi Box2D Body
+     _bombSprite = [CCSprite spriteWithFile:@"bomb.png"];
+    [_bombSprite setScale:0.2f];
+     [_bombSprite setPosition:CGPointMake(_shipSprite.position.x, _shipSprite.position.y)];
+    [self addChild:_bombSprite];
+    
+    b2CircleShape circle;
+    circle.m_radius = 26.0/PTM_RATIO;
+    b2BodyDef bombBodyDef;
+    bombBodyDef.type = b2_dynamicBody;
+    bombBodyDef.position.Set(_shipSprite.position.x/PTM_RATIO, (_shipSprite.position.y-20)/PTM_RATIO);
+    bombBodyDef.userData = _bombSprite;
+    bombBodyDef.fixedRotation = false;
+    _bombBody = _world->CreateBody(&bombBodyDef);
+    
+    
+    b2FixtureDef bombShapeDef;
+    bombShapeDef.shape = &circle;
+    bombShapeDef.density = 2.5f;
+    bombShapeDef.friction = 0.8f;
+    bombShapeDef.restitution = 0.2f;
+    _bombBody->CreateFixture(&bombShapeDef);
 }
 
 -(void)gravitateToCenter{
