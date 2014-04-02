@@ -34,7 +34,7 @@
         
         //Creating Edges around the screen
         b2BodyDef groundBodyDef;
-        groundBodyDef.position.Set(0,0);
+        groundBodyDef.position.Set(0,5.00000017);
         
         b2Body *groundBody = _world->CreateBody(&groundBodyDef);
         b2EdgeShape groundEdge;

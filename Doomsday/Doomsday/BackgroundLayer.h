@@ -16,5 +16,6 @@
 
 -(void) update:(ccTime)dt;
 -(double)getDistancetraveled;
-
+-(void) moveScreenLeft;
+-(void) moveScreenRight;
 @end
