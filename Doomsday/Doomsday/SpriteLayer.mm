@@ -129,8 +129,41 @@
 - (void)ccTouchesBegan:(UITouch *)touch withEvent:(UIEvent *)event {
 //    b2Vec2 force = b2Vec2(-50, 80);
 //    _hoipolloiBody->ApplyLinearImpulse(force, _shipBody->GetPosition());
-    [self kick];
+//    [self kick];
+    [self lazer];
 }
+-(void)lazer{
+    _shipBody->SetType(b2_staticBody);
+    for(int i=0;i<5;i++){
+        _bombSprite = [CCSprite spriteWithFile:@"bomb.png"];
+        [_bombSprite setScale:0.15f];
+        [_bombSprite setPosition:CGPointMake(_shipSprite.position.x, _shipSprite.position.y)];
+        [self addChild:_bombSprite];
+        
+        b2CircleShape circle;
+        circle.m_radius = 26.0/PTM_RATIO;
+        b2BodyDef bombBodyDef;
+        bombBodyDef.type = b2_dynamicBody;
+        bombBodyDef.position.Set(_shipSprite.position.x/PTM_RATIO, (_shipSprite.position.y-20-i)/PTM_RATIO);
+        bombBodyDef.userData = _bombSprite;
+        bombBodyDef.fixedRotation = false;
+        _bombBody = _world->CreateBody(&bombBodyDef);
+        
+        
+        b2FixtureDef bombShapeDef;
+        bombShapeDef.shape = &circle;
+        bombShapeDef.density = 2.5f;
+        bombShapeDef.friction = 0.8f;
+        bombShapeDef.restitution = 0.2f;
+        _bombBody->CreateFixture(&bombShapeDef);
+        
+//        _shipBody->SetLinearVelocity(b2Vec2(0,0));
+//        _shipBody->SetAngularVelocity(0);
+    }
+    
+//    _shipBody->SetType(b2_dynamicBody);
+}
+
 - (void)kick {
 //    b2Vec2 force = b2Vec2(30, 30);
 //    _shipBody->ApplyLinearImpulse(force,_shipBody->GetPosition());
