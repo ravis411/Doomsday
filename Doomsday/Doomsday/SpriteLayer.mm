@@ -13,6 +13,8 @@
 -(id)init{
     if(self = [super init]){
         [self setTouchEnabled:YES];
+        bombArray = [[NSMutableArray alloc]init];
+        
 //        CCLayerColor* color = [CCLayerColor layerWithColor:ccc4(255,0,255,255)];
 //        [self addChild:color z:0];
         size = [[CCDirector sharedDirector] winSize];
@@ -123,23 +125,43 @@
     if((pos - center).Length() != 0){
         [self gravitateToCenter];
     }
+    NSMutableArray* deleteBombs = [[NSMutableArray alloc]init];
+    
+    for(NSValue* bBody in bombArray){
+        b2Body *body = (b2Body*)[bBody pointerValue];
+        if(body->GetPosition().y < 40/PTM_RATIO){
+            NSLog(@"hey");
+            [deleteBombs addObject:bBody];
+//            [self explodeAndRemoveBomb:(b2Body*)[bBody pointerValue]];
+        }
+        
+    }
+    
+    for(NSValue* bBody in deleteBombs){
+        [bombArray removeObject:bBody];
+        b2Body* nuke = (b2Body*)[bBody pointerValue];
+        [self explodeAndRemoveBomb:nuke];
+    }
+    
+    [deleteBombs dealloc];
     
 }
 
 - (void)ccTouchesBegan:(UITouch *)touch withEvent:(UIEvent *)event {
 //    b2Vec2 force = b2Vec2(-50, 80);
 //    _hoipolloiBody->ApplyLinearImpulse(force, _shipBody->GetPosition());
-//    [self kick];
-    [self lazer];
+    [self kick];
+//    [self lazer];
+    
+    //If theres a detection with te bob and the ground
+    
 }
 -(void)lazer{
-    _shipBody->SetType(b2_staticBody);
-    for(int i=0;i<5;i++){
-        _bombSprite = [CCSprite spriteWithFile:@"bomb.png"];
+    for(int i=0;i<7;i++){
+        CCSprite *_bombSprite = [CCSprite spriteWithFile:@"bomb.png"];
         [_bombSprite setScale:0.15f];
         [_bombSprite setPosition:CGPointMake(_shipSprite.position.x, _shipSprite.position.y)];
         [self addChild:_bombSprite];
-        
         b2CircleShape circle;
         circle.m_radius = 26.0/PTM_RATIO;
         b2BodyDef bombBodyDef;
@@ -147,7 +169,7 @@
         bombBodyDef.position.Set(_shipSprite.position.x/PTM_RATIO, (_shipSprite.position.y-20-i)/PTM_RATIO);
         bombBodyDef.userData = _bombSprite;
         bombBodyDef.fixedRotation = false;
-        _bombBody = _world->CreateBody(&bombBodyDef);
+        b2Body* _bombBody = _world->CreateBody(&bombBodyDef);
         
         
         b2FixtureDef bombShapeDef;
@@ -156,19 +178,24 @@
         bombShapeDef.friction = 0.8f;
         bombShapeDef.restitution = 0.2f;
         _bombBody->CreateFixture(&bombShapeDef);
-        
-//        _shipBody->SetLinearVelocity(b2Vec2(0,0));
-//        _shipBody->SetAngularVelocity(0);
+        [bombArray addObject:[NSValue valueWithPointer:_bombBody]];
+//        [self explodeAndRemoveBomb:_bombBody];
     }
     
-//    _shipBody->SetType(b2_dynamicBody);
+    
+    
+}
+
+-(void)explodeAndRemoveBomb:(b2Body*)b{
+    _world->DestroyBody(b);
+    [self removeChild:(CCSprite*)b->GetUserData()];
 }
 
 - (void)kick {
 //    b2Vec2 force = b2Vec2(30, 30);
 //    _shipBody->ApplyLinearImpulse(force,_shipBody->GetPosition());
     //Creating Hoipolloi Box2D Body
-     _bombSprite = [CCSprite spriteWithFile:@"bomb.png"];
+     CCSprite* _bombSprite = [CCSprite spriteWithFile:@"bomb.png"];
     [_bombSprite setScale:0.15f];
      [_bombSprite setPosition:CGPointMake(_shipSprite.position.x, _shipSprite.position.y)];
     [self addChild:_bombSprite];
@@ -180,7 +207,7 @@
     bombBodyDef.position.Set(_shipSprite.position.x/PTM_RATIO, (_shipSprite.position.y-20)/PTM_RATIO);
     bombBodyDef.userData = _bombSprite;
     bombBodyDef.fixedRotation = false;
-    _bombBody = _world->CreateBody(&bombBodyDef);
+    b2Body* _bombBody = _world->CreateBody(&bombBodyDef);
     
     
     b2FixtureDef bombShapeDef;
@@ -189,6 +216,8 @@
     bombShapeDef.friction = 0.8f;
     bombShapeDef.restitution = 0.2f;
     _bombBody->CreateFixture(&bombShapeDef);
+    
+    [bombArray addObject:[NSValue valueWithPointer:_bombBody]];
 }
 
 -(void)gravitateToCenter{
@@ -214,6 +243,7 @@
 }
 
 - (void)dealloc {
+    [bombArray dealloc];
     delete _world;
     _shipBody = NULL;
     _world = NULL;
