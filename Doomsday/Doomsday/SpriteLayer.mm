@@ -187,8 +187,17 @@
 }
 
 -(void)explodeAndRemoveBomb:(b2Body*)b{
+    CCSprite* explosion = [CCSprite spriteWithFile:@"explosion.png"];
+    [explosion setScale:0.15f];
+    [explosion setPosition:CGPointMake(b->GetPosition().x*PTM_RATIO, b->GetPosition().y*PTM_RATIO)];
+    [self addChild:explosion];
+    [self performSelector:@selector(cleanUpExplosion:) withObject:explosion afterDelay:0.1];
     _world->DestroyBody(b);
     [self removeChild:(CCSprite*)b->GetUserData()];
+}
+
+-(void)cleanUpExplosion:(CCSprite*)explosion{
+    [self removeChild:explosion];
 }
 
 - (void)kick {
