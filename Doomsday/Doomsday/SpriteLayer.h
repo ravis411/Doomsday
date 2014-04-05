@@ -22,6 +22,7 @@
     CGSize size;
     NSMutableArray *bombArray;
     MyContactListener *_contactListener;
+    BOOL shipCooldownMode;
 }
 
 - (void)kick;

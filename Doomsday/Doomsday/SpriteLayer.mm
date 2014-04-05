@@ -14,7 +14,7 @@
     if(self = [super init]){
         [self setTouchEnabled:YES];
         bombArray = [[NSMutableArray alloc]init];
-        
+        shipCooldownMode = NO;
 //        CCLayerColor* color = [CCLayerColor layerWithColor:ccc4(255,0,255,255)];
 //        [self addChild:color z:0];
         size = [[CCDirector sharedDirector] winSize];
@@ -132,6 +132,10 @@
     if((pos - center).Length() != 0){
         [self gravitateToCenter];
     }
+    if(pos.y*PTM_RATIO>size.height+10)
+        shipCooldownMode = YES;
+    else
+        shipCooldownMode = NO;
     NSMutableArray* deleteBombs = [[NSMutableArray alloc]init];
     NSMutableArray* deleteHoipolloi = [[NSMutableArray alloc]init];
     
@@ -182,7 +186,8 @@
 - (void)ccTouchesBegan:(UITouch *)touch withEvent:(UIEvent *)event {
 //    b2Vec2 force = b2Vec2(-50, 80);
 //    _hoipolloiBody->ApplyLinearImpulse(force, _shipBody->GetPosition());
-    [self kick];
+    if(!shipCooldownMode)
+        [self singleBombFire];
 //    [self lazer];
     
     //If theres a detection with te bob and the ground
@@ -232,7 +237,7 @@
     [self removeChild:explosion];
 }
 
-- (void)kick {
+- (void)singleBombFire {
 //    b2Vec2 force = b2Vec2(30, 30);
 //    _shipBody->ApplyLinearImpulse(force,_shipBody->GetPosition());
     //Creating Hoipolloi Box2D Body
