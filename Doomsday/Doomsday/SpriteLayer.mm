@@ -126,7 +126,7 @@
 }
 
 -(void)update:(ccTime)dt{
-    BOOL destroyHoipolloi = NO;
+
     b2Vec2 pos = _shipBody->GetPosition();
     b2Vec2 center = b2Vec2((size.width/2)/PTM_RATIO,(size.height-50)/PTM_RATIO);
     if((pos - center).Length() != 0){
@@ -136,16 +136,20 @@
         shipCooldownMode = YES;
     else
         shipCooldownMode = NO;
+    
+    [self collisionDetection];
+}
+
+-(void)collisionDetection{
+    BOOL destroyHoipolloi = NO;
     NSMutableArray* deleteBombs = [[NSMutableArray alloc]init];
-    NSMutableArray* deleteHoipolloi = [[NSMutableArray alloc]init];
     
     for(NSValue* bBody in bombArray){
         b2Body *body = (b2Body*)[bBody pointerValue];
         
-        if(body->GetPosition().y < 40/PTM_RATIO){
+        if(body->GetPosition().y*PTM_RATIO <35){
             NSLog(@"hey");
             [deleteBombs addObject:bBody];
-//            [self explodeAndRemoveBomb:(b2Body*)[bBody pointerValue]];
         }
         
     }
@@ -157,6 +161,7 @@
         MyContact contact = *position;
         for(NSValue* bBody in bombArray){
             b2Body *body = (b2Body*)[bBody pointerValue];
+            
             if ((contact.fixtureA == body->GetFixtureList() && contact.fixtureB == _hoipolloiBody->GetFixtureList()) || (contact.fixtureA == _hoipolloiBody->GetFixtureList() && contact.fixtureB == body->GetFixtureList())) {
                 NSLog(@"Bomb hit holli!");
                 [deleteBombs addObject:bBody];
@@ -167,7 +172,8 @@
     
     if(destroyHoipolloi){
         _world->DestroyBody(_hoipolloiBody);
-//        [self removeChild:(CCSprite*)_hoipolloiBody->GetUserData()];
+        _hoipolloiBody->Dump();
+        //        [self removeChild:(CCSprite*)_hoipolloiBody->GetUserData()];
         [self removeChild:_hoipolloiSprite];
         destroyHoipolloi = NO;
     }
@@ -178,9 +184,9 @@
         [self explodeAndRemoveBomb:nuke];
     }
     
-
-    [deleteBombs dealloc];
     
+    [deleteBombs dealloc];
+
 }
 
 - (void)ccTouchesBegan:(UITouch *)touch withEvent:(UIEvent *)event {
