@@ -102,6 +102,12 @@
         
         [self schedule:@selector(tick:)];
         //[self schedule:@selector(kick) interval:10.0];
+        
+        
+        
+        _contactListener = new MyContactListener();
+        _world->SetContactListener(_contactListener);
+        
     }
     return self;
 }
@@ -111,24 +117,27 @@
     _world->Step(dt, 10, 10);
     for(b2Body *b = _world->GetBodyList(); b; b=b->GetNext()) {
         if (b->GetUserData() != NULL) {
-            CCSprite *ballData = (CCSprite *)b->GetUserData();
-            ballData.position = ccp(b->GetPosition().x * 32, b->GetPosition().y * 32);
-            ballData.rotation = -1 * CC_RADIANS_TO_DEGREES(b->GetAngle());
+            CCSprite *bodyData = (CCSprite *)b->GetUserData();
+            bodyData.position = ccp(b->GetPosition().x * 32, b->GetPosition().y * 32);
+            bodyData.rotation = -1 * CC_RADIANS_TO_DEGREES(b->GetAngle());
         }
     }
     
 }
 
 -(void)update:(ccTime)dt{
+    BOOL destroyHoipolloi = NO;
     b2Vec2 pos = _shipBody->GetPosition();
     b2Vec2 center = b2Vec2((size.width/2)/PTM_RATIO,(size.height-50)/PTM_RATIO);
     if((pos - center).Length() != 0){
         [self gravitateToCenter];
     }
     NSMutableArray* deleteBombs = [[NSMutableArray alloc]init];
+    NSMutableArray* deleteHoipolloi = [[NSMutableArray alloc]init];
     
     for(NSValue* bBody in bombArray){
         b2Body *body = (b2Body*)[bBody pointerValue];
+        
         if(body->GetPosition().y < 40/PTM_RATIO){
             NSLog(@"hey");
             [deleteBombs addObject:bBody];
@@ -137,12 +146,35 @@
         
     }
     
+    
+    std::vector<MyContact>::iterator position;
+    
+    for(position = _contactListener->_contacts.begin(); position != _contactListener->_contacts.end(); ++position) {
+        MyContact contact = *position;
+        for(NSValue* bBody in bombArray){
+            b2Body *body = (b2Body*)[bBody pointerValue];
+            if ((contact.fixtureA == body->GetFixtureList() && contact.fixtureB == _hoipolloiBody->GetFixtureList()) || (contact.fixtureA == _hoipolloiBody->GetFixtureList() && contact.fixtureB == body->GetFixtureList())) {
+                NSLog(@"Bomb hit holli!");
+                [deleteBombs addObject:bBody];
+                destroyHoipolloi = YES;
+            }
+        }
+    }
+    
+    if(destroyHoipolloi){
+        _world->DestroyBody(_hoipolloiBody);
+//        [self removeChild:(CCSprite*)_hoipolloiBody->GetUserData()];
+        [self removeChild:_hoipolloiSprite];
+        destroyHoipolloi = NO;
+    }
+    
     for(NSValue* bBody in deleteBombs){
         [bombArray removeObject:bBody];
         b2Body* nuke = (b2Body*)[bBody pointerValue];
         [self explodeAndRemoveBomb:nuke];
     }
     
+
     [deleteBombs dealloc];
     
 }
@@ -252,11 +284,14 @@
 }
 
 - (void)dealloc {
+    delete _contactListener;
     [bombArray dealloc];
     delete _world;
     _shipBody = NULL;
     _world = NULL;
     [super dealloc];
 }
+
+
 
 @end

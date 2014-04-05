@@ -11,6 +11,7 @@
 #import "Box2D.h"
 #import "Ship.h"
 #import "Hoipolloi.h"
+#import "MyContactListener.h"
 
 @interface SpriteLayer : CCLayer{
     b2World* _world;
@@ -20,6 +21,7 @@
     Hoipolloi* _hoipolloiSprite;
     CGSize size;
     NSMutableArray *bombArray;
+    MyContactListener *_contactListener;
 }
 
 - (void)kick;

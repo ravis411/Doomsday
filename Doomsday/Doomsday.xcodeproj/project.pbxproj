@@ -200,6 +200,7 @@
 		497A520718E11B8800B19D54 /* blocks.png in Resources */ = {isa = PBXBuildFile; fileRef = 497A520618E11B8800B19D54 /* blocks.png */; };
 		49A93FB818EF8C1400C66169 /* explosion.png in Resources */ = {isa = PBXBuildFile; fileRef = 49A93FB718EF8C1400C66169 /* explosion.png */; };
 		49D35A5F18EA8AAA002D5E12 /* bomb.png in Resources */ = {isa = PBXBuildFile; fileRef = 49D35A5E18EA8AAA002D5E12 /* bomb.png */; };
+		49D7234218F095E20084685A /* MyContactListener.mm in Sources */ = {isa = PBXBuildFile; fileRef = 49D7234118F095E20084685A /* MyContactListener.mm */; };
 		49EC18A418E900CB00186109 /* rifle.png in Resources */ = {isa = PBXBuildFile; fileRef = 49EC18A318E900CB00186109 /* rifle.png */; };
 		49EC18A718E9348A00186109 /* Ship.mm in Sources */ = {isa = PBXBuildFile; fileRef = 49EC18A618E9348A00186109 /* Ship.mm */; };
 		49EC18AA18E9400E00186109 /* Hoipolloi.mm in Sources */ = {isa = PBXBuildFile; fileRef = 49EC18A918E9400E00186109 /* Hoipolloi.mm */; };
@@ -603,6 +604,8 @@
 		497A520618E11B8800B19D54 /* blocks.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = blocks.png; path = Resources/blocks.png; sourceTree = "<group>"; };
 		49A93FB718EF8C1400C66169 /* explosion.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = explosion.png; sourceTree = "<group>"; };
 		49D35A5E18EA8AAA002D5E12 /* bomb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bomb.png; sourceTree = "<group>"; };
+		49D7234018F095E20084685A /* MyContactListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyContactListener.h; sourceTree = "<group>"; };
+		49D7234118F095E20084685A /* MyContactListener.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MyContactListener.mm; sourceTree = "<group>"; };
 		49EC18A318E900CB00186109 /* rifle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = rifle.png; path = Resources/rifle.png; sourceTree = "<group>"; };
 		49EC18A518E9348A00186109 /* Ship.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Ship.h; sourceTree = "<group>"; };
 		49EC18A618E9348A00186109 /* Ship.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Ship.mm; sourceTree = "<group>"; };
@@ -685,6 +688,8 @@
 				3D97F9B418E8E78B00FE374E /* BackgroundLayer.mm */,
 				3D97F9A418E8E45D00FE374E /* GameplayScene.h */,
 				3D97F9AD18E8E70A00FE374E /* GameplayScene.mm */,
+				49D7234018F095E20084685A /* MyContactListener.h */,
+				49D7234118F095E20084685A /* MyContactListener.mm */,
 				497A51FB18E11B8800B19D54 /* AppDelegate.mm */,
 				497A51FD18E11B8800B19D54 /* HelloWorldLayer.h */,
 				497A51FE18E11B8800B19D54 /* HelloWorldLayer.mm */,
@@ -1485,6 +1490,7 @@
 				497A50D618E11B8600B19D54 /* CCDirectorIOS.m in Sources */,
 				497A505818E11B8600B19D54 /* CCMenu.m in Sources */,
 				497A516118E11B8700B19D54 /* vec4.c in Sources */,
+				49D7234218F095E20084685A /* MyContactListener.mm in Sources */,
 				497A517B18E11B8700B19D54 /* b2TimeOfImpact.cpp in Sources */,
 				497A502318E11B8500B19D54 /* CCCamera.m in Sources */,
 				497A501D18E11B8500B19D54 /* CCAnimationCache.m in Sources */,
