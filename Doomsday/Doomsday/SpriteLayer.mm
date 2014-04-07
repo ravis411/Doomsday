@@ -10,12 +10,20 @@
 #define PTM_RATIO 32.0f
 @implementation SpriteLayer
 
+@synthesize movingLeft = _movingLeft;
+@synthesize movingRight = _movingRight;
+@synthesize hoipolloiSprite = _hoipolloiSprite;
+
+
 -(id)init{
     if(self = [super init]){
         [self setTouchEnabled:YES];
 //        CCLayerColor* color = [CCLayerColor layerWithColor:ccc4(255,0,255,255)];
 //        [self addChild:color z:0];
         size = [[CCDirector sharedDirector] winSize];
+        
+        _movingLeft = NO;
+        _movingRight = NO;
         //Initializing Sprites + Position
         _shipSprite = [CCSprite spriteWithFile:@"ship.png"];
         _hoipolloiSprite = [CCSprite spriteWithFile:@"hoipolloi.png"];
@@ -34,7 +42,8 @@
         
         //Creating Edges around the screen
         b2BodyDef groundBodyDef;
-        groundBodyDef.position.Set(0,5.00000017);
+        
+        groundBodyDef.position.Set(0,5.00000018);
         
         b2Body *groundBody = _world->CreateBody(&groundBodyDef);
         b2EdgeShape groundEdge;
@@ -126,11 +135,35 @@
     
 }
 
-- (void)ccTouchesBegan:(UITouch *)touch withEvent:(UIEvent *)event {
-//    b2Vec2 force = b2Vec2(-50, 80);
-//    _hoipolloiBody->ApplyLinearImpulse(force, _shipBody->GetPosition());
-    [self kick];
+-(void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
+    UITouch *touch = [touches anyObject];
+    CGPoint location = [touch locationInView:[touch view]];
+    location = [[CCDirector sharedDirector] convertToGL:location];
+    
+    if (location.x <= 75) {
+        //[self schedule:@selector(moveScreenLeft)];
+        _movingLeft = YES;
+    }
+    else if (location.x >= 500) {
+        //[self schedule:@selector(moveScreenRight)];
+        _movingRight = YES;
+    }
+    else{
+        [self kick];
+    }
 }
+
+-(void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
+    if (_movingLeft == YES) {
+        _movingLeft = NO;
+    }
+    
+    if (_movingRight == YES) {
+        _movingRight = NO;
+    }
+}
+
+
 - (void)kick {
 //    b2Vec2 force = b2Vec2(30, 30);
 //    _shipBody->ApplyLinearImpulse(force,_shipBody->GetPosition());
@@ -179,6 +212,64 @@
     }
     
 }
+
+//-(void) registerWithTouchDispatcher{
+//    [[CCDirector sharedDirector].touchDispatcher addTargetedDelegate:self priority:INT_MIN+1 swallowsTouches:YES];
+//}
+//
+//-(BOOL) ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event{
+//    CGPoint location = [self convertTouchToNodeSpace:touch];
+//    
+// //   movingScreen = YES;
+//    
+//    if (location.x <= 75) {
+//        [self schedule:@selector(moveScreenLeft)];
+//    }
+//    else if (location.x >= 500) {
+//        [self schedule:@selector(moveScreenRight)];
+//    }
+//    
+//    return YES;
+//}
+//
+//-(void) ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event{
+////    movingScreen = NO;
+//    [self unschedule:@selector(moveScreenLeft)];
+//    [self unschedule:@selector(moveScreenRight)];
+//}
+//
+//
+//-(void) moveScreenLeft{
+//    
+//    CGSize size = [[CCDirector sharedDirector] winSize];
+////    b2Vec2 pos = _shipBody->GetPosition();
+////    
+////    NSLog(@"\n\nMOVING LEFT\n\n");
+////    int currentXPosition = pos.x;
+////    
+////    currentXPosition +=5;
+////    
+////    b2Vec2 newPos = b2Vec2(currentXPosition, pos.y);
+////    
+////    //change background
+////    _shipBody->SetTransform(newPos, _shipBody->GetAngle());
+////    // _shipBody.position = ccp(currentXPosition, size.height/2);
+//    
+//    
+//}
+//
+//-(void) moveScreenRight{
+//    CGSize size = [[CCDirector sharedDirector] winSize];
+//    
+//    
+//    NSLog(@"\n\nMOVING RIGHT\n\n");
+//    //   int currentXPosition = background.position.x;
+//    
+//    //   currentXPosition -=5;
+//    
+//    //change background
+//    //    background.position = ccp(currentXPosition, size.height/2);
+//}
 
 - (void)dealloc {
     delete _world;

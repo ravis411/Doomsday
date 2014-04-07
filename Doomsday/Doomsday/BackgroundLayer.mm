@@ -43,59 +43,60 @@ CCSprite *ground;
     return self;
 }
 
--(void) registerWithTouchDispatcher{
-    [[CCDirector sharedDirector].touchDispatcher addTargetedDelegate:self priority:INT_MIN+1 swallowsTouches:YES];
-}
-
--(BOOL) ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event{
-    CGPoint location = [self convertTouchToNodeSpace:touch];
-  
-    movingScreen = YES;
-    
-    if (location.x <= 75) {
-        [self schedule:@selector(moveScreenLeft)];
-    }
-    else if (location.x >= 500) {
-        [self schedule:@selector(moveScreenRight)];
-    }
-    
-    return YES;
-}
-
--(void) ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event{
-    movingScreen = NO;
-    [self unschedule:@selector(moveScreenLeft)];
-    [self unschedule:@selector(moveScreenRight)];
-}
-
-
--(void) moveScreenLeft{
-    
-    CGSize size = [[CCDirector sharedDirector] winSize];
-
-    
-    NSLog(@"\n\nMOVING LEFT\n\n");
-    int currentXPosition = background.position.x;
-
-    currentXPosition +=1;
-    
-    //change background
-    background.position = ccp(currentXPosition, size.height/2);
-        
-
-}
-
--(void) moveScreenRight{
-    CGSize size = [[CCDirector sharedDirector] winSize];
-    
-    
-    NSLog(@"\n\nMOVING RIGHT\n\n");
-    int currentXPosition = background.position.x;
-    
-    currentXPosition -=1;
-    
-    //change background
-    background.position = ccp(currentXPosition, size.height/2);}
+//-(void) registerWithTouchDispatcher{
+//    [[CCDirector sharedDirector].touchDispatcher addTargetedDelegate:self priority:INT_MIN+1 swallowsTouches:YES];
+//}
+//
+//-(BOOL) ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event{
+//    CGPoint location = [self convertTouchToNodeSpace:touch];
+//  
+//    movingScreen = YES;
+//    
+//    if (location.x <= 75) {
+//        [self schedule:@selector(moveScreenLeft)];
+//    }
+//    else if (location.x >= 500) {
+//        [self schedule:@selector(moveScreenRight)];
+//    }
+//    
+//    return YES;
+//}
+//
+//-(void) ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event{
+//    movingScreen = NO;
+//    [self unschedule:@selector(moveScreenLeft)];
+//    [self unschedule:@selector(moveScreenRight)];
+//}
+//
+//
+//-(void) moveScreenLeft{
+//    
+//    CGSize size = [[CCDirector sharedDirector] winSize];
+//
+//    
+//    NSLog(@"\n\nMOVING LEFT\n\n");
+//    int currentXPosition = background.position.x;
+//
+//    currentXPosition +=5;
+//    
+//    //change background
+//    background.position = ccp(currentXPosition, size.height/2);
+//        
+//
+//}
+//
+//-(void) moveScreenRight{
+//    CGSize size = [[CCDirector sharedDirector] winSize];
+//    
+//    
+//    NSLog(@"\n\nMOVING RIGHT\n\n");
+//    int currentXPosition = background.position.x;
+//    
+//    currentXPosition -=5;
+//    
+//    //change background
+//    background.position = ccp(currentXPosition, size.height/2);
+//}
 
 -(void) update:(ccTime)dt{
     

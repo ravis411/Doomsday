@@ -20,8 +20,15 @@
     Hoipolloi* _hoipolloiSprite;
     CCSprite* _bombSprite;
     CGSize size;
+    BOOL _movingLeft;
+    BOOL _movingRight;
 }
+@property BOOL movingLeft;
+@property BOOL movingRight;
+@property Hoipolloi* hoipolloiSprite;
 
+-(void) moveScreenLeft;
+-(void) moveScreenRight;
 - (void)kick;
 
 

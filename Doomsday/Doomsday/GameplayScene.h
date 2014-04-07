@@ -11,6 +11,7 @@
 #import "UILayer.h"
 #import "SpriteLayer.h"
 #import "BackgroundLayer.h"
+#include "CCTouchDelegateProtocol.h"
 //#import "GameOverLayer.h"
 
 
@@ -19,6 +20,7 @@
     SpriteLayer *spriteLayer;
     UILayer *uiLayer;
     BackgroundLayer *bgLayer;
+    CCParallaxNode *background;
 //    int m_Level;
 //    int m_Lives;
 //    int m_WeaponLevel;
@@ -31,6 +33,8 @@
     
 }
 
+//-(void) moveScreenLeft;
+//-(void) moveScreenRight;
 //@property int level;
 //@property int lives;
 //@property int weaponLevel;
