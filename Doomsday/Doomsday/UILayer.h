@@ -8,6 +8,7 @@
 
 #import "CCLayer.h"
 #import "AppDelegate.h"
+#import "cocos2d.h"
 
 @interface UILayer : CCLayer
 {
@@ -19,7 +20,9 @@
 //    CCLabelTTF *m_TotalScore;
 //    NSMutableArray *heartCount;
     CGSize size;
+    CCSprite* _dash;
 }
+
 
 -(void) showGameOverLabel;
 
