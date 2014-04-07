@@ -8,6 +8,7 @@
 
 #import "CCLayer.h"
 #import "AppDelegate.h"
+#import "cocos2d.h"
 
 @interface UILayer : CCLayer
 {
@@ -19,9 +20,17 @@
 //    CCLabelTTF *m_TotalScore;
 //    NSMutableArray *heartCount;
     CGSize size;
+    CCSprite* _dash;
+    CCLabelTTF *_label;
+    CCSprite* _killcounter;
+
 }
 
+
 -(void) showGameOverLabel;
+-(void) mainGameplayMode;
+
+
 
 -(void) update:(ccTime)dt level:(int) currentLevel lives:(int)currentLives killed:(int)currentKilled score:(double)s;
 @end

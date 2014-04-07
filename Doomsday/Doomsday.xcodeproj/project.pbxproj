@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3D268F2218F3695800E35F33 /* button_carrot_lit.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D268F1E18F3695800E35F33 /* button_carrot_lit.png */; };
+		3D268F2318F3695800E35F33 /* button_carrot_unlit.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D268F1F18F3695800E35F33 /* button_carrot_unlit.png */; };
+		3D268F2418F3695800E35F33 /* button_round_lit.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D268F2018F3695800E35F33 /* button_round_lit.png */; };
+		3D268F2518F3695800E35F33 /* button_round_unlit.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D268F2118F3695800E35F33 /* button_round_unlit.png */; };
+		3D268F2818F36E7B00E35F33 /* button_carrotl_unlit.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D268F2618F36E7B00E35F33 /* button_carrotl_unlit.png */; };
+		3D268F2918F36E7B00E35F33 /* button_carrotl_lit.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D268F2718F36E7B00E35F33 /* button_carrotl_lit.png */; };
+		3D268F2B18F3704500E35F33 /* killcounter.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D268F2A18F3704500E35F33 /* killcounter.png */; };
 		3D97F9AE18E8E70A00FE374E /* GameplayScene.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3D97F9AD18E8E70A00FE374E /* GameplayScene.mm */; };
 		3D97F9B118E8E72000FE374E /* SpriteLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3D97F9AF18E8E72000FE374E /* SpriteLayer.mm */; };
 		3D97F9B218E8E72000FE374E /* UILayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3D97F9B018E8E72000FE374E /* UILayer.mm */; };
@@ -209,12 +216,19 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3D268F1E18F3695800E35F33 /* button_carrot_lit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = button_carrot_lit.png; path = Resources/button_carrot_lit.png; sourceTree = "<group>"; };
+		3D268F1F18F3695800E35F33 /* button_carrot_unlit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = button_carrot_unlit.png; path = Resources/button_carrot_unlit.png; sourceTree = "<group>"; };
+		3D268F2018F3695800E35F33 /* button_round_lit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = button_round_lit.png; path = Resources/button_round_lit.png; sourceTree = "<group>"; };
+		3D268F2118F3695800E35F33 /* button_round_unlit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = button_round_unlit.png; path = Resources/button_round_unlit.png; sourceTree = "<group>"; };
+		3D268F2618F36E7B00E35F33 /* button_carrotl_unlit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_carrotl_unlit.png; sourceTree = "<group>"; };
+		3D268F2718F36E7B00E35F33 /* button_carrotl_lit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_carrotl_lit.png; sourceTree = "<group>"; };
+		3D268F2A18F3704500E35F33 /* killcounter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = killcounter.png; sourceTree = "<group>"; };
 		3D97F9A418E8E45D00FE374E /* GameplayScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameplayScene.h; sourceTree = "<group>"; };
 		3D97F9A718E8E5D600FE374E /* SpriteLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpriteLayer.h; sourceTree = "<group>"; };
 		3D97F9AA18E8E5E200FE374E /* UILayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UILayer.h; sourceTree = "<group>"; };
 		3D97F9AD18E8E70A00FE374E /* GameplayScene.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GameplayScene.mm; sourceTree = "<group>"; };
 		3D97F9AF18E8E72000FE374E /* SpriteLayer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SpriteLayer.mm; sourceTree = "<group>"; };
-		3D97F9B018E8E72000FE374E /* UILayer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = UILayer.mm; sourceTree = "<group>"; };
+		3D97F9B018E8E72000FE374E /* UILayer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = UILayer.mm; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.java; };
 		3D97F9B318E8E78B00FE374E /* BackgroundLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BackgroundLayer.h; sourceTree = "<group>"; };
 		3D97F9B418E8E78B00FE374E /* BackgroundLayer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = BackgroundLayer.mm; sourceTree = "<group>"; };
 		3D97F9B918E8EE4700FE374E /* AttackLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttackLayer.h; sourceTree = "<group>"; };
@@ -707,6 +721,13 @@
 		497A4FD718E11B8500B19D54 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				3D268F2A18F3704500E35F33 /* killcounter.png */,
+				3D268F2618F36E7B00E35F33 /* button_carrotl_unlit.png */,
+				3D268F2718F36E7B00E35F33 /* button_carrotl_lit.png */,
+				3D268F1E18F3695800E35F33 /* button_carrot_lit.png */,
+				3D268F1F18F3695800E35F33 /* button_carrot_unlit.png */,
+				3D268F2018F3695800E35F33 /* button_round_lit.png */,
+				3D268F2118F3695800E35F33 /* button_round_unlit.png */,
 				49A93FB718EF8C1400C66169 /* explosion.png */,
 				49D35A5E18EA8AAA002D5E12 /* bomb.png */,
 				A2ADA10F18EA737500B53109 /* rsz_background.png */,
@@ -1328,6 +1349,13 @@
 				3D97F9C418E8F15D00FE374E /* hoipolloi.png in Resources */,
 				3D97F9C518E8F15D00FE374E /* ship.png in Resources */,
 				A2ADA11118EA737500B53109 /* rsz_background.png in Resources */,
+				3D268F2218F3695800E35F33 /* button_carrot_lit.png in Resources */,
+				3D268F2318F3695800E35F33 /* button_carrot_unlit.png in Resources */,
+				3D268F2418F3695800E35F33 /* button_round_lit.png in Resources */,
+				3D268F2518F3695800E35F33 /* button_round_unlit.png in Resources */,
+				3D268F2818F36E7B00E35F33 /* button_carrotl_unlit.png in Resources */,
+				3D268F2918F36E7B00E35F33 /* button_carrotl_lit.png in Resources */,
+				3D268F2B18F3704500E35F33 /* killcounter.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
