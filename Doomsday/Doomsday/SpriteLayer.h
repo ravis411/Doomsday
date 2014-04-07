@@ -11,17 +11,20 @@
 #import "Box2D.h"
 #import "Ship.h"
 #import "Hoipolloi.h"
+#import "MyContactListener.h"
+
 @interface SpriteLayer : CCLayer{
     b2World* _world;
     b2Body* _shipBody;
     b2Body* _hoipolloiBody;
-    b2Body* _bombBody;
     Ship* _shipSprite;
     Hoipolloi* _hoipolloiSprite;
-    CCSprite* _bombSprite;
     CGSize size;
     BOOL _movingLeft;
     BOOL _movingRight;
+    NSMutableArray *bombArray;
+    MyContactListener *_contactListener;
+    BOOL shipCooldownMode;
 }
 @property BOOL movingLeft;
 @property BOOL movingRight;

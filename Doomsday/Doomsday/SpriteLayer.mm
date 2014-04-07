@@ -18,6 +18,8 @@
 -(id)init{
     if(self = [super init]){
         [self setTouchEnabled:YES];
+        bombArray = [[NSMutableArray alloc]init];
+        shipCooldownMode = NO;
 //        CCLayerColor* color = [CCLayerColor layerWithColor:ccc4(255,0,255,255)];
 //        [self addChild:color z:0];
         size = [[CCDirector sharedDirector] winSize];
@@ -109,6 +111,12 @@
         
         [self schedule:@selector(tick:)];
         //[self schedule:@selector(kick) interval:10.0];
+        
+        
+        
+        _contactListener = new MyContactListener();
+        _world->SetContactListener(_contactListener);
+        
     }
     return self;
 }
@@ -118,27 +126,86 @@
     _world->Step(dt, 10, 10);
     for(b2Body *b = _world->GetBodyList(); b; b=b->GetNext()) {
         if (b->GetUserData() != NULL) {
-            CCSprite *ballData = (CCSprite *)b->GetUserData();
-            ballData.position = ccp(b->GetPosition().x * 32, b->GetPosition().y * 32);
-            ballData.rotation = -1 * CC_RADIANS_TO_DEGREES(b->GetAngle());
+            CCSprite *bodyData = (CCSprite *)b->GetUserData();
+            bodyData.position = ccp(b->GetPosition().x * 32, b->GetPosition().y * 32);
+            bodyData.rotation = -1 * CC_RADIANS_TO_DEGREES(b->GetAngle());
         }
     }
     
 }
 
 -(void)update:(ccTime)dt{
+
     b2Vec2 pos = _shipBody->GetPosition();
     b2Vec2 center = b2Vec2((size.width/2)/PTM_RATIO,(size.height-50)/PTM_RATIO);
     if((pos - center).Length() != 0){
         [self gravitateToCenter];
     }
+    if(pos.y*PTM_RATIO>size.height+10)
+        shipCooldownMode = YES;
+    else
+        shipCooldownMode = NO;
     
+    [self collisionDetection];
 }
+
+-(void)collisionDetection{
+    BOOL destroyHoipolloi = NO;
+    NSMutableArray* deleteBombs = [[NSMutableArray alloc]init];
+    
+    for(NSValue* bBody in bombArray){
+        b2Body *body = (b2Body*)[bBody pointerValue];
+        
+        if(body->GetPosition().y*PTM_RATIO <35){
+            NSLog(@"hey");
+            [deleteBombs addObject:bBody];
+        }
+        
+    }
+    
+    
+    std::vector<MyContact>::iterator position;
+    
+    for(position = _contactListener->_contacts.begin(); position != _contactListener->_contacts.end(); ++position) {
+        MyContact contact = *position;
+        for(NSValue* bBody in bombArray){
+            b2Body *body = (b2Body*)[bBody pointerValue];
+            
+            if ((contact.fixtureA == body->GetFixtureList() && contact.fixtureB == _hoipolloiBody->GetFixtureList()) || (contact.fixtureA == _hoipolloiBody->GetFixtureList() && contact.fixtureB == body->GetFixtureList())) {
+                NSLog(@"Bomb hit holli!");
+                [deleteBombs addObject:bBody];
+                destroyHoipolloi = YES;
+            }
+        }
+    }
+    
+    if(destroyHoipolloi){
+        _world->DestroyBody(_hoipolloiBody);
+        _hoipolloiBody->Dump();
+        //        [self removeChild:(CCSprite*)_hoipolloiBody->GetUserData()];
+        [self removeChild:_hoipolloiSprite];
+        destroyHoipolloi = NO;
+    }
+    
+    for(NSValue* bBody in deleteBombs){
+        [bombArray removeObject:bBody];
+        b2Body* nuke = (b2Body*)[bBody pointerValue];
+        [self explodeAndRemoveBomb:nuke];
+    }
+    
+    
+    [deleteBombs dealloc];
+
+}
+
 
 -(void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
     UITouch *touch = [touches anyObject];
     CGPoint location = [touch locationInView:[touch view]];
     location = [[CCDirector sharedDirector] convertToGL:location];
+    
+//    if(!shipCooldownMode)
+//        [self singleBombFire];
     
     if (location.x <= 75) {
         //[self schedule:@selector(moveScreenLeft)];
@@ -149,7 +216,10 @@
         _movingRight = YES;
     }
     else{
-        [self kick];
+//        [self kick];
+        if(!shipCooldownMode)
+            [self singleBombFire];
+        //[self lazer];
     }
 }
 
@@ -164,11 +234,67 @@
 }
 
 
-- (void)kick {
+//- (void)kick {
+
+//- (void)ccTouchesBegan:(UITouch *)touch withEvent:(UIEvent *)event {
+////    b2Vec2 force = b2Vec2(-50, 80);
+////    _hoipolloiBody->ApplyLinearImpulse(force, _shipBody->GetPosition());
+//    if(!shipCooldownMode)
+//        [self singleBombFire];
+////    [self lazer];
+//    
+//    //If theres a detection with te bob and the ground
+//    
+//}
+-(void)lazer{
+    for(int i=0;i<7;i++){
+        CCSprite *_bombSprite = [CCSprite spriteWithFile:@"bomb.png"];
+        [_bombSprite setScale:0.15f];
+        [_bombSprite setPosition:CGPointMake(_shipSprite.position.x, _shipSprite.position.y)];
+        [self addChild:_bombSprite];
+        b2CircleShape circle;
+        circle.m_radius = 26.0/PTM_RATIO;
+        b2BodyDef bombBodyDef;
+        bombBodyDef.type = b2_dynamicBody;
+        bombBodyDef.position.Set(_shipSprite.position.x/PTM_RATIO, (_shipSprite.position.y-20-i)/PTM_RATIO);
+        bombBodyDef.userData = _bombSprite;
+        bombBodyDef.fixedRotation = false;
+        b2Body* _bombBody = _world->CreateBody(&bombBodyDef);
+        
+        
+        b2FixtureDef bombShapeDef;
+        bombShapeDef.shape = &circle;
+        bombShapeDef.density = 2.5f;
+        bombShapeDef.friction = 0.8f;
+        bombShapeDef.restitution = 0.2f;
+        _bombBody->CreateFixture(&bombShapeDef);
+        [bombArray addObject:[NSValue valueWithPointer:_bombBody]];
+//        [self explodeAndRemoveBomb:_bombBody];
+    }
+    
+    
+    
+}
+
+-(void)explodeAndRemoveBomb:(b2Body*)b{
+    CCSprite* explosion = [CCSprite spriteWithFile:@"explosion.png"];
+    [explosion setScale:0.15f];
+    [explosion setPosition:CGPointMake(b->GetPosition().x*PTM_RATIO, b->GetPosition().y*PTM_RATIO)];
+    [self addChild:explosion];
+    [self performSelector:@selector(cleanUpExplosion:) withObject:explosion afterDelay:0.1];
+    _world->DestroyBody(b);
+    [self removeChild:(CCSprite*)b->GetUserData()];
+}
+
+-(void)cleanUpExplosion:(CCSprite*)explosion{
+    [self removeChild:explosion];
+}
+
+- (void)singleBombFire {
 //    b2Vec2 force = b2Vec2(30, 30);
 //    _shipBody->ApplyLinearImpulse(force,_shipBody->GetPosition());
     //Creating Hoipolloi Box2D Body
-     _bombSprite = [CCSprite spriteWithFile:@"bomb.png"];
+     CCSprite* _bombSprite = [CCSprite spriteWithFile:@"bomb.png"];
     [_bombSprite setScale:0.15f];
      [_bombSprite setPosition:CGPointMake(_shipSprite.position.x, _shipSprite.position.y)];
     [self addChild:_bombSprite];
@@ -180,7 +306,7 @@
     bombBodyDef.position.Set(_shipSprite.position.x/PTM_RATIO, (_shipSprite.position.y-20)/PTM_RATIO);
     bombBodyDef.userData = _bombSprite;
     bombBodyDef.fixedRotation = false;
-    _bombBody = _world->CreateBody(&bombBodyDef);
+    b2Body* _bombBody = _world->CreateBody(&bombBodyDef);
     
     
     b2FixtureDef bombShapeDef;
@@ -189,6 +315,8 @@
     bombShapeDef.friction = 0.8f;
     bombShapeDef.restitution = 0.2f;
     _bombBody->CreateFixture(&bombShapeDef);
+    
+    [bombArray addObject:[NSValue valueWithPointer:_bombBody]];
 }
 
 -(void)gravitateToCenter{
@@ -213,69 +341,16 @@
     
 }
 
-//-(void) registerWithTouchDispatcher{
-//    [[CCDirector sharedDirector].touchDispatcher addTargetedDelegate:self priority:INT_MIN+1 swallowsTouches:YES];
-//}
-//
-//-(BOOL) ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event{
-//    CGPoint location = [self convertTouchToNodeSpace:touch];
-//    
-// //   movingScreen = YES;
-//    
-//    if (location.x <= 75) {
-//        [self schedule:@selector(moveScreenLeft)];
-//    }
-//    else if (location.x >= 500) {
-//        [self schedule:@selector(moveScreenRight)];
-//    }
-//    
-//    return YES;
-//}
-//
-//-(void) ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event{
-////    movingScreen = NO;
-//    [self unschedule:@selector(moveScreenLeft)];
-//    [self unschedule:@selector(moveScreenRight)];
-//}
-//
-//
-//-(void) moveScreenLeft{
-//    
-//    CGSize size = [[CCDirector sharedDirector] winSize];
-////    b2Vec2 pos = _shipBody->GetPosition();
-////    
-////    NSLog(@"\n\nMOVING LEFT\n\n");
-////    int currentXPosition = pos.x;
-////    
-////    currentXPosition +=5;
-////    
-////    b2Vec2 newPos = b2Vec2(currentXPosition, pos.y);
-////    
-////    //change background
-////    _shipBody->SetTransform(newPos, _shipBody->GetAngle());
-////    // _shipBody.position = ccp(currentXPosition, size.height/2);
-//    
-//    
-//}
-//
-//-(void) moveScreenRight{
-//    CGSize size = [[CCDirector sharedDirector] winSize];
-//    
-//    
-//    NSLog(@"\n\nMOVING RIGHT\n\n");
-//    //   int currentXPosition = background.position.x;
-//    
-//    //   currentXPosition -=5;
-//    
-//    //change background
-//    //    background.position = ccp(currentXPosition, size.height/2);
-//}
 
 - (void)dealloc {
+    delete _contactListener;
+    [bombArray dealloc];
     delete _world;
     _shipBody = NULL;
     _world = NULL;
     [super dealloc];
 }
+
+
 
 @end
