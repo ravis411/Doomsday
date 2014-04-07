@@ -22,6 +22,7 @@
     CGSize size;
     CCSprite* _dash;
     CCLabelTTF *_label;
+    CCSprite* _killcounter;
 
 }
 
