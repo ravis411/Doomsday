@@ -79,7 +79,7 @@ enum {
 		
 		[self addNewSpriteAtPosition:ccp(s.width/2, s.height/2)];
 		
-		CCLabelTTF *label = [CCLabelTTF labelWithString:@"Tap screen" fontName:@"Marker Felt" fontSize:32];
+		CCLabelTTF *label = [CCLabelTTF labelWithString:@"Doomsday" fontName:@"Marker Felt" fontSize:32];
 		[self addChild:label z:0];
 		[label setColor:ccc3(0,0,255)];
 		label.position = ccp( s.width/2, s.height-50);
@@ -113,19 +113,19 @@ enum {
 	// to avoid a retain-cycle with the menuitem and blocks
 	__block id copy_self = self;
 
-	// Achievement Menu Item using blocks
-	CCMenuItem *itemAchievement = [CCMenuItemFont itemWithString:@"Achievements" block:^(id sender) {
-		
-		
-		GKAchievementViewController *achivementViewController = [[GKAchievementViewController alloc] init];
-		achivementViewController.achievementDelegate = copy_self;
-		
-		AppController *app = (AppController*) [[UIApplication sharedApplication] delegate];
-		
-		[[app navController] presentModalViewController:achivementViewController animated:YES];
-		
-		[achivementViewController release];
-	}];
+//	// Achievement Menu Item using blocks
+//	CCMenuItem *itemAchievement = [CCMenuItemFont itemWithString:@"Achievements" block:^(id sender) {
+//		
+//		
+//		GKAchievementViewController *achivementViewController = [[GKAchievementViewController alloc] init];
+//		achivementViewController.achievementDelegate = copy_self;
+//		
+//		AppController *app = (AppController*) [[UIApplication sharedApplication] delegate];
+//		
+//		[[app navController] presentModalViewController:achivementViewController animated:YES];
+//		
+//		[achivementViewController release];
+//	}];
 	
 	// Leaderboard Menu Item using blocks
 	CCMenuItem *itemLeaderboard = [CCMenuItemFont itemWithString:@"Leaderboard" block:^(id sender) {
@@ -145,7 +145,7 @@ enum {
         [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.0 scene:[GameplayScene node]]];
     }];
 	
-	CCMenu *menu = [CCMenu menuWithItems:itemAchievement, itemLeaderboard, reset, itemNewGame, nil];
+	CCMenu *menu = [CCMenu menuWithItems: reset, itemNewGame, nil];
 	
     
     
