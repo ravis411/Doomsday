@@ -7,7 +7,9 @@
 //
 
 #import "SpriteLayer.h"
+#import "GLES-Render.h"
 #define PTM_RATIO 32.0f
+
 @implementation SpriteLayer
 
 @synthesize movingLeft = _movingLeft;
@@ -20,10 +22,11 @@
         bombArray = [[NSMutableArray alloc]init];
         hoipolloiArray = [[NSMutableArray alloc]init];
         shipCooldownMode = NO;
+
 //        CCLayerColor* color = [CCLayerColor layerWithColor:ccc4(255,0,255,255)];
 //        [self addChild:color z:0];
         size = [[CCDirector sharedDirector] winSize];
-        
+        groundLevel = size.height/6;
         _movingLeft = NO;
         _movingRight = NO;
         //Initializing Sprites + Position
@@ -36,6 +39,17 @@
         //Creating Box2D World
         b2Vec2 gravity = b2Vec2(0.0f, -80.0f);
         _world = new b2World(gravity);
+        
+        GLESDebugDraw *m_debugDraw = new GLESDebugDraw( PTM_RATIO );
+        _world->SetDebugDraw(m_debugDraw);
+        
+        uint32 flags = 0;
+        flags += b2Draw::e_shapeBit;
+        //		flags += b2Draw::e_jointBit;
+        //		flags += b2Draw::e_aabbBit;
+        //		flags += b2Draw::e_pairBit;
+        //		flags += b2Draw::e_centerOfMassBit;
+        m_debugDraw->SetFlags(flags);
         
         //Creating Edges around the screen
         b2BodyDef groundBodyDef;
@@ -50,7 +64,7 @@
         
         //wall definitions
         //Creating the ground
-        groundEdge.Set(b2Vec2(0,0), b2Vec2(size.width/PTM_RATIO, 0));
+        groundEdge.Set(b2Vec2(0,groundLevel/PTM_RATIO), b2Vec2(size.width/PTM_RATIO, groundLevel/PTM_RATIO));
         groundBody->CreateFixture(&boxShapeDef);
 
         
@@ -124,25 +138,40 @@
     }
     if(pos.y*PTM_RATIO>size.height+10)
         shipCooldownMode = YES;
-    else
-        shipCooldownMode = NO;
+    
     
     [self collisionDetection];
 }
 
+-(void) draw
+{
+	//
+	// IMPORTANT:
+	// This is only for debug purposes
+	// It is recommend to disable it
+	//
+	[super draw];
+	
+	ccGLEnableVertexAttribs( kCCVertexAttribFlag_Position );
+	
+	kmGLPushMatrix();
+	
+	_world->DrawDebugData();
+	
+	kmGLPopMatrix();
+}
+
 -(void)collisionDetection{
     BOOL destroyHoipolloi = NO;
+    
     NSMutableArray* deleteBombs = [[NSMutableArray alloc]init];
     NSMutableArray* deletePeople = [[NSMutableArray alloc]init];
     
     for(NSValue* bBody in bombArray){
         b2Body *body = (b2Body*)[bBody pointerValue];
-        
-        if(body->GetPosition().y*PTM_RATIO <35){
-            NSLog(@"hey");
+        if((body->GetPosition().y*PTM_RATIO <(groundLevel+33))){
             [deleteBombs addObject:bBody];
         }
-        
     }
     
     
@@ -160,11 +189,12 @@
                     [deleteBombs addObject:bBody];
                     [deletePeople addObject:pBody];
                 }
+
             }
-            
         }
     }
     
+
     for(NSValue* pBody in deletePeople){
         [hoipolloiArray removeObject:pBody];
         b2Body* nuke = (b2Body*)[pBody pointerValue];
@@ -233,40 +263,13 @@
 //    //If theres a detection with te bob and the ground
 //    
 //}
--(void)lazer{
-    for(int i=0;i<7;i++){
-        CCSprite *_bombSprite = [CCSprite spriteWithFile:@"bomb.png"];
-        [_bombSprite setScale:0.15f];
-        [_bombSprite setPosition:CGPointMake(_shipSprite.position.x, _shipSprite.position.y)];
-        [self addChild:_bombSprite];
-        b2CircleShape circle;
-        circle.m_radius = 26.0/PTM_RATIO;
-        b2BodyDef bombBodyDef;
-        bombBodyDef.type = b2_dynamicBody;
-        bombBodyDef.position.Set(_shipSprite.position.x/PTM_RATIO, (_shipSprite.position.y-20-i)/PTM_RATIO);
-        bombBodyDef.userData = _bombSprite;
-        bombBodyDef.fixedRotation = false;
-        b2Body* _bombBody = _world->CreateBody(&bombBodyDef);
-        
-        
-        b2FixtureDef bombShapeDef;
-        bombShapeDef.shape = &circle;
-        bombShapeDef.density = 2.5f;
-        bombShapeDef.friction = 0.8f;
-        bombShapeDef.restitution = 0.2f;
-        _bombBody->CreateFixture(&bombShapeDef);
-        [bombArray addObject:[NSValue valueWithPointer:_bombBody]];
-//        [self explodeAndRemoveBomb:_bombBody];
-    }
-    
-    
-    
-}
+
 
 -(void)explodeAndRemoveBomb:(b2Body*)b{
+    NSLog(@"explode!");
     CCSprite* explosion = [CCSprite spriteWithFile:@"explosion.png"];
-    [explosion setScale:0.15f];
-    [explosion setPosition:CGPointMake(b->GetPosition().x*PTM_RATIO, b->GetPosition().y*PTM_RATIO)];
+    [explosion setScale:0.25f];
+    [explosion setPosition:CGPointMake(b->GetPosition().x*PTM_RATIO, b->GetPosition().y*PTM_RATIO - 15)];
     [self addChild:explosion];
     [self performSelector:@selector(cleanUpExplosion:) withObject:explosion afterDelay:0.1];
     _world->DestroyBody(b);
@@ -336,8 +339,15 @@
     bombShapeDef.friction = 0.8f;
     bombShapeDef.restitution = 0.2f;
     _bombBody->CreateFixture(&bombShapeDef);
-    
     [bombArray addObject:[NSValue valueWithPointer:_bombBody]];
+    shipCooldownMode = YES;
+    
+    [self performSelector:@selector(bombReadyToFire) withObject:self afterDelay:0.4];
+    
+}
+
+-(void)bombReadyToFire{
+    shipCooldownMode = NO;
 }
 
 -(void)gravitateToCenter{

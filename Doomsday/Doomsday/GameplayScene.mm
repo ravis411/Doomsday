@@ -49,14 +49,17 @@
 
 -(void)update:(ccTime)dt{
     [spriteLayer update:dt];
+
     
-    if ([spriteLayer movingRight] == YES) {
-        CGPoint backgroundScrollVel = ccp(-2000, 0);
+    if (([spriteLayer movingRight] == YES) && background.position.x >= -14795) {
+        NSLog(@"\n\n\n%f\n\n\n",background.position.x);
+        CGPoint backgroundScrollVel = ccp(-3000, 0);
         background.position = ccpAdd(background.position, ccpMult(backgroundScrollVel, dt));
     }
 
-    if ([spriteLayer movingLeft] == YES) {
-        CGPoint backgroundScrollVel = ccp(-2000, 0);
+    if (([spriteLayer movingLeft] == YES) && background.position.x <= 14795) {
+        NSLog(@"\n\n\n%f\n\n\n",background.position.x);
+        CGPoint backgroundScrollVel = ccp(-3000, 0);
         background.position = ccpSub(background.position, ccpMult(backgroundScrollVel, dt));
     }
 }

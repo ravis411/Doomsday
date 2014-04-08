@@ -26,6 +26,7 @@
     NSMutableArray *hoipolloiArray;
     MyContactListener *_contactListener;
     BOOL shipCooldownMode;
+    float groundLevel;
 }
 @property BOOL movingLeft;
 @property BOOL movingRight;
