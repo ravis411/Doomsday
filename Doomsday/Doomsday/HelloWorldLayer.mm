@@ -83,6 +83,33 @@ enum {
 		[self addChild:label z:0];
 		[label setColor:ccc3(0,0,255)];
 		label.position = ccp( s.width/2, s.height-50);
+        
+        //batching the GUI elements
+        uiAtlasNode = [CCSpriteBatchNode batchNodeWithFile:@"gui_atlas.png"];
+        [self addChild:uiAtlasNode];
+        [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"gui_atlas.plist"];
+        
+        int numberUIFrames = 0;
+        NSMutableArray *uiFrames = [NSMutableArray array];
+        NSMutableArray *uiFilenames = [NSMutableArray array];
+        for (int ii = 1; ii <= 5; ii++) {
+            for (int jj = 0; jj <= 1; jj++) {
+                NSString *file = [NSString stringWithFormat:@"button%d_%d.png", ii, 0];
+                [uiFilenames addObject:file];
+                numberUIFrames++;
+            }
+        }
+        [uiFilenames addObject:@"dash_mainmenu.png"];
+        [uiFilenames addObject:@"dashboard.png"];
+        [uiFilenames addObject:@"killcounter.png"];
+        [uiFilenames addObject:@"titletypeface.png"];
+        numberUIFrames += 4;
+        
+        for (int i = 0; i < numberUIFrames; i++) {
+            CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:uiFilenames[i]];
+            [uiFrames addObject:frame];
+        }
+
 		
 		[self scheduleUpdate];
 	}

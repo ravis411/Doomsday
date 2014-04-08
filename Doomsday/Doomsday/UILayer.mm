@@ -20,31 +20,33 @@
         [self setTouchEnabled:YES];
         [self mainGameplayMode];
 
-        //batching the GUI elements
-        uiAtlasNode = [CCSpriteBatchNode batchNodeWithFile:@"gui_atlas.png"];
-        [self addChild:uiAtlasNode];
-        [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"gui_atlas.plist"];
-
-/*THIS NEEDS TO BE FIXED
-        NSMutableArray *uiFrames = [NSMutableArray array];
-        NSMutableArray *uiFilenames = [NSMutableArray array];
-        for (int ii = 0; ii < 5; ii++) {
-            for (int jj = 0; jj < 1; jj++) {
-                NSString *file = [NSString stringWithFormat:@"button%d_%d.png", ii, 0];
-//                CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:file];
-                [uiFilenames addObject:file];
-            }
-        }
+//        //batching the GUI elements
+//        uiAtlasNode = [CCSpriteBatchNode batchNodeWithFile:@"gui_atlas.png"];
+//        [self addChild:uiAtlasNode];
+//        [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"gui_atlas.plist"];
+//
+//        int numberUIFrames = 0;
+//        NSMutableArray *uiFrames = [NSMutableArray array];
+//        NSMutableArray *uiFilenames = [NSMutableArray array];
+//        for (int ii = 1; ii <= 5; ii++) {
+//            for (int jj = 0; jj <= 1; jj++) {
+//                NSString *file = [NSString stringWithFormat:@"button%d_%d.png", ii, 0];
+////                CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:file];
+//                [uiFilenames addObject:file];
+//                numberUIFrames++;
+//            }
+//        }
 //        [uiFilenames addObject:@"dash_mainmenu.png"];
 //        [uiFilenames addObject:@"dashboard.png"];
 //        [uiFilenames addObject:@"killcounter.png"];
 //        [uiFilenames addObject:@"titletypeface.png"];
+//        numberUIFrames += 4;
+//
+//        for (int i = 0; i < numberUIFrames; i++) {
+//            CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:uiFilenames[i]];
+//            [uiFrames addObject:frame];
+//        }
 
-        for (int i = 0; i <= 10; i++) {
-            CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:uiFilenames[i]];
-            [uiFrames addObject:frame];
-        }
-*/
         _killCount = 0;
         _quota = 10000;
 
@@ -61,17 +63,14 @@
     _dash.position = CGPointMake(size.width/2, 30);
     [self addChild:_dash];
     //killcounter
-    _killCounter = [CCSprite spriteWithFile:@"killcounter.png"];
-    _killCounter.position = CGPointMake(size.width-115, size.height - 20);
-    [self addChild:_killCounter];
-    
+    [self addUIElement:_killCounter withFrame:@"killcounter.png" x:(size.width-115) y:(size.height-18)];
+
     _scoreLabel = [[CCLabelTTF labelWithString:@"-/-" fontName:@"Arial" fontSize:24.0] retain];
     _scoreLabel.position = _killCounter.position;
     [self addChild:_scoreLabel];
 
     //laser button
-    _label = [[CCLabelTTF labelWithString:@" "
-    fontName:@"Arial" fontSize:24.0] retain];
+    _label = [[CCLabelTTF labelWithString:@" " fontName:@"Arial" fontSize:24.0] retain];
     _label.position = ccp(size.width/3,
     size.height-(_label.contentSize.height/2));
     [self addChild:_label];
@@ -81,6 +80,11 @@
     itemFromNormalImage:@"button_round_unlit.png" selectedImage:@"button_round_lit.png"
     target:self selector:@selector(laserButtonTapped:)];
     laserButton.position = ccp(size.width/2, 30);
+
+//    CCMenuItem *laserButton = [CCMenuItemImage
+//    itemFromNormalImage:@"button_round_unlit.png" selectedImage:@"button_round_lit.png"
+//    target:self selector:@selector(laserButtonTapped:)];
+//    laserButton.position = ccp(size.width/2, 30);
 
     CCMenuItem *gadgetButtonR = [CCMenuItemImage
     itemFromNormalImage:@"button_carrot_unlit.png" selectedImage:@"button_carrot_lit.png"
@@ -118,6 +122,13 @@
 -(void) updateKillCounter {
     NSString *updateLabel = [NSString stringWithFormat:@"%d/%d", _killCount, _quota];
     [_scoreLabel setString:updateLabel];
+}
+
+-(void) addUIElement:(CCSprite*)element withFrame:(NSString*) elemFile x:(int)mX y:(int)mY {
+    element = [CCSprite node];
+    [element initWithSpriteFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:elemFile]];
+    element.position = CGPointMake(mX, mY);
+    [self addChild:element];
 }
 
 -(void) dealloc {
