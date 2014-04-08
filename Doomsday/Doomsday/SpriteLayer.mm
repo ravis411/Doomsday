@@ -279,8 +279,8 @@
 -(void)explodeAndRemoveBomb:(b2Body*)b{
     NSLog(@"explode!");
     CCSprite* explosion = [CCSprite spriteWithFile:@"explosion.png"];
-    [explosion setScale:0.2f];
-    [explosion setPosition:CGPointMake(b->GetPosition().x*PTM_RATIO, b->GetPosition().y*PTM_RATIO)];
+    [explosion setScale:0.25f];
+    [explosion setPosition:CGPointMake(b->GetPosition().x*PTM_RATIO, b->GetPosition().y*PTM_RATIO - 15)];
     [self addChild:explosion];
     [self performSelector:@selector(cleanUpExplosion:) withObject:explosion afterDelay:0.1];
     _world->DestroyBody(b);
