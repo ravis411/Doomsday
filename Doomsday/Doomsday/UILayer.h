@@ -22,14 +22,19 @@
     CGSize size;
     CCSprite* _dash;
     CCLabelTTF *_label;
-    CCSprite* _killcounter;
-
+    CCLabelTTF *_scoreLabel;
+    CCSprite* _killCounter;
+    int _quota;
+    int _killCount;
 }
 
+@property int quota;
 
 -(void) showGameOverLabel;
 -(void) mainGameplayMode;
-
+-(void) laserButtonTapped;
+-(void) gadgetButtonLTapped;
+-(void) gadgetButtonRTapped;
 
 
 -(void) update:(ccTime)dt level:(int) currentLevel lives:(int)currentLives killed:(int)currentKilled score:(double)s;

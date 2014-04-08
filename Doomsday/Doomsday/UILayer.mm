@@ -10,6 +10,8 @@
 
 @implementation UILayer
 
+@synthesize quota = _quota;
+
 - (id)init
 {
     
@@ -29,10 +31,13 @@
     _dash.position = CGPointMake(size.width/2, 30);
     [self addChild:_dash];
     //killcounter
-    _killcounter = [CCSprite spriteWithFile:@"killcounter.png"];
-    _killcounter.position = CGPointMake(size.width-115, size.height - 20);
-    [self addChild:_killcounter];
-
+    _killCounter = [CCSprite spriteWithFile:@"killcounter.png"];
+    _killCounter.position = CGPointMake(size.width-115, size.height - 20);
+    [self addChild:_killCounter];
+    
+    _scoreLabel = [[CCLabelTTF labelWithString:@"-/-" fontName:@"Arial" fontSize:24.0] retain];
+    _scoreLabel.position = _killCounter.position;
+    [self addChild:_scoreLabel];
 
     //laser button
     _label = [[CCLabelTTF labelWithString:@" "
