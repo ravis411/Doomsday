@@ -12,13 +12,13 @@
 
 @synthesize movingLeft = _movingLeft;
 @synthesize movingRight = _movingRight;
-@synthesize hoipolloiSprite = _hoipolloiSprite;
 
 
 -(id)init{
     if(self = [super init]){
         [self setTouchEnabled:YES];
         bombArray = [[NSMutableArray alloc]init];
+        hoipolloiArray = [[NSMutableArray alloc]init];
         shipCooldownMode = NO;
 //        CCLayerColor* color = [CCLayerColor layerWithColor:ccc4(255,0,255,255)];
 //        [self addChild:color z:0];
@@ -28,15 +28,10 @@
         _movingRight = NO;
         //Initializing Sprites + Position
         _shipSprite = [CCSprite spriteWithFile:@"ship.png"];
-        _hoipolloiSprite = [CCSprite spriteWithFile:@"hoipolloi.png"];
-       
-        _hoipolloiSprite.position = CGPointMake(size.width/2, size.height/2);
-       
         [_shipSprite setScale:0.3];
-        [_hoipolloiSprite setScale:0.3];
+        
 //        [_bombSprite setScale:0.2];
         [self addChild:_shipSprite];
-        [self addChild:_hoipolloiSprite];
         
         //Creating Box2D World
         b2Vec2 gravity = b2Vec2(0.0f, -80.0f);
@@ -90,22 +85,7 @@
         _shipBody->SetGravityScale(0);
         
         
-        //Creating Hoipolloi Box2D Body
-        b2BodyDef hoipolloiBodyDef;
-        hoipolloiBodyDef.type = b2_dynamicBody;
-        hoipolloiBodyDef.position.Set((size.width/2)/PTM_RATIO, (size.height/2)/PTM_RATIO);
-        hoipolloiBodyDef.userData = _hoipolloiSprite;
-        hoipolloiBodyDef.fixedRotation = false;
-        _hoipolloiBody = _world->CreateBody(&hoipolloiBodyDef);
-        
-        
-        b2FixtureDef hoipolloiShapeDef;
-        hoipolloiShapeDef.shape = &circle;
-        hoipolloiShapeDef.density = 2.0f;
-        hoipolloiShapeDef.friction = 0.2f;
-        hoipolloiShapeDef.restitution = 0.2f;
-        _hoipolloiBody->CreateFixture(&hoipolloiShapeDef);
-        
+        [self spawnPerson];
         
         
 //        _hoipolloiBody->SetGravityScale(2);
@@ -153,6 +133,7 @@
 -(void)collisionDetection{
     BOOL destroyHoipolloi = NO;
     NSMutableArray* deleteBombs = [[NSMutableArray alloc]init];
+    NSMutableArray* deletePeople = [[NSMutableArray alloc]init];
     
     for(NSValue* bBody in bombArray){
         b2Body *body = (b2Body*)[bBody pointerValue];
@@ -172,20 +153,25 @@
         for(NSValue* bBody in bombArray){
             b2Body *body = (b2Body*)[bBody pointerValue];
             
-            if ((contact.fixtureA == body->GetFixtureList() && contact.fixtureB == _hoipolloiBody->GetFixtureList()) || (contact.fixtureA == _hoipolloiBody->GetFixtureList() && contact.fixtureB == body->GetFixtureList())) {
-                NSLog(@"Bomb hit holli!");
-                [deleteBombs addObject:bBody];
-                destroyHoipolloi = YES;
+            for(NSValue* pBody in hoipolloiArray){
+                b2Body *pody = (b2Body*)[pBody pointerValue];
+                if ((contact.fixtureA == body->GetFixtureList() && contact.fixtureB == pody->GetFixtureList()) || (contact.fixtureA == pody->GetFixtureList() && contact.fixtureB == body->GetFixtureList())) {
+                    NSLog(@"Bomb hit holli!");
+                    [deleteBombs addObject:bBody];
+                    [deletePeople addObject:pBody];
+                }
             }
+            
         }
     }
     
-    if(destroyHoipolloi){
-        _world->DestroyBody(_hoipolloiBody);
-        _hoipolloiBody->Dump();
-        //        [self removeChild:(CCSprite*)_hoipolloiBody->GetUserData()];
-        [self removeChild:_hoipolloiSprite];
-        destroyHoipolloi = NO;
+    for(NSValue* pBody in deletePeople){
+        [hoipolloiArray removeObject:pBody];
+        b2Body* nuke = (b2Body*)[pBody pointerValue];
+        
+        _world->DestroyBody(nuke);
+        nuke->Dump();
+        [self removeChild:(CCSprite*)nuke->GetUserData()];
     }
     
     for(NSValue* bBody in deleteBombs){
@@ -291,13 +277,47 @@
     [self removeChild:explosion];
 }
 
+
+
+//Spawns a Hoipolloi
+- (void)spawnPerson {
+    
+    Hoipolloi* _humanSprite = [CCSprite spriteWithFile:@"hoipolloi.png"];
+    _humanSprite.position = CGPointMake(size.width/2, size.height/2);
+    [_humanSprite setScale:0.3];
+    [self addChild:_humanSprite];
+    b2Body* _hoipolloiBody;
+    
+    //Creating Hoipolloi Box2D Body
+    b2BodyDef hoipolloiBodyDef;
+    hoipolloiBodyDef.type = b2_dynamicBody;
+    hoipolloiBodyDef.position.Set((size.width/2)/PTM_RATIO, (size.height/2)/PTM_RATIO);
+    hoipolloiBodyDef.userData = _humanSprite;
+    hoipolloiBodyDef.fixedRotation = false;
+    _hoipolloiBody = _world->CreateBody(&hoipolloiBodyDef);
+    
+    
+    b2FixtureDef hoipolloiShapeDef;
+    b2CircleShape circle;
+    circle.m_radius = 26.0/PTM_RATIO;
+    hoipolloiShapeDef.shape = &circle;
+    hoipolloiShapeDef.density = 2.0f;
+    hoipolloiShapeDef.friction = 0.2f;
+    hoipolloiShapeDef.restitution = 0.2f;
+    _hoipolloiBody->CreateFixture(&hoipolloiShapeDef);
+    
+    [hoipolloiArray addObject:[NSValue valueWithPointer:_hoipolloiBody]];
+}
+
+
+
 - (void)singleBombFire {
 //    b2Vec2 force = b2Vec2(30, 30);
 //    _shipBody->ApplyLinearImpulse(force,_shipBody->GetPosition());
     //Creating Hoipolloi Box2D Body
      CCSprite* _bombSprite = [CCSprite spriteWithFile:@"bomb.png"];
     [_bombSprite setScale:0.15f];
-     [_bombSprite setPosition:CGPointMake(_shipSprite.position.x, _shipSprite.position.y)];
+    [_bombSprite setPosition:CGPointMake(_shipSprite.position.x, _shipSprite.position.y)];
     [self addChild:_bombSprite];
     
     b2CircleShape circle;
@@ -346,6 +366,7 @@
 - (void)dealloc {
     delete _contactListener;
     [bombArray dealloc];
+    [hoipolloiArray dealloc];
     delete _world;
     _shipBody = NULL;
     _world = NULL;

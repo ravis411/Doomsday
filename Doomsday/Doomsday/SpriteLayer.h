@@ -16,19 +16,20 @@
 @interface SpriteLayer : CCLayer{
     b2World* _world;
     b2Body* _shipBody;
-    b2Body* _hoipolloiBody;
+    //b2Body* _hoipolloiBody;
     Ship* _shipSprite;
-    Hoipolloi* _hoipolloiSprite;
+    //Hoipolloi* _hoipolloiSprite;
     CGSize size;
     BOOL _movingLeft;
     BOOL _movingRight;
     NSMutableArray *bombArray;
+    NSMutableArray *hoipolloiArray;
     MyContactListener *_contactListener;
     BOOL shipCooldownMode;
 }
 @property BOOL movingLeft;
 @property BOOL movingRight;
-@property Hoipolloi* hoipolloiSprite;
+//@property Hoipolloi* hoipolloiSprite;
 
 -(void) moveScreenLeft;
 -(void) moveScreenRight;
