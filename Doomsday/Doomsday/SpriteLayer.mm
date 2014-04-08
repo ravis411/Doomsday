@@ -174,7 +174,7 @@
         }
     }
     
-    
+     
     std::vector<MyContact>::iterator position;
     
     for(position = _contactListener->_contacts.begin(); position != _contactListener->_contacts.end(); ++position) {
