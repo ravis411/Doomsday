@@ -26,7 +26,6 @@
     CCSprite* _killCounter;
     int _quota;
     int _killCount;
-
 }
 
 @property int quota;
