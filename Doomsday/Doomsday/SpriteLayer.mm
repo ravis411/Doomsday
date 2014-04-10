@@ -250,7 +250,7 @@
         //[self schedule:@selector(moveScreenLeft)];
         _movingLeft = YES;
     }
-    else if (location.x >= 460) {
+    else if (location.x >= size.width-100) {
         //[self schedule:@selector(moveScreenRight)];
         _movingRight = YES;
     }
