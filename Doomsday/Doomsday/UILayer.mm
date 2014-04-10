@@ -75,16 +75,20 @@
     size.height-(_label.contentSize.height/2));
     [self addChild:_label];
 
+//
+   
+//newUIButton not functioning yet
+//CCMenuItem *laserButton = [self newUIButton:@selector(laserButtonTapped:) withShapeID:3 x:(size.width/2) y:30];
+
+//    CCMenuItem *laserButton =[CCMenuItemImage node];
+//    [laserButton setNormalSpriteFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"button3_0.png"]];
+//    [laserButton setSelectedSpriteFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"button3_1.png"]];
+//    laserButton.position = ccp(size.width/2, 30);
 
     CCMenuItem *laserButton = [CCMenuItemImage
     itemFromNormalImage:@"button_round_unlit.png" selectedImage:@"button_round_lit.png"
     target:self selector:@selector(laserButtonTapped:)];
     laserButton.position = ccp(size.width/2, 30);
-
-//    CCMenuItem *laserButton = [CCMenuItemImage
-//    itemFromNormalImage:@"button_round_unlit.png" selectedImage:@"button_round_lit.png"
-//    target:self selector:@selector(laserButtonTapped:)];
-//    laserButton.position = ccp(size.width/2, 30);
 
     CCMenuItem *gadgetButtonR = [CCMenuItemImage
     itemFromNormalImage:@"button_carrot_unlit.png" selectedImage:@"button_carrot_lit.png"
@@ -97,7 +101,7 @@
     gadgetButtonL.position = ccp(size.width/2 - 50, 30);
 
 
-    CCMenu *gadgetButtons = [CCMenu menuWithItems:laserButton, gadgetButtonL, gadgetButtonR, nil];
+    CCMenu *gadgetButtons = [CCMenu menuWithItems: laserButton, gadgetButtonL, gadgetButtonR, nil];
     gadgetButtons.position = CGPointZero;
     [self addChild:gadgetButtons];
 
@@ -129,6 +133,15 @@
     [element initWithSpriteFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:elemFile]];
     element.position = CGPointMake(mX, mY);
     [self addChild:element];
+}
+
+-(CCMenuItem*) newUIButton:(SEL)newSelector withShapeID:(int)shapeID x:(int)mX y:(int)mY {
+    CCMenuItem *newButton = [CCMenuItemImage itemFromNormalImage:@"button_round_unlit.png" selectedImage:@"button_round_lit.png" target:self selector:newSelector];
+    NSString *normalFrameName = [NSString stringWithFormat:@"button%d_0", shapeID];
+    [newButton setNormalSpriteFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"button%d_0.png", shapeID]]];
+    [newButton setSelectedSpriteFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"button%d_1.png", shapeID]]];
+    newButton.position = ccp(mX, mY);
+  
 }
 
 -(void) dealloc {
