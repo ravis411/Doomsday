@@ -279,6 +279,19 @@
 }
 
 
+//returns the array of Hoipolloi
+-(NSMutableArray*)getHoipolloiArray{
+    NSMutableArray *arry = [[NSMutableArray alloc]init];
+    
+    for(NSValue* pBody in hoipolloiArray){
+        
+        b2Body *pody = (b2Body*)[pBody pointerValue];
+        
+        [arry addObject:(CCSprite*)pody->GetUserData()];
+    }
+    return arry;
+}
+
 //Spawns a Hoipolloi
 - (void)spawnPerson {
     

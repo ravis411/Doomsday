@@ -32,11 +32,12 @@
 }
 @property BOOL movingLeft;
 @property BOOL movingRight;
+
 //@property Hoipolloi* hoipolloiSprite;
 
 -(void) moveScreenLeft;
 -(void) moveScreenRight;
-- (void)kick;
-
+-(void) kick;
+-(NSMutableArray*) getHoipolloiArray;
 
 @end
