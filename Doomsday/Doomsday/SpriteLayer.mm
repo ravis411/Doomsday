@@ -101,6 +101,7 @@
         
         
         [self spawnPerson];
+        [self spawnPerson2];
         
         
 //        _hoipolloiBody->SetGravityScale(2);
@@ -195,12 +196,14 @@
         //Collision detection for explosion
         for(NSValue* eBody in explosionArray){
             b2Body *eX = (b2Body*)[eBody pointerValue];
+            
             for(NSValue* pBody in hoipolloiArray){
                
                 b2Body *pody = (b2Body*)[pBody pointerValue];
                 if ((contact.fixtureA == eX->GetFixtureList() && contact.fixtureB == pody->GetFixtureList()) || (contact.fixtureA == pody->GetFixtureList() && contact.fixtureB == eX->GetFixtureList())) {
                     NSLog(@"Explosion hit person.");
-                    [deletePeople addObject:pBody];
+//                   pody->SetAngularVelocity(1);
+//                    [deletePeople addObject:pBody];
                 }
             }
             
@@ -222,6 +225,7 @@
     for(NSValue* pBody in deletePeople){
         [hoipolloiArray removeObject:pBody];
         b2Body* polloi = (b2Body*)[pBody pointerValue];
+            NSLog(@"Destroy polli");
         _world->DestroyBody(polloi);
         [self removeChild:(CCSprite*)polloi->GetUserData()];
     }
@@ -274,6 +278,7 @@
     NSLog(@"explode!");
     
     [self createSingleExplosion:CGPointMake(b->GetPosition().x*PTM_RATIO, b->GetPosition().y*PTM_RATIO)];
+        NSLog(@"Destroy b");
     _world->DestroyBody(b);
     [self removeChild:(CCSprite*)b->GetUserData()];
 }
@@ -322,6 +327,52 @@
     [hoipolloiArray addObject:[NSValue valueWithPointer:_hoipolloiBody]];
 }
 
+- (void)spawnPerson2 {
+    
+    Hoipolloi* _humanSprite = [CCSprite spriteWithFile:@"hoipolloi.png"];
+    _humanSprite.position = CGPointMake(size.width/2, size.height/2);
+    [_humanSprite setScale:0.3];
+    [self addChild:_humanSprite];
+    b2Body* _hoipolloiBody;
+    
+    //Creating Hoipolloi Box2D Body
+    b2BodyDef hoipolloiBodyDef;
+    hoipolloiBodyDef.type = b2_dynamicBody;
+    hoipolloiBodyDef.position.Set((size.width/2+10)/PTM_RATIO, (size.height/2)/PTM_RATIO);
+    hoipolloiBodyDef.userData = _humanSprite;
+    hoipolloiBodyDef.fixedRotation = false;
+    _hoipolloiBody = _world->CreateBody(&hoipolloiBodyDef);
+    
+    
+    b2FixtureDef hoipolloiShapeDef;
+    b2PolygonShape polygon;
+//    b2CircleShape circle;
+//    circle.m_radius = 20.0/PTM_RATIO;
+    int num = 4;
+//    b2Vec2 vertices[] = {
+//        b2Vec2(-50.0f / PTM_RATIO, -50.0f / PTM_RATIO),
+//        b2Vec2(-100.0f / PTM_RATIO, -100.0f / PTM_RATIO),
+//        b2Vec2(100.0f / PTM_RATIO, 100.0f / PTM_RATIO),
+//        b2Vec2(50.0f / PTM_RATIO, 50.0f / PTM_RATIO)
+//    };
+    
+    b2Vec2 vertices[4];
+    
+    vertices[0].Set(-10/ PTM_RATIO, -20/ PTM_RATIO);
+    vertices[1].Set(10/ PTM_RATIO,-20/ PTM_RATIO);
+    vertices[2].Set(10/ PTM_RATIO,20/ PTM_RATIO);
+    vertices[3].Set(-10/ PTM_RATIO,20/ PTM_RATIO);
+
+    polygon.Set(vertices, num);
+    hoipolloiShapeDef.shape = &polygon;
+    hoipolloiShapeDef.density = 2.0f;
+    hoipolloiShapeDef.friction = 0.01f;
+    hoipolloiShapeDef.restitution = 0.2f;
+    _hoipolloiBody->CreateFixture(&hoipolloiShapeDef);
+    
+    [hoipolloiArray addObject:[NSValue valueWithPointer:_hoipolloiBody]];
+}
+
 -(void)createSingleExplosion:(CGPoint)point{
     CCSprite* _explosionSprite = [CCSprite spriteWithFile:@"explosion.png"];
     [_explosionSprite setScale:0.2f];
@@ -332,7 +383,7 @@
     circle.m_radius = 35.0/PTM_RATIO;
     b2BodyDef explosionBodyDef;
     explosionBodyDef.type = b2_dynamicBody;
-    explosionBodyDef.position.Set(point.x/PTM_RATIO, (point.y-15)/PTM_RATIO);
+    explosionBodyDef.position.Set(point.x/PTM_RATIO, (point.y-10)/PTM_RATIO);
     explosionBodyDef.userData = _explosionSprite;
     explosionBodyDef.fixedRotation = false;
     b2Body* _explosionBody = _world->CreateBody(&explosionBodyDef);
@@ -347,17 +398,23 @@
     _explosionBody->SetGravityScale(0);
     [explosionArray addObject:[NSValue valueWithPointer:_explosionBody]];
     NSLog(@"BOOM explosion added to array");
-    [self performSelector:@selector(removeSingleExplosion:) withObject:[NSValue valueWithPointer:_explosionBody] afterDelay:0.1];
+    [self performSelector:@selector(removeSingleExplosion:) withObject:[NSValue valueWithPointer:_explosionBody] afterDelay:0.2];
 }
 
 -(void)removeSingleExplosion:(id)b{
     b2Body *xplode = (b2Body*)[b pointerValue];
-    [explosionArray removeObject:[NSValue valueWithPointer:xplode]];
     
-//    body->Dump();
+    NSLog(@"Destroy xplode");
+    for(b2Body *b = _world->GetBodyList();b;b = b->GetNext()){
+        if(b == xplode){
+            [explosionArray removeObject:[NSValue valueWithPointer:xplode]];
+            _world->DestroyBody(xplode);
+            [self removeChild:(CCSprite*)xplode->GetUserData()];
+            NSLog(@"not exploded");
+            break;
+        }
+    }
     
-    _world->DestroyBody(xplode);
-    [self removeChild:(CCSprite*)xplode->GetUserData()];
 }
 
 
