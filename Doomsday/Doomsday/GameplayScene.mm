@@ -20,6 +20,7 @@
         uiLayer = [UILayer node];
         bgLayer = [BackgroundLayer node];
         background = [CCParallaxNode node];
+        _ship = [Ship sharedModel];
         
         
         
@@ -31,9 +32,10 @@
     CGPoint spriteLayerSpeed = ccp(0.1, 0.1);
     
     [background addChild:bgLayer z:-1 parallaxRatio:backgroundLayerSpeed positionOffset:ccp(0,0)];
-    //[background addChild:spriteLayer z:0 parallaxRatio:spriteLayerSpeed positionOffset:ccp(0,0)];
+    [background addChild:spriteLayer z:0 parallaxRatio:spriteLayerSpeed positionOffset:ccp(0,0)];
     
-    [self addChild:spriteLayer z:1];
+    [self addChild:_ship z:1];
+    //[self addChild:spriteLayer z:1];
     [self addChild:uiLayer z:4];
     //[self addChild:bgLayer z:0];
     [self addChild:background z:-1];
