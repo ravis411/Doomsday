@@ -31,11 +31,12 @@
         _movingLeft = NO;
         _movingRight = NO;
         //Initializing Sprites + Position
-        _shipSprite = [CCSprite spriteWithFile:@"ship.png"];
+//        _shipSprite = [CCSprite spriteWithFile:@"ship.png"];
+        _shipSprite = [Ship sharedModel];
         [_shipSprite setScale:0.3];
         
 //        [_bombSprite setScale:0.2];
-        [self addChild:_shipSprite];
+//        [self addChild:_shipSprite];
         
         //Creating Box2D World
         b2Vec2 gravity = b2Vec2(0.0f, -80.0f);
