@@ -151,6 +151,12 @@
         }
     }
     
+    for(CCSprite *hp in [self children]){
+        if([hp isKindOfClass:[Hoipolloi class]]){
+            [((Hoipolloi *)hp) update:dt pos:_shipSprite.position];
+            NSLog(@"UPDATE PERSON");
+        }
+    }
     
     [self collisionDetection];
 }
