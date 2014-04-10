@@ -87,7 +87,7 @@
         _shipBody = _world->CreateBody(&shipBodyDef);
         
         b2CircleShape circle;
-        circle.m_radius = 26.0/PTM_RATIO;
+        circle.m_radius = 32.0/PTM_RATIO;
         
         
         b2FixtureDef shipShapeDef;
@@ -202,7 +202,7 @@
                 b2Body *pody = (b2Body*)[pBody pointerValue];
                 if ((contact.fixtureA == eX->GetFixtureList() && contact.fixtureB == pody->GetFixtureList()) || (contact.fixtureA == pody->GetFixtureList() && contact.fixtureB == eX->GetFixtureList())) {
                     NSLog(@"Explosion hit person.");
-//                   pody->SetAngularVelocity(1);
+                   pody->SetAngularVelocity(20);
 //                    [deletePeople addObject:pBody];
                 }
             }
@@ -385,7 +385,7 @@
     _explosionBody->SetGravityScale(0);
     [explosionArray addObject:[NSValue valueWithPointer:_explosionBody]];
     NSLog(@"BOOM explosion added to array");
-    [self performSelector:@selector(removeSingleExplosion:) withObject:[NSValue valueWithPointer:_explosionBody] afterDelay:0.2];
+    [self performSelector:@selector(removeSingleExplosion:) withObject:[NSValue valueWithPointer:_explosionBody] afterDelay:0.1];
 }
 
 -(void)removeSingleExplosion:(id)b{
