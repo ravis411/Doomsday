@@ -23,6 +23,7 @@
     BOOL _movingLeft;
     BOOL _movingRight;
     NSMutableArray *bombArray;
+    NSMutableArray *explosionArray;
     NSMutableArray *hoipolloiArray;
     MyContactListener *_contactListener;
     BOOL shipCooldownMode;

@@ -21,6 +21,7 @@
         [self setTouchEnabled:YES];
         bombArray = [[NSMutableArray alloc]init];
         hoipolloiArray = [[NSMutableArray alloc]init];
+        explosionArray = [[NSMutableArray alloc]init];
         shipCooldownMode = NO;
 
 //        CCLayerColor* color = [CCLayerColor layerWithColor:ccc4(255,0,255,255)];
@@ -68,12 +69,12 @@
         groundBody->CreateFixture(&boxShapeDef);
 
         
-        groundEdge.Set(b2Vec2(0,0), b2Vec2(0,size.height/PTM_RATIO));
-        groundBody->CreateFixture(&boxShapeDef);
-
-
-        groundEdge.Set(b2Vec2(size.width/PTM_RATIO, size.height/PTM_RATIO),b2Vec2(size.width/PTM_RATIO, 0));
-        groundBody->CreateFixture(&boxShapeDef);
+//        groundEdge.Set(b2Vec2(0,0), b2Vec2(0,size.height/PTM_RATIO));
+//        groundBody->CreateFixture(&boxShapeDef);
+//
+//
+//        groundEdge.Set(b2Vec2(size.width/PTM_RATIO, size.height/PTM_RATIO),b2Vec2(size.width/PTM_RATIO, 0));
+//        groundBody->CreateFixture(&boxShapeDef);
         
         
         
@@ -104,7 +105,7 @@
         
 //        _hoipolloiBody->SetGravityScale(2);
         
-        [self schedule:@selector(tick:)];
+//        [self schedule:@selector(tick:)];
         //[self schedule:@selector(kick) interval:10.0];
         
         
@@ -140,6 +141,16 @@
         shipCooldownMode = YES;
     
     
+    _world->Step(dt, 10, 10);
+    for(b2Body *b = _world->GetBodyList(); b; b=b->GetNext()) {
+        if (b->GetUserData() != NULL) {
+            CCSprite *bodyData = (CCSprite *)b->GetUserData();
+            bodyData.position = ccp(b->GetPosition().x * 32, b->GetPosition().y * 32);
+            bodyData.rotation = -1 * CC_RADIANS_TO_DEGREES(b->GetAngle());
+        }
+    }
+    
+    
     [self collisionDetection];
 }
 
@@ -162,11 +173,13 @@
 }
 
 -(void)collisionDetection{
-    BOOL destroyHoipolloi = NO;
-    
+    /*The bomb coming in contact with anything will create an explosion
+     The explosion itself will damage anyting it is touching. Rather than the bomb itself damaging the contact fixtures.
+    */
     NSMutableArray* deleteBombs = [[NSMutableArray alloc]init];
     NSMutableArray* deletePeople = [[NSMutableArray alloc]init];
     
+    //Collision with the bomb and the ground
     for(NSValue* bBody in bombArray){
         b2Body *body = (b2Body*)[bBody pointerValue];
         if((body->GetPosition().y*PTM_RATIO <(groundLevel+33))){
@@ -176,32 +189,41 @@
     
      
     std::vector<MyContact>::iterator position;
-    
     for(position = _contactListener->_contacts.begin(); position != _contactListener->_contacts.end(); ++position) {
+        
         MyContact contact = *position;
-        for(NSValue* bBody in bombArray){
-            b2Body *body = (b2Body*)[bBody pointerValue];
-            
+        //Collision detection for explosion
+        for(NSValue* eBody in explosionArray){
+            b2Body *eX = (b2Body*)[eBody pointerValue];
             for(NSValue* pBody in hoipolloiArray){
+               
                 b2Body *pody = (b2Body*)[pBody pointerValue];
-                if ((contact.fixtureA == body->GetFixtureList() && contact.fixtureB == pody->GetFixtureList()) || (contact.fixtureA == pody->GetFixtureList() && contact.fixtureB == body->GetFixtureList())) {
-                    NSLog(@"Bomb hit holli!");
-                    [deleteBombs addObject:bBody];
+                if ((contact.fixtureA == eX->GetFixtureList() && contact.fixtureB == pody->GetFixtureList()) || (contact.fixtureA == pody->GetFixtureList() && contact.fixtureB == eX->GetFixtureList())) {
+                    NSLog(@"Explosion hit person.");
                     [deletePeople addObject:pBody];
                 }
-
+            }
+            
+            //                [deleteBombs addObject:bBody];
+        }
+        //Collision detection for bomb
+        for(NSValue* bBody in bombArray){
+            b2Body *body = (b2Body*)[bBody pointerValue];
+            if ((contact.fixtureA == body->GetFixtureList() || contact.fixtureB == body->GetFixtureList()) && (contact.fixtureA != _shipBody->GetFixtureList() && contact.fixtureB != _shipBody->GetFixtureList())){
+                NSLog(@"Heyo, bomb touched something.");
+                [deleteBombs addObject:bBody];
             }
         }
+        
+        
     }
-    
+
 
     for(NSValue* pBody in deletePeople){
         [hoipolloiArray removeObject:pBody];
-        b2Body* nuke = (b2Body*)[pBody pointerValue];
-        
-        _world->DestroyBody(nuke);
-        nuke->Dump();
-        [self removeChild:(CCSprite*)nuke->GetUserData()];
+        b2Body* polloi = (b2Body*)[pBody pointerValue];
+        [self removeChild:(CCSprite*)polloi->GetUserData()];
+        _world->DestroyBody(polloi);
     }
     
     for(NSValue* bBody in deleteBombs){
@@ -212,7 +234,7 @@
     
     
     [deleteBombs dealloc];
-
+    [deletePeople dealloc];
 }
 
 
@@ -233,10 +255,8 @@
         _movingRight = YES;
     }
     else{
-//        [self kick];
         if(!shipCooldownMode)
             [self singleBombFire];
-        //[self lazer];
     }
 }
 
@@ -250,36 +270,12 @@
     }
 }
 
-
-//- (void)kick {
-
-//- (void)ccTouchesBegan:(UITouch *)touch withEvent:(UIEvent *)event {
-////    b2Vec2 force = b2Vec2(-50, 80);
-////    _hoipolloiBody->ApplyLinearImpulse(force, _shipBody->GetPosition());
-//    if(!shipCooldownMode)
-//        [self singleBombFire];
-////    [self lazer];
-//    
-//    //If theres a detection with te bob and the ground
-//    
-//}
-
-
 -(void)explodeAndRemoveBomb:(b2Body*)b{
     NSLog(@"explode!");
-    CCSprite* explosion = [CCSprite spriteWithFile:@"explosion.png"];
-    [explosion setScale:0.25f];
-    [explosion setPosition:CGPointMake(b->GetPosition().x*PTM_RATIO, b->GetPosition().y*PTM_RATIO - 15)];
-    [self addChild:explosion];
-    [self performSelector:@selector(cleanUpExplosion:) withObject:explosion afterDelay:0.1];
-    _world->DestroyBody(b);
     [self removeChild:(CCSprite*)b->GetUserData()];
+    [self createSingleExplosion:CGPointMake(b->GetPosition().x*PTM_RATIO, b->GetPosition().y*PTM_RATIO)];
+    _world->DestroyBody(b);
 }
-
--(void)cleanUpExplosion:(CCSprite*)explosion{
-    [self removeChild:explosion];
-}
-
 
 
 //Spawns a Hoipolloi
@@ -312,6 +308,42 @@
     [hoipolloiArray addObject:[NSValue valueWithPointer:_hoipolloiBody]];
 }
 
+-(void)createSingleExplosion:(CGPoint)point{
+    CCSprite* _explosionSprite = [CCSprite spriteWithFile:@"explosion.png"];
+    [_explosionSprite setScale:0.2f];
+    [_explosionSprite setPosition:point];
+    [self addChild:_explosionSprite];
+    
+    b2CircleShape circle;
+    circle.m_radius = 26.0/PTM_RATIO;
+    b2BodyDef explosionBodyDef;
+    explosionBodyDef.type = b2_dynamicBody;
+    explosionBodyDef.position.Set(point.x/PTM_RATIO, (point.y-22)/PTM_RATIO);
+    explosionBodyDef.userData = _explosionSprite;
+    explosionBodyDef.fixedRotation = false;
+    b2Body* _explosionBody = _world->CreateBody(&explosionBodyDef);
+    
+    
+    b2FixtureDef explosionShapeDef;
+    explosionShapeDef.shape = &circle;
+    explosionShapeDef.density = 2.5f;
+    explosionShapeDef.friction = 0.8f;
+    explosionShapeDef.restitution = 0.2f;
+    _explosionBody->CreateFixture(&explosionShapeDef);
+    [explosionArray addObject:[NSValue valueWithPointer:_explosionBody]];
+    NSLog(@"BOOM explosion added to array");
+    [self performSelector:@selector(removeSingleExplosion:) withObject:[NSValue valueWithPointer:_explosionBody] afterDelay:0.1];
+}
+
+-(void)removeSingleExplosion:(id)b{
+    b2Body *xplode = (b2Body*)[b pointerValue];
+    [explosionArray removeObject:[NSValue valueWithPointer:xplode]];
+    
+//    body->Dump();
+    [self removeChild:(CCSprite*)xplode->GetUserData()];
+    _world->DestroyBody(xplode);
+}
+
 
 
 - (void)singleBombFire {
@@ -342,7 +374,7 @@
     [bombArray addObject:[NSValue valueWithPointer:_bombBody]];
     shipCooldownMode = YES;
     
-    [self performSelector:@selector(bombReadyToFire) withObject:self afterDelay:0.4];
+    [self performSelector:@selector(bombReadyToFire) withObject:self afterDelay:0.5];
     
 }
 
@@ -377,6 +409,7 @@
     delete _contactListener;
     [bombArray dealloc];
     [hoipolloiArray dealloc];
+    [explosionArray dealloc];
     delete _world;
     _shipBody = NULL;
     _world = NULL;
