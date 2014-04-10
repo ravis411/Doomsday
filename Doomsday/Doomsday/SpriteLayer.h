@@ -16,6 +16,7 @@
 @interface SpriteLayer : CCLayer{
     b2World* _world;
     b2Body* _shipBody;
+    b2Body* _groundBody;
     //b2Body* _hoipolloiBody;
     Ship* _shipSprite;
     //Hoipolloi* _hoipolloiSprite;

@@ -58,7 +58,7 @@
         //groundBodyDef.position.Set(0,5.00000018);
         groundBodyDef.position.Set(0,0);
         
-        b2Body *groundBody = _world->CreateBody(&groundBodyDef);
+        _groundBody = _world->CreateBody(&groundBodyDef);
         b2EdgeShape groundEdge;
         b2FixtureDef boxShapeDef;
         boxShapeDef.shape = &groundEdge;
@@ -66,7 +66,7 @@
         //wall definitions
         //Creating the ground
         groundEdge.Set(b2Vec2(0,groundLevel/PTM_RATIO), b2Vec2(size.width/PTM_RATIO, groundLevel/PTM_RATIO));
-        groundBody->CreateFixture(&boxShapeDef);
+        _groundBody->CreateFixture(&boxShapeDef);
 
         
 //        groundEdge.Set(b2Vec2(0,0), b2Vec2(0,size.height/PTM_RATIO));
@@ -182,7 +182,7 @@
     //Collision with the bomb and the ground
     for(NSValue* bBody in bombArray){
         b2Body *body = (b2Body*)[bBody pointerValue];
-        if((body->GetPosition().y*PTM_RATIO <(groundLevel+33))){
+        if((body->GetPosition().y*PTM_RATIO <(groundLevel+35))){
             [deleteBombs addObject:bBody];
         }
     }
@@ -209,7 +209,7 @@
         //Collision detection for bomb
         for(NSValue* bBody in bombArray){
             b2Body *body = (b2Body*)[bBody pointerValue];
-            if ((contact.fixtureA == body->GetFixtureList() || contact.fixtureB == body->GetFixtureList()) && (contact.fixtureA != _shipBody->GetFixtureList() && contact.fixtureB != _shipBody->GetFixtureList())){
+            if ((contact.fixtureA == body->GetFixtureList() || contact.fixtureB == body->GetFixtureList()) && (contact.fixtureA != _shipBody->GetFixtureList() && contact.fixtureB != _shipBody->GetFixtureList()) && (contact.fixtureA != _groundBody->GetFixtureList() && contact.fixtureB != _groundBody->GetFixtureList())){
                 NSLog(@"Heyo, bomb touched something.");
                 [deleteBombs addObject:bBody];
             }
@@ -222,8 +222,8 @@
     for(NSValue* pBody in deletePeople){
         [hoipolloiArray removeObject:pBody];
         b2Body* polloi = (b2Body*)[pBody pointerValue];
-        [self removeChild:(CCSprite*)polloi->GetUserData()];
         _world->DestroyBody(polloi);
+        [self removeChild:(CCSprite*)polloi->GetUserData()];
     }
     
     for(NSValue* bBody in deleteBombs){
@@ -272,9 +272,10 @@
 
 -(void)explodeAndRemoveBomb:(b2Body*)b{
     NSLog(@"explode!");
-    [self removeChild:(CCSprite*)b->GetUserData()];
+    
     [self createSingleExplosion:CGPointMake(b->GetPosition().x*PTM_RATIO, b->GetPosition().y*PTM_RATIO)];
     _world->DestroyBody(b);
+    [self removeChild:(CCSprite*)b->GetUserData()];
 }
 
 
@@ -298,7 +299,7 @@
     
     b2FixtureDef hoipolloiShapeDef;
     b2CircleShape circle;
-    circle.m_radius = 26.0/PTM_RATIO;
+    circle.m_radius = 20.0/PTM_RATIO;
     hoipolloiShapeDef.shape = &circle;
     hoipolloiShapeDef.density = 2.0f;
     hoipolloiShapeDef.friction = 0.2f;
@@ -315,10 +316,10 @@
     [self addChild:_explosionSprite];
     
     b2CircleShape circle;
-    circle.m_radius = 26.0/PTM_RATIO;
+    circle.m_radius = 35.0/PTM_RATIO;
     b2BodyDef explosionBodyDef;
     explosionBodyDef.type = b2_dynamicBody;
-    explosionBodyDef.position.Set(point.x/PTM_RATIO, (point.y-22)/PTM_RATIO);
+    explosionBodyDef.position.Set(point.x/PTM_RATIO, (point.y-15)/PTM_RATIO);
     explosionBodyDef.userData = _explosionSprite;
     explosionBodyDef.fixedRotation = false;
     b2Body* _explosionBody = _world->CreateBody(&explosionBodyDef);
@@ -330,6 +331,7 @@
     explosionShapeDef.friction = 0.8f;
     explosionShapeDef.restitution = 0.2f;
     _explosionBody->CreateFixture(&explosionShapeDef);
+    _explosionBody->SetGravityScale(0);
     [explosionArray addObject:[NSValue valueWithPointer:_explosionBody]];
     NSLog(@"BOOM explosion added to array");
     [self performSelector:@selector(removeSingleExplosion:) withObject:[NSValue valueWithPointer:_explosionBody] afterDelay:0.1];
@@ -340,8 +342,9 @@
     [explosionArray removeObject:[NSValue valueWithPointer:xplode]];
     
 //    body->Dump();
-    [self removeChild:(CCSprite*)xplode->GetUserData()];
+    
     _world->DestroyBody(xplode);
+    [self removeChild:(CCSprite*)xplode->GetUserData()];
 }
 
 
@@ -356,7 +359,7 @@
     [self addChild:_bombSprite];
     
     b2CircleShape circle;
-    circle.m_radius = 26.0/PTM_RATIO;
+    circle.m_radius = 15.0/PTM_RATIO;
     b2BodyDef bombBodyDef;
     bombBodyDef.type = b2_dynamicBody;
     bombBodyDef.position.Set(_shipSprite.position.x/PTM_RATIO, (_shipSprite.position.y-20)/PTM_RATIO);
