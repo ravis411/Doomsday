@@ -12,5 +12,6 @@
 @interface Ship : CCSprite {
     
 }
++(instancetype) sharedModel;
 
 @end
