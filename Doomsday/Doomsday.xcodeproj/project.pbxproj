@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3D15CB1018F7665900A5510B /* cosmos.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D15CB0F18F7665900A5510B /* cosmos.png */; };
 		3D268F2218F3695800E35F33 /* button_carrot_lit.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D268F1E18F3695800E35F33 /* button_carrot_lit.png */; };
 		3D268F2318F3695800E35F33 /* button_carrot_unlit.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D268F1F18F3695800E35F33 /* button_carrot_unlit.png */; };
 		3D268F2418F3695800E35F33 /* button_round_lit.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D268F2018F3695800E35F33 /* button_round_lit.png */; };
@@ -218,6 +219,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3D15CB0F18F7665900A5510B /* cosmos.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = cosmos.png; path = Resources/GUI/cosmos.png; sourceTree = "<group>"; };
 		3D268F1E18F3695800E35F33 /* button_carrot_lit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = button_carrot_lit.png; path = Resources/button_carrot_lit.png; sourceTree = "<group>"; };
 		3D268F1F18F3695800E35F33 /* button_carrot_unlit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = button_carrot_unlit.png; path = Resources/button_carrot_unlit.png; sourceTree = "<group>"; };
 		3D268F2018F3695800E35F33 /* button_round_lit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = button_round_lit.png; path = Resources/button_round_lit.png; sourceTree = "<group>"; };
@@ -725,6 +727,7 @@
 		497A4FD718E11B8500B19D54 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				3D15CB0F18F7665900A5510B /* cosmos.png */,
 				3D268F2E18F39EE300E35F33 /* gui_atlas.plist */,
 				3D268F2C18F39ED800E35F33 /* gui_atlas.png */,
 				3D268F2A18F3704500E35F33 /* killcounter.png */,
@@ -1364,6 +1367,7 @@
 				3D268F2B18F3704500E35F33 /* killcounter.png in Resources */,
 				3D268F2D18F39ED800E35F33 /* gui_atlas.png in Resources */,
 				3D268F2F18F39EE300E35F33 /* gui_atlas.plist in Resources */,
+				3D15CB1018F7665900A5510B /* cosmos.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

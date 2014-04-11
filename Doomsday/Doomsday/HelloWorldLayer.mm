@@ -60,29 +60,8 @@ enum {
 		// init physics
 		[self initPhysics];
 		
-		// create reset button
-		[self createMenu];
-		
-		//Set up sprite
-		
-#if 1
-		// Use batch node. Faster
-		CCSpriteBatchNode *parent = [CCSpriteBatchNode batchNodeWithFile:@"blocks.png" capacity:100];
-		spriteTexture_ = [parent texture];
-#else
-		// doesn't use batch node. Slower
-		spriteTexture_ = [[CCTextureCache sharedTextureCache] addImage:@"blocks.png"];
-		CCNode *parent = [CCNode node];
-#endif
-		[self addChild:parent z:0 tag:kTagParentNode];
-		
-		
-		[self addNewSpriteAtPosition:ccp(s.width/2, s.height/2)];
-		
-		CCLabelTTF *label = [CCLabelTTF labelWithString:@"Doomsday" fontName:@"Marker Felt" fontSize:32];
-		[self addChild:label z:0];
-		[label setColor:ccc3(0,0,255)];
-		label.position = ccp( s.width/2, s.height-50);
+        //init UI layer
+        uiLayer = [uiLayer node];
         
         //batching the GUI elements
         uiAtlasNode = [CCSpriteBatchNode batchNodeWithFile:@"gui_atlas.png"];
@@ -110,6 +89,26 @@ enum {
             [uiFrames addObject:frame];
         }
 
+        
+		// create reset button
+		[self createMenu];
+		
+		//Set up sprite
+		
+#if 1
+		// Use batch node. Faster
+		CCSpriteBatchNode *parent = [CCSpriteBatchNode batchNodeWithFile:@"blocks.png" capacity:100];
+		spriteTexture_ = [parent texture];
+#else
+		// doesn't use batch node. Slower
+		spriteTexture_ = [[CCTextureCache sharedTextureCache] addImage:@"blocks.png"];
+		CCNode *parent = [CCNode node];
+#endif
+		[self addChild:parent z:0 tag:kTagParentNode];
+		
+		
+//		[self addNewSpriteAtPosition:ccp(s.width/2, s.height/2)];
+        
 		
 		[self scheduleUpdate];
 	}
@@ -132,10 +131,10 @@ enum {
 	// Default font size will be 22 points.
 	[CCMenuItemFont setFontSize:22];
 	
-	// Reset Button
-	CCMenuItemLabel *reset = [CCMenuItemFont itemWithString:@"Reset" block:^(id sender){
-		[[CCDirector sharedDirector] replaceScene: [HelloWorldLayer scene]];
-	}];
+//	// Reset Button
+//	CCMenuItemLabel *reset = [CCMenuItemFont itemWithString:@"Reset" block:^(id sender){
+//		[[CCDirector sharedDirector] replaceScene: [HelloWorldLayer scene]];
+//	}];
 
 	// to avoid a retain-cycle with the menuitem and blocks
 	__block id copy_self = self;
@@ -155,34 +154,47 @@ enum {
 //	}];
 	
 	// Leaderboard Menu Item using blocks
-	CCMenuItem *itemLeaderboard = [CCMenuItemFont itemWithString:@"Leaderboard" block:^(id sender) {
-		
-		
-		GKLeaderboardViewController *leaderboardViewController = [[GKLeaderboardViewController alloc] init];
-		leaderboardViewController.leaderboardDelegate = copy_self;
-		
-		AppController *app = (AppController*) [[UIApplication sharedApplication] delegate];
-		
-		[[app navController] presentModalViewController:leaderboardViewController animated:YES];
-		
-		[leaderboardViewController release];
-	}];
+//	CCMenuItem *itemLeaderboard = [CCMenuItemFont itemWithString:@"Leaderboard" block:^(id sender) {
+//		
+//		
+//		GKLeaderboardViewController *leaderboardViewController = [[GKLeaderboardViewController alloc] init];
+//		leaderboardViewController.leaderboardDelegate = copy_self;
+//		
+//		AppController *app = (AppController*) [[UIApplication sharedApplication] delegate];
+//		
+//		[[app navController] presentModalViewController:leaderboardViewController animated:YES];
+//		
+//		[leaderboardViewController release];
+//	}];
+    
+    
     
     CCMenuItem *itemNewGame = [CCMenuItemFont itemWithString:@"New Game" block:^(id sender) {
         [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.0 scene:[GameplayScene node]]];
     }];
 	
-	CCMenu *menu = [CCMenu menuWithItems: reset, itemNewGame, nil];
-	
     
-    
-    
+	CCMenu *menu = [CCMenu menuWithItems: itemNewGame, nil];
+	    
 	[menu alignItemsVertically];
 	
 	CGSize size = [[CCDirector sharedDirector] winSize];
 	[menu setPosition:ccp( size.width/2, size.height/2)];
 	
-	
+    //background elements
+    
+    CCSprite* cosmos = [CCSprite spriteWithFile:@"cosmos.png"];
+    cosmos.position = ccp(size.width/2,size.height/2);
+    
+    CCSprite* titleFace = [CCSprite spriteWithSpriteFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"titletypeface.png"]];
+    titleFace.position = ccp( size.width/2, size.height-50);
+    
+    CCSprite* dashboard = [CCSprite spriteWithSpriteFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"dash_mainmenu.png"]];
+	[dashboard setPosition:ccp(size.width/2, 150)];
+    
+    [self addChild: cosmos z:-4];
+    [self addChild: dashboard z:-3];
+    [self addChild:titleFace z:-3];
 	[self addChild: menu z:-1];	
 }
 
@@ -321,7 +333,7 @@ enum {
 		
 		location = [[CCDirector sharedDirector] convertToGL: location];
 		
-		[self addNewSpriteAtPosition: location];
+//		[self addNewSpriteAtPosition: location];
 	}
 }
 

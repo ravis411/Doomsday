@@ -33,13 +33,14 @@
 @property int quota;
 
 -(void) showGameOverLabel;
+-(void) mainMenuMode;
 -(void) mainGameplayMode;
 -(void) laserButtonTapped;
 -(void) gadgetButtonLTapped;
 -(void) gadgetButtonRTapped;
 -(void) updateKillCounter;
 -(void) addUIElement:(CCSprite*)element withFrame:(NSString*)elemFile x:(int)mX y:(int)mY;
-
+-(void) setMenuItem:(CCMenuItem*)element buttonID:(int)bID x:(int)mX y:(int)mY;
 
 -(void) update:(ccTime)dt level:(int) currentLevel lives:(int)currentLives killed:(int)currentKilled score:(double)s;
 @end

@@ -20,41 +20,18 @@
         [self setTouchEnabled:YES];
         [self mainGameplayMode];
 
-//        //batching the GUI elements
-//        uiAtlasNode = [CCSpriteBatchNode batchNodeWithFile:@"gui_atlas.png"];
-//        [self addChild:uiAtlasNode];
-//        [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"gui_atlas.plist"];
-//
-//        int numberUIFrames = 0;
-//        NSMutableArray *uiFrames = [NSMutableArray array];
-//        NSMutableArray *uiFilenames = [NSMutableArray array];
-//        for (int ii = 1; ii <= 5; ii++) {
-//            for (int jj = 0; jj <= 1; jj++) {
-//                NSString *file = [NSString stringWithFormat:@"button%d_%d.png", ii, 0];
-////                CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:file];
-//                [uiFilenames addObject:file];
-//                numberUIFrames++;
-//            }
-//        }
-//        [uiFilenames addObject:@"dash_mainmenu.png"];
-//        [uiFilenames addObject:@"dashboard.png"];
-//        [uiFilenames addObject:@"killcounter.png"];
-//        [uiFilenames addObject:@"titletypeface.png"];
-//        numberUIFrames += 4;
-//
-//        for (int i = 0; i < numberUIFrames; i++) {
-//            CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:uiFilenames[i]];
-//            [uiFrames addObject:frame];
-//        }
-
         _killCount = 0;
         _quota = 10000;
 
         [self updateKillCounter];
-
+        [self scheduleUpdate];
 
         }
     return self;
+}
+
+-(void) mainMenuMode {
+
 }
 
 -(void) mainGameplayMode
@@ -75,37 +52,27 @@
     size.height-(_label.contentSize.height/2));
     [self addChild:_label];
 
-//
-   
-//newUIButton not functioning yet
-//CCMenuItem *laserButton = [self newUIButton:@selector(laserButtonTapped:) withShapeID:3 x:(size.width/2) y:30];
 
-//    CCMenuItem *laserButton =[CCMenuItemImage node];
-//    [laserButton setNormalSpriteFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"button3_0.png"]];
-//    [laserButton setSelectedSpriteFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"button3_1.png"]];
-//    laserButton.position = ccp(size.width/2, 30);
+    NSString* placeHolderSprite = @"button_round_unlit.png";
 
     CCMenuItem *laserButton = [CCMenuItemImage
-    itemFromNormalImage:@"button_round_unlit.png" selectedImage:@"button_round_lit.png"
+    itemFromNormalImage:placeHolderSprite selectedImage:placeHolderSprite
     target:self selector:@selector(laserButtonTapped:)];
-    laserButton.position = ccp(size.width/2, 30);
+    [self setMenuItem:laserButton buttonID:3 x:size.width/2 y:30];
 
     CCMenuItem *gadgetButtonR = [CCMenuItemImage
-    itemFromNormalImage:@"button_carrot_unlit.png" selectedImage:@"button_carrot_lit.png"
+    itemFromNormalImage:placeHolderSprite selectedImage:placeHolderSprite
     target:self selector:@selector(gadgetButtonRTapped:)];
-    gadgetButtonR.position = ccp(size.width/2 + 50, 30);
+    [self setMenuItem:gadgetButtonR buttonID:5 x:(size.width/2 + 50) y:30];
 
     CCMenuItem *gadgetButtonL = [CCMenuItemImage
-    itemFromNormalImage:@"button_carrotl_unlit.png" selectedImage:@"button_carrotl_lit.png"
+    itemFromNormalImage:placeHolderSprite selectedImage:placeHolderSprite
     target:self selector:@selector(gadgetButtonLTapped:)];
-    gadgetButtonL.position = ccp(size.width/2 - 50, 30);
-
+    [self setMenuItem:gadgetButtonL buttonID:4 x:(size.width/2 - 50) y:30];
 
     CCMenu *gadgetButtons = [CCMenu menuWithItems: laserButton, gadgetButtonL, gadgetButtonR, nil];
     gadgetButtons.position = CGPointZero;
     [self addChild:gadgetButtons];
-
-
 
 
 }
@@ -135,14 +102,15 @@
     [self addChild:element];
 }
 
--(CCMenuItem*) newUIButton:(SEL)newSelector withShapeID:(int)shapeID x:(int)mX y:(int)mY {
-    CCMenuItem *newButton = [CCMenuItemImage itemFromNormalImage:@"button_round_unlit.png" selectedImage:@"button_round_lit.png" target:self selector:newSelector];
-    NSString *normalFrameName = [NSString stringWithFormat:@"button%d_0", shapeID];
-    [newButton setNormalSpriteFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"button%d_0.png", shapeID]]];
-    [newButton setSelectedSpriteFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"button%d_1.png", shapeID]]];
-    newButton.position = ccp(mX, mY);
-  
+-(void) setMenuItem:(CCMenuItem*)element buttonID:(int)bID x:(int)mX y:(int)mY {
+    NSString* nFrame = [NSString stringWithFormat:@"button%d_0.png", bID];
+     NSString* sFrame = [NSString stringWithFormat:@"button%d_1.png", bID];
+    [element setNormalSpriteFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:nFrame]];
+    [element setSelectedSpriteFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:sFrame]];
+    element.position = ccp(mX, mY);
 }
+
+
 
 -(void) dealloc {
 [super dealloc];
@@ -150,6 +118,9 @@
     _label = nil;
 }
 
-
+-(void) update:(ccTime)dt level:(int) currentLevel lives:(int)currentLives killed:(int)currentKilled score:(double)s {
+    _killCount = currentKilled;
+    [self updateKillCounter];
+}
 
 @end
