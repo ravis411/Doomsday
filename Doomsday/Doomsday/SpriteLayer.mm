@@ -152,10 +152,10 @@
         }
     }
     
-    for(CCSprite *hp in [self children]){
+    //Update children
+    for(CCSprite *hp in self.children){
         if([hp isKindOfClass:[Hoipolloi class]]){
             [((Hoipolloi *)hp) update:dt pos:_shipSprite.position];
-            NSLog(@"UPDATE PERSON");
         }
     }
     
@@ -307,7 +307,7 @@
 //Spawns a Hoipolloi
 - (void)spawnPerson {
     
-    Hoipolloi* _humanSprite = [CCSprite spriteWithFile:@"hoipolloi.png"];
+    Hoipolloi* _humanSprite = [Hoipolloi node];
     _humanSprite.position = CGPointMake(size.width/2, size.height/2);
     [_humanSprite setScale:0.3];
     [self addChild:_humanSprite];

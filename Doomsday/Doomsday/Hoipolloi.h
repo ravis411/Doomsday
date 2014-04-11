@@ -16,5 +16,6 @@
 @property int movementSpeed;
 
 -(void)update:(ccTime)dt pos:(CGPoint)shipPosition;
+-(id)init;
 
 @end

@@ -14,15 +14,25 @@
 
 @synthesize movementSpeed = _movementSpeed;
 
+- (id)init
+{
+    self = [super initWithFile:@"hoipolloi.png"];
+    if (self) {
+        _movementSpeed = 500;
+    }
+    return self;
+}
 
 -(void)update:(ccTime)dt pos:(CGPoint)shipPosition{
-
     //If ship is greater than current position...nove left
+    int x = self.position.x;
     if(shipPosition.x >= self.position.x){
-        self.position = ccpAdd(ccp(-_movementSpeed, 0), self.position);
+        NSLog(@"Hoi moveing left");
+       // self.position = ccpAdd(ccp(-_movementSpeed, 0), self.position);
     }
     else{
-        self.position = ccpAdd(ccp(_movementSpeed, 0), self.position);
+        NSLog(@"Hoi moveing right");
+        //self.position = ccpAdd(ccp(_movementSpeed, 0), self.position);
     }
 }
 
