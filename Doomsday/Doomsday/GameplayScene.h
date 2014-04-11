@@ -21,7 +21,7 @@
     UILayer *uiLayer;
     BackgroundLayer *bgLayer;
     CCParallaxNode *background;
-    Ship *_ship;
+//    Ship *_ship;
 //    int m_Level;
 //    int m_Lives;
 //    int m_WeaponLevel;

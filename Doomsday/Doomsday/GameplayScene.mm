@@ -20,7 +20,7 @@
         uiLayer = [UILayer node];
         bgLayer = [BackgroundLayer node];
         background = [CCParallaxNode node];
-        _ship = [Ship sharedModel];
+//        _ship = [Ship sharedModel];
         
         
         
@@ -34,7 +34,7 @@
     [background addChild:bgLayer z:-1 parallaxRatio:backgroundLayerSpeed positionOffset:ccp(0,0)];
     [background addChild:spriteLayer z:0 parallaxRatio:spriteLayerSpeed positionOffset:ccp(0,0)];
     
-    [self addChild:_ship z:1];
+//    [self addChild:_ship z:1];
     //[self addChild:spriteLayer z:1];
     [self addChild:uiLayer z:4];
     //[self addChild:bgLayer z:0];
@@ -51,19 +51,20 @@
 
 -(void)update:(ccTime)dt{
     [spriteLayer update:dt];
-
+    
     
     if (([spriteLayer movingRight] == YES) && background.position.x >= -14795) {
-        NSLog(@"\n\n\n%f\n\n\n",background.position.x);
+//        NSLog(@"\n\n\n%f\n\n\n",background.position.x);
         CGPoint backgroundScrollVel = ccp(-3000, 0);
         background.position = ccpAdd(background.position, ccpMult(backgroundScrollVel, dt));
     }
 
     if (([spriteLayer movingLeft] == YES) && background.position.x <= 14795) {
-        NSLog(@"\n\n\n%f\n\n\n",background.position.x);
+//        NSLog(@"\n\n\n%f\n\n\n",background.position.x);
         CGPoint backgroundScrollVel = ccp(-3000, 0);
         background.position = ccpSub(background.position, ccpMult(backgroundScrollVel, dt));
     }
+    [spriteLayer updateShipPosition:background.position.x y:background.position.y];
 }
 
 

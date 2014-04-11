@@ -32,11 +32,11 @@
         _movingRight = NO;
         //Initializing Sprites + Position
 //        _shipSprite = [CCSprite spriteWithFile:@"ship.png"];
-        _shipSprite = [Ship sharedModel];
+        _shipSprite = [CCSprite spriteWithFile:@"ship.png"];
         [_shipSprite setScale:0.3];
         
 //        [_bombSprite setScale:0.2];
-//        [self addChild:_shipSprite];
+        [self addChild:_shipSprite];
         
         //Creating Box2D World
         b2Vec2 gravity = b2Vec2(0.0f, -80.0f);
@@ -66,16 +66,16 @@
         
         //wall definitions
         //Creating the ground
-        groundEdge.Set(b2Vec2(0,groundLevel/PTM_RATIO), b2Vec2(size.width/PTM_RATIO, groundLevel/PTM_RATIO));
+        groundEdge.Set(b2Vec2(-14795/PTM_RATIO,groundLevel/PTM_RATIO), b2Vec2(14795/PTM_RATIO, groundLevel/PTM_RATIO));
         _groundBody->CreateFixture(&boxShapeDef);
 
         
-//        groundEdge.Set(b2Vec2(0,0), b2Vec2(0,size.height/PTM_RATIO));
-//        groundBody->CreateFixture(&boxShapeDef);
-//
-//
-//        groundEdge.Set(b2Vec2(size.width/PTM_RATIO, size.height/PTM_RATIO),b2Vec2(size.width/PTM_RATIO, 0));
-//        groundBody->CreateFixture(&boxShapeDef);
+        groundEdge.Set(b2Vec2(14795/PTM_RATIO,0), b2Vec2(14795/PTM_RATIO,size.height/PTM_RATIO));
+        _groundBody->CreateFixture(&boxShapeDef);
+
+
+        groundEdge.Set(b2Vec2(-14795/PTM_RATIO, 0),b2Vec2(-14795/PTM_RATIO, size.height/PTM_RATIO));
+        _groundBody->CreateFixture(&boxShapeDef);
         
         
         
@@ -119,25 +119,14 @@
     return self;
 }
 
-- (void)tick:(ccTime) dt {
-    
-    _world->Step(dt, 10, 10);
-    for(b2Body *b = _world->GetBodyList(); b; b=b->GetNext()) {
-        if (b->GetUserData() != NULL) {
-            CCSprite *bodyData = (CCSprite *)b->GetUserData();
-            bodyData.position = ccp(b->GetPosition().x * 32, b->GetPosition().y * 32);
-            bodyData.rotation = -1 * CC_RADIANS_TO_DEGREES(b->GetAngle());
-        }
-    }
-    
-}
 
 -(void)update:(ccTime)dt{
-
+    
     b2Vec2 pos = _shipBody->GetPosition();
+    
     b2Vec2 center = b2Vec2((size.width/2)/PTM_RATIO,(size.height-50)/PTM_RATIO);
     if((pos - center).Length() != 0){
-        [self gravitateToCenter];
+//        [self gravitateToCenter];
     }
     if(pos.y*PTM_RATIO>size.height+10)
         shipCooldownMode = YES;
@@ -151,9 +140,31 @@
             bodyData.rotation = -1 * CC_RADIANS_TO_DEGREES(b->GetAngle());
         }
     }
+   
     
-    
+ 
+
     [self collisionDetection];
+}
+
+-(void)updateShipPosition:(float)xPos y:(float)yPos{
+    NSLog(@"x:%f y:%f", xPos,yPos);
+    CGPoint location = ccp(size.width/2-xPos, size.height/2 );
+//    b2Vec2 v = b2Vec2((2)/PTM_RATIO,0);
+////    _shipBody->SetTransform(b2Vec2(location.x/PTM_RATIO,location.y/PTM_RATIO), 0); // Reposition the body
+////    _shipBody->SetAwake(true); // Make sure the object hasn't fallen "asleep," which would make it unresponsive
+//    _shipBody->SetLinearVelocity(v);
+    // This is where the magic happens
+    
+//    
+//    b2Vec2 spritePos = _shipBody->GetPosition();
+//    b2Vec2 bodyPos = b2Vec2(_shipSprite.position.x/PTM_RATIO,_shipSprite.position.y/PTM_RATIO);
+//    if((spritePos-bodyPos).Length() != 0){
+//        NSLog(@"moved");
+//    }
+//    else{
+//        //        NSLog(spritePos);
+//    }
 }
 
 -(void) draw
@@ -253,19 +264,29 @@
     
     if (location.x <= 100) {
         //[self schedule:@selector(moveScreenLeft)];
+        b2Vec2 v = b2Vec2((-300)/PTM_RATIO,0);
+        _shipBody->SetLinearVelocity(v);
         _movingLeft = YES;
     }
     else if (location.x >= size.width-100) {
         //[self schedule:@selector(moveScreenRight)];
+         b2Vec2 v = b2Vec2((300)/PTM_RATIO,0);
+         _shipBody->SetLinearVelocity(v);
         _movingRight = YES;
     }
     else{
         if(!shipCooldownMode)
             [self singleBombFire];
     }
+    
+
 }
 
 -(void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
+    b2Vec2 v = b2Vec2((0)/PTM_RATIO,0);
+    ////    _shipBody->SetTransform(b2Vec2(location.x/PTM_RATIO,location.y/PTM_RATIO), 0); // Reposition the body
+    ////    _shipBody->SetAwake(true); // Make sure the object hasn't fallen "asleep," which would make it unresponsive
+    _shipBody->SetLinearVelocity(v);
     if (_movingLeft == YES) {
         _movingLeft = NO;
     }
