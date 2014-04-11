@@ -35,6 +35,7 @@
 -(void) laserButtonTapped;
 -(void) gadgetButtonLTapped;
 -(void) gadgetButtonRTapped;
+-(void) pauseTapped;
 
 
 -(void) update:(ccTime)dt level:(int) currentLevel lives:(int)currentLives killed:(int)currentKilled score:(double)s;

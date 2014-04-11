@@ -62,8 +62,10 @@
     target:self selector:@selector(gadgetButtonLTapped:)];
     gadgetButtonL.position = ccp(size.width/2 - 50, 30);
 
+CCMenuItem *pause = [CCMenuItemFont itemWithString:@"||" target:self selector:@selector(pauseTapped:)];
+    pause.position = ccp(size.width+50, 50);
 
-    CCMenu *gadgetButtons = [CCMenu menuWithItems:laserButton, gadgetButtonL, gadgetButtonR, nil];
+    CCMenu *gadgetButtons = [CCMenu menuWithItems:laserButton, gadgetButtonL, gadgetButtonR, pause, nil];
     gadgetButtons.position = CGPointZero;
     [self addChild:gadgetButtons];
 
@@ -85,6 +87,10 @@
     [_label setString:@"GADGET 1 (is already sort of active)"];
 }
 
+- (void)pauseTapped:(id)sender {
+[_label setString:@"PAUSE"];
+[[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.0 scene: [UILayer node]]];
+}
 
 
 -(void) dealloc {
