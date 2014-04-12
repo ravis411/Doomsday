@@ -20,6 +20,7 @@
 //    CCLabelTTF *m_TotalScore;
 //    NSMutableArray *heartCount;
     CGSize size;
+    CCSpriteBatchNode *uiAtlasNode;
     CCSprite* _dash;
     CCLabelTTF *_label;
     CCLabelTTF *_scoreLabel;
@@ -35,6 +36,7 @@
 -(void) laserButtonTapped;
 -(void) gadgetButtonLTapped;
 -(void) gadgetButtonRTapped;
+-(void) updateKillCounter;
 
 
 -(void) update:(ccTime)dt level:(int) currentLevel lives:(int)currentLives killed:(int)currentKilled score:(double)s;

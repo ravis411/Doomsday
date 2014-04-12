@@ -29,10 +29,10 @@ CCSprite *ground;
         
         [self addChild:background z:1];
      
-        ground = [CCSprite spriteWithFile:@"rsz_ground.png"];
-        ground.position = ccp(size.width, -50);
-        
-        [self addChild:ground z:2];
+//        ground = [CCSprite spriteWithFile:@"rsz_ground.png"];
+//        ground.position = ccp(size.width, -50);
+//        
+//        [self addChild:ground z:2];
         
         self.isTouchEnabled = YES;
         

@@ -14,6 +14,8 @@
 		3D268F2818F36E7B00E35F33 /* button_carrotl_unlit.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D268F2618F36E7B00E35F33 /* button_carrotl_unlit.png */; };
 		3D268F2918F36E7B00E35F33 /* button_carrotl_lit.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D268F2718F36E7B00E35F33 /* button_carrotl_lit.png */; };
 		3D268F2B18F3704500E35F33 /* killcounter.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D268F2A18F3704500E35F33 /* killcounter.png */; };
+		3D268F2D18F39ED800E35F33 /* gui_atlas.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D268F2C18F39ED800E35F33 /* gui_atlas.png */; };
+		3D268F2F18F39EE300E35F33 /* gui_atlas.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3D268F2E18F39EE300E35F33 /* gui_atlas.plist */; };
 		3D97F9AE18E8E70A00FE374E /* GameplayScene.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3D97F9AD18E8E70A00FE374E /* GameplayScene.mm */; };
 		3D97F9B118E8E72000FE374E /* SpriteLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3D97F9AF18E8E72000FE374E /* SpriteLayer.mm */; };
 		3D97F9B218E8E72000FE374E /* UILayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3D97F9B018E8E72000FE374E /* UILayer.mm */; };
@@ -223,6 +225,8 @@
 		3D268F2618F36E7B00E35F33 /* button_carrotl_unlit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_carrotl_unlit.png; sourceTree = "<group>"; };
 		3D268F2718F36E7B00E35F33 /* button_carrotl_lit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_carrotl_lit.png; sourceTree = "<group>"; };
 		3D268F2A18F3704500E35F33 /* killcounter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = killcounter.png; sourceTree = "<group>"; };
+		3D268F2C18F39ED800E35F33 /* gui_atlas.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = gui_atlas.png; path = Resources/gui_atlas.png; sourceTree = "<group>"; };
+		3D268F2E18F39EE300E35F33 /* gui_atlas.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = gui_atlas.plist; path = Resources/gui_atlas.plist; sourceTree = "<group>"; };
 		3D97F9A418E8E45D00FE374E /* GameplayScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameplayScene.h; sourceTree = "<group>"; };
 		3D97F9A718E8E5D600FE374E /* SpriteLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpriteLayer.h; sourceTree = "<group>"; };
 		3D97F9AA18E8E5E200FE374E /* UILayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UILayer.h; sourceTree = "<group>"; };
@@ -721,6 +725,8 @@
 		497A4FD718E11B8500B19D54 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				3D268F2E18F39EE300E35F33 /* gui_atlas.plist */,
+				3D268F2C18F39ED800E35F33 /* gui_atlas.png */,
 				3D268F2A18F3704500E35F33 /* killcounter.png */,
 				3D268F2618F36E7B00E35F33 /* button_carrotl_unlit.png */,
 				3D268F2718F36E7B00E35F33 /* button_carrotl_lit.png */,
@@ -1356,6 +1362,8 @@
 				3D268F2818F36E7B00E35F33 /* button_carrotl_unlit.png in Resources */,
 				3D268F2918F36E7B00E35F33 /* button_carrotl_lit.png in Resources */,
 				3D268F2B18F3704500E35F33 /* killcounter.png in Resources */,
+				3D268F2D18F39ED800E35F33 /* gui_atlas.png in Resources */,
+				3D268F2F18F39EE300E35F33 /* gui_atlas.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
