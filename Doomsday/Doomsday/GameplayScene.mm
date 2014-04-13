@@ -118,9 +118,6 @@
 //        NSLog(@"\n\n\n%f\n\n\n",background.position.x);
         CGPoint backgroundScrollVel = ccp(-3000, 0);
         background.position = ccpAdd(background.position, ccpMult(backgroundScrollVel, dt));
-        for(CCSprite* s in [spriteLayer getHoipolloiArray]){
-            s.position = ccpAdd(s.position, ccpMult(ccp(-500,0), dt));
-        }
     }
 
 //    if (([spriteLayer movingLeft] == YES) && background.position.x <= 14795) {
