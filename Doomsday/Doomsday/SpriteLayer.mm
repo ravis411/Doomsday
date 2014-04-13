@@ -22,6 +22,7 @@
         bombArray = [[NSMutableArray alloc]init];
         hoipolloiArray = [[NSMutableArray alloc]init];
         explosionArray = [[NSMutableArray alloc]init];
+        laserArray = [[NSMutableArray alloc]init];
         intentToMoveLeft = NO;
         intentToMoveRight = NO;
         shipCooldownMode = NO;
@@ -215,6 +216,7 @@
      The explosion itself will damage anyting it is touching. Rather than the bomb itself damaging the contact fixtures.
     */
     NSMutableArray* deleteBombs = [[NSMutableArray alloc]init];
+    NSMutableArray* deleteLaser = [[NSMutableArray alloc]init];
     NSMutableArray* deletePeople = [[NSMutableArray alloc]init];
     
     //Collision with the bomb and the ground
@@ -235,16 +237,12 @@
             b2Body *eX = (b2Body*)[eBody pointerValue];
             
             for(NSValue* pBody in hoipolloiArray){
-               
                 b2Body *pody = (b2Body*)[pBody pointerValue];
                 if ((contact.fixtureA == eX->GetFixtureList() && contact.fixtureB == pody->GetFixtureList()) || (contact.fixtureA == pody->GetFixtureList() && contact.fixtureB == eX->GetFixtureList())) {
                     NSLog(@"Explosion hit person.");
                    pody->SetAngularVelocity(20);
-//                    [deletePeople addObject:pBody];
                 }
             }
-            
-            //                [deleteBombs addObject:bBody];
         }
         //Collision detection for bomb
         for(NSValue* bBody in bombArray){
@@ -252,6 +250,13 @@
             if ((contact.fixtureA == body->GetFixtureList() || contact.fixtureB == body->GetFixtureList()) && (contact.fixtureA != _shipBody->GetFixtureList() && contact.fixtureB != _shipBody->GetFixtureList()) && (contact.fixtureA != _groundBody->GetFixtureList() && contact.fixtureB != _groundBody->GetFixtureList())){
                 NSLog(@"Heyo, bomb touched something.");
                 [deleteBombs addObject:bBody];
+            }
+        }
+        for(NSValue* bBody in laserArray){
+            b2Body *body = (b2Body*)[bBody pointerValue];
+            if ((contact.fixtureA == body->GetFixtureList() || contact.fixtureB == body->GetFixtureList()) && (contact.fixtureA != _shipBody->GetFixtureList() && contact.fixtureB != _shipBody->GetFixtureList()) && (contact.fixtureA != _groundBody->GetFixtureList() && contact.fixtureB != _groundBody->GetFixtureList())){
+                NSLog(@"Heyo, laser touched something.");
+                [deleteLaser addObject:bBody];
             }
         }
         
@@ -267,6 +272,16 @@
         [self removeChild:(CCSprite*)polloi->GetUserData()];
     }
     
+    for(NSValue* bBody in deleteBombs){
+        [bombArray removeObject:bBody];
+        b2Body* nuke = (b2Body*)[bBody pointerValue];
+        [self explodeAndRemoveBomb:nuke];
+    }
+    for(NSValue* bBody in deleteLaser){
+        [laserArray removeObject:bBody];
+        b2Body* nuke = (b2Body*)[bBody pointerValue];
+        [self explodeAndRemoveLaser:nuke];
+    }
     for(NSValue* bBody in deleteBombs){
         [bombArray removeObject:bBody];
         b2Body* nuke = (b2Body*)[bBody pointerValue];
@@ -339,8 +354,16 @@
 -(void)explodeAndRemoveBomb:(b2Body*)b{
     NSLog(@"explode!");
     
-    [self createSingleExplosion:CGPointMake(b->GetPosition().x*PTM_RATIO, b->GetPosition().y*PTM_RATIO)];
+    [self createSingleExplosion:CGPointMake(b->GetPosition().x*PTM_RATIO, (b->GetPosition().y*PTM_RATIO)-10)];
         NSLog(@"Destroy b");
+    _world->DestroyBody(b);
+    [self removeChild:(CCSprite*)b->GetUserData()];
+}
+-(void)explodeAndRemoveLaser:(b2Body*)b{
+    NSLog(@"explode!");
+    
+    [self createHugeExplosion:CGPointMake(b->GetPosition().x*PTM_RATIO, (b->GetPosition().y*PTM_RATIO)-10)];
+    NSLog(@"Destroy b");
     _world->DestroyBody(b);
     [self removeChild:(CCSprite*)b->GetUserData()];
 }
@@ -436,28 +459,26 @@
 }
 
 -(void)singleLazerFire{
+    
     CCSprite* _laserSprite = [CCSprite spriteWithFile:@"laser.png"];
     [_laserSprite setScale:0.6f];
-    [_laserSprite setPosition:CGPointMake(_shipSprite.position.x+10, _shipSprite.position.y-100)];
+    [_laserSprite setPosition:CGPointMake(_shipSprite.position.x, _shipSprite.position.y-100)];
     [self addChild:_laserSprite];
     
-    
     b2BodyDef laserBodyDef;
+    laserBodyDef.position.Set((_shipSprite.position.x)/PTM_RATIO, (_shipSprite.position.y-100)/PTM_RATIO);
     laserBodyDef.type = b2_dynamicBody;
-    laserBodyDef.position.Set((_shipSprite.position.x+10)/PTM_RATIO, (_shipSprite.position.y-100)/PTM_RATIO);
     laserBodyDef.userData = _laserSprite;
     laserBodyDef.fixedRotation = false;
     b2Body* _laserBody = _world->CreateBody(&laserBodyDef);
-    
+
     b2PolygonShape polygon;
     int num = 4;
     b2Vec2 vertices[4];
-    
-    vertices[0].Set(-10/ PTM_RATIO, -80/ PTM_RATIO);
-    vertices[1].Set(10/ PTM_RATIO,-80/ PTM_RATIO);
+    vertices[0].Set(-15/ PTM_RATIO, -60/ PTM_RATIO);
+    vertices[1].Set(10/ PTM_RATIO,-60/ PTM_RATIO);
     vertices[2].Set(10/ PTM_RATIO,80/ PTM_RATIO);
-    vertices[3].Set(-10/ PTM_RATIO,80/ PTM_RATIO);
-    
+    vertices[3].Set(-15/ PTM_RATIO,80/ PTM_RATIO);
     polygon.Set(vertices, num);
     
     b2FixtureDef laserShapeDef;
@@ -466,11 +487,9 @@
     laserShapeDef.friction = 0.8f;
     laserShapeDef.restitution = 0.2f;
     _laserBody->CreateFixture(&laserShapeDef);
-    [bombArray addObject:[NSValue valueWithPointer:_laserBody]];
+    [laserArray addObject:[NSValue valueWithPointer:_laserBody]];
     shipCooldownMode = YES;
-    
-    [self performSelector:@selector(weaponReadyToFire) withObject:self afterDelay:3.0];
-    
+    [self performSelector:@selector(weaponReadyToFire) withObject:self afterDelay:0.1];
 }
 
 
@@ -484,7 +503,7 @@
     circle.m_radius = 35.0/PTM_RATIO;
     b2BodyDef explosionBodyDef;
     explosionBodyDef.type = b2_dynamicBody;
-    explosionBodyDef.position.Set(point.x/PTM_RATIO, (point.y-10)/PTM_RATIO);
+    explosionBodyDef.position.Set(point.x/PTM_RATIO, (point.y)/PTM_RATIO);
     explosionBodyDef.userData = _explosionSprite;
     explosionBodyDef.fixedRotation = false;
     b2Body* _explosionBody = _world->CreateBody(&explosionBodyDef);
@@ -500,6 +519,34 @@
     [explosionArray addObject:[NSValue valueWithPointer:_explosionBody]];
     NSLog(@"BOOM explosion added to array");
     [self performSelector:@selector(removeSingleExplosion:) withObject:[NSValue valueWithPointer:_explosionBody] afterDelay:0.1];
+}
+-(void)createHugeExplosion:(CGPoint)point{
+    CCSprite* _explosionSprite = [CCSprite spriteWithFile:@"explosion.png"];
+    [_explosionSprite setScale:0.4f];
+    [_explosionSprite setPosition:point];
+    [self addChild:_explosionSprite];
+    
+    b2CircleShape circle;
+    circle.m_radius = 70.0/PTM_RATIO;
+    b2BodyDef explosionBodyDef;
+    explosionBodyDef.type = b2_dynamicBody;
+    explosionBodyDef.position.Set(point.x/PTM_RATIO, (point.y)/PTM_RATIO);
+    explosionBodyDef.userData = _explosionSprite;
+    explosionBodyDef.fixedRotation = false;
+    b2Body* _explosionBody = _world->CreateBody(&explosionBodyDef);
+    
+    
+    b2FixtureDef explosionShapeDef;
+    explosionShapeDef.shape = &circle;
+    explosionShapeDef.density = 2.5f;
+    explosionShapeDef.friction = 0.8f;
+    explosionShapeDef.restitution = 0.2f;
+    _explosionBody->CreateFixture(&explosionShapeDef);
+    _explosionBody->SetGravityScale(0);
+    [explosionArray addObject:[NSValue valueWithPointer:_explosionBody]];
+    NSLog(@"BOOM explosion added to array");
+    [self performSelector:@selector(removeSingleExplosion:) withObject:[NSValue valueWithPointer:_explosionBody] afterDelay:0.1];
+
 }
 
 -(void)removeSingleExplosion:(id)b{

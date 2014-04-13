@@ -26,6 +26,7 @@
     BOOL intentToMoveRight;
     BOOL intentToMoveLeft;
     NSMutableArray *bombArray;
+    NSMutableArray *laserArray;
     NSMutableArray *explosionArray;
     NSMutableArray *hoipolloiArray;
     MyContactListener *_contactListener;
