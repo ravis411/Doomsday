@@ -79,18 +79,18 @@
                                itemFromNormalImage:placeHolderSprite selectedImage:placeHolderSprite
                                target:self selector:@selector(laserButtonTapped:)];
     [uiLayer setMenuItem:laserButton buttonID:3 x:size.width/2 y:30];
-//    
-//    CCMenuItem *gadgetButtonR = [CCMenuItemImage
-//                                 itemFromNormalImage:placeHolderSprite selectedImage:placeHolderSprite
-//                                 target:self selector:@selector(gadgetButtonRTapped:)];
-//    [self setMenuItem:gadgetButtonR buttonID:5 x:(size.width/2 + 50) y:30];
-//    
-//    CCMenuItem *gadgetButtonL = [CCMenuItemImage
-//                                 itemFromNormalImage:placeHolderSprite selectedImage:placeHolderSprite
-//                                 target:self selector:@selector(gadgetButtonLTapped:)];
-//    [self setMenuItem:gadgetButtonL buttonID:4 x:(size.width/2 - 50) y:30];
     
-    CCMenu *gadgetButtons = [CCMenu menuWithItems: laserButton, nil];
+    CCMenuItem *gadgetButtonR = [CCMenuItemImage
+                                 itemFromNormalImage:placeHolderSprite selectedImage:placeHolderSprite
+                                 target:self selector:@selector(gadgetButtonRTapped:)];
+    [uiLayer setMenuItem:gadgetButtonR buttonID:5 x:(size.width/2 + 50) y:30];
+    
+    CCMenuItem *gadgetButtonL = [CCMenuItemImage
+                                 itemFromNormalImage:placeHolderSprite selectedImage:placeHolderSprite
+                                 target:self selector:@selector(gadgetButtonLTapped:)];
+    [uiLayer setMenuItem:gadgetButtonL buttonID:4 x:(size.width/2 - 50) y:30];
+    
+    CCMenu *gadgetButtons = [CCMenu menuWithItems: laserButton, gadgetButtonR, gadgetButtonL, nil];
     gadgetButtons.position = CGPointZero;
     [uiLayer addChild:gadgetButtons];
     
@@ -119,9 +119,22 @@
     [spriteLayer updateShipPosition:background.position.x y:background.position.y];
 }
 
+//Button actions
+
 -(void)laserButtonTapped:(id)sender {
+    weaponMode = WEAPON_BASIC;
      [_label setString:@"LASER MODE (is not working yet)"];
+    
 }
+
+- (void)gadgetButtonRTapped:(id)sender {
+    [_label setString:@"GADGET 2 (is not working yet)"];
+}
+
+- (void)gadgetButtonLTapped:(id)sender {
+    [_label setString:@"GADGET 1 (is already sort of active)"];
+}
+
 
 
 @end
