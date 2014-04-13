@@ -7,6 +7,7 @@
 //
 
 #import "UILayer.h"
+#import "HelloWorldLayer.h"
 
 @implementation UILayer
 
@@ -119,7 +120,7 @@ CCMenuItem *pause = [CCMenuItemFont itemWithString:@"||" target:self selector:@s
 
 - (void)pauseTapped:(id)sender {
 [_label setString:@"PAUSE"];
-[[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.0 scene: [UILayer node]]];
+[[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.0 scene: [HelloWorldLayer node]]];
 }
 
 -(void) updateKillCounter {
