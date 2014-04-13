@@ -27,11 +27,11 @@
     //If ship is greater than current position...nove left
     int x = self.position.x;
     if(shipPosition.x >= self.position.x){
-        NSLog(@"Hoi moveing left");
+//        NSLog(@"Hoi moveing left");
        // self.position = ccpAdd(ccp(-_movementSpeed, 0), self.position);
     }
     else{
-        NSLog(@"Hoi moveing right");
+//        NSLog(@"Hoi moveing right");
         //self.position = ccpAdd(ccp(_movementSpeed, 0), self.position);
     }
 }

@@ -68,13 +68,13 @@
         
         //wall definitions
         //Creating the ground
-        groundEdge.Set(b2Vec2(-14795/PTM_RATIO,groundLevel/PTM_RATIO), b2Vec2(14795/PTM_RATIO, groundLevel/PTM_RATIO));
+        groundEdge.Set(b2Vec2(-8000/PTM_RATIO,groundLevel/PTM_RATIO), b2Vec2(8000/PTM_RATIO, groundLevel/PTM_RATIO));
         _groundBody->CreateFixture(&boxShapeDef);
 
-        groundEdge.Set(b2Vec2((size.width+1500)/PTM_RATIO, 0),b2Vec2((size.width+1500)/PTM_RATIO, size.height/PTM_RATIO));
+        groundEdge.Set(b2Vec2((size.width+805)/PTM_RATIO, 0),b2Vec2((size.width+805)/PTM_RATIO, size.height/PTM_RATIO));
         _groundBody->CreateFixture(&boxShapeDef);
         
-        groundEdge.Set(b2Vec2(-1500/PTM_RATIO,0), b2Vec2(-1500/PTM_RATIO,size.height/PTM_RATIO));
+        groundEdge.Set(b2Vec2(-805/PTM_RATIO,0), b2Vec2(-805/PTM_RATIO,size.height/PTM_RATIO));
         _groundBody->CreateFixture(&boxShapeDef);
 
 
@@ -144,23 +144,30 @@
         }
     }
    
-     if(_shipBody->GetPosition().x*PTM_RATIO>2000.00f){
-         //Stop the ship
-         _shipBody->SetLinearVelocity(b2Vec2((0)/PTM_RATIO,0));
-
-     }
+   
     
+    //Update children
+    for(CCSprite *hp in self.children){
+        if([hp isKindOfClass:[Hoipolloi class]]){
+            [((Hoipolloi *)hp) update:dt pos:_shipSprite.position];
+        }
+    }
+    if(_shipBody->GetPosition().x*PTM_RATIO>1330.00f){
+        //Stop the ship
+        _shipBody->SetLinearVelocity(b2Vec2((0)/PTM_RATIO,0));
+        
+    }
     
-    if(_shipBody->GetPosition().x*PTM_RATIO<-1420.00f){
+    if(_shipBody->GetPosition().x*PTM_RATIO<-765.00f){
         //Stop the ship
        _shipBody->SetLinearVelocity(b2Vec2((0)/PTM_RATIO,0));
     }
  
-    if(_shipBody->GetPosition().x*PTM_RATIO<1760.00f && intentToMoveLeft == YES){
+    if(_shipBody->GetPosition().x*PTM_RATIO<1084.00f && intentToMoveLeft == YES){
         _movingLeft = YES;
         intentToMoveLeft = NO;
     }
-    if(_shipBody->GetPosition().x*PTM_RATIO>-1200.00f && intentToMoveRight == YES){
+    if(_shipBody->GetPosition().x*PTM_RATIO>-520.00f && intentToMoveRight == YES){
         _movingRight = YES;
         intentToMoveRight = NO;
     }
@@ -284,31 +291,21 @@
     
     if (location.x <= 100) {//touch left
         //[self schedule:@selector(moveScreenLeft)];
-        if(_shipBody->GetPosition().x*PTM_RATIO>-1420.00f){
             b2Vec2 v = b2Vec2((-300)/PTM_RATIO,0);
             _shipBody->SetLinearVelocity(v);
-            
             _movingLeft = YES;
-        }
-        if(_shipBody->GetPosition().x*PTM_RATIO>1760.00f){
+        if(_shipBody->GetPosition().x*PTM_RATIO>1084.00f){
             _movingLeft = NO;
             intentToMoveLeft = YES;
         }
     }
     else if (location.x >= size.width-100) {//touch right
         //[self schedule:@selector(moveScreenRight)];
-//        if(_shipBody->GetPosition().x*PTM_RATIO<2000.00f){
-//           
-//            b2Vec2 v = b2Vec2((300)/PTM_RATIO,0);
-//            _shipBody->SetLinearVelocity(v);
-//            if(_shipBody->GetPosition().x*PTM_RATIO>-1190.00f)
-//                _movingRight = YES;
-//        }
         
         b2Vec2 v = b2Vec2((300)/PTM_RATIO,0);
         _shipBody->SetLinearVelocity(v);
         _movingRight = YES;
-        if(_shipBody->GetPosition().x*PTM_RATIO<-1200.00f){
+        if(_shipBody->GetPosition().x*PTM_RATIO<-520.00f){
             _movingRight = NO;
             intentToMoveRight = YES;
         }
