@@ -127,9 +127,9 @@
     
     b2Vec2 pos = _shipBody->GetPosition();
     
-    b2Vec2 center = b2Vec2((size.width/2)/PTM_RATIO,(size.height-50)/PTM_RATIO);
+    b2Vec2 center = b2Vec2(pos.x,(size.height-50)/PTM_RATIO);
     if((pos - center).Length() != 0){
-//        [self gravitateToCenter];
+        [self gravitateToCenter];
     }
     if(pos.y*PTM_RATIO>size.height+10)
         shipCooldownMode = YES;
@@ -163,7 +163,7 @@
        _shipBody->SetLinearVelocity(b2Vec2((0)/PTM_RATIO,0));
     }
  
-    if(_shipBody->GetPosition().x*PTM_RATIO<1084.00f && intentToMoveLeft == YES){
+    if(_shipBody->GetPosition().x*PTM_RATIO<1086.00f && intentToMoveLeft == YES){
         _movingLeft = YES;
         intentToMoveLeft = NO;
     }
@@ -174,25 +174,6 @@
     [self collisionDetection];
 }
 
--(void)updateShipPosition:(float)xPos y:(float)yPos{
-//    NSLog(@"x:%f y:%f", xPos,yPos);
-    CGPoint location = ccp(size.width/2-xPos, size.height/2 );
-//    b2Vec2 v = b2Vec2((2)/PTM_RATIO,0);
-////    _shipBody->SetTransform(b2Vec2(location.x/PTM_RATIO,location.y/PTM_RATIO), 0); // Reposition the body
-////    _shipBody->SetAwake(true); // Make sure the object hasn't fallen "asleep," which would make it unresponsive
-//    _shipBody->SetLinearVelocity(v);
-    // This is where the magic happens
-    
-//    
-//    b2Vec2 spritePos = _shipBody->GetPosition();
-//    b2Vec2 bodyPos = b2Vec2(_shipSprite.position.x/PTM_RATIO,_shipSprite.position.y/PTM_RATIO);
-//    if((spritePos-bodyPos).Length() != 0){
-//        NSLog(@"moved");
-//    }
-//    else{
-//        //        NSLog(spritePos);
-//    }
-}
 
 -(void) draw
 {
@@ -294,7 +275,7 @@
             b2Vec2 v = b2Vec2((-300)/PTM_RATIO,0);
             _shipBody->SetLinearVelocity(v);
             _movingLeft = YES;
-        if(_shipBody->GetPosition().x*PTM_RATIO>1084.00f){
+        if(_shipBody->GetPosition().x*PTM_RATIO>1086.00f){
             _movingLeft = NO;
             intentToMoveLeft = YES;
         }
@@ -546,22 +527,22 @@
 
 -(void)gravitateToCenter{
     b2Vec2 pos = _shipBody->GetPosition();
-     b2Vec2 center = b2Vec2((size.width/2)/PTM_RATIO,(size.height-50)/PTM_RATIO);
-    if(pos.x < center.x){
-        _shipBody->ApplyForce(b2Vec2(100*(center.x-pos.x), 0), center);
-        _shipBody->SetLinearDamping(2);
-    }
-    if(pos.x > center.x){
-        _shipBody->ApplyForce(b2Vec2(-100*(pos.x-center.x), 0), center);
-        _shipBody->SetLinearDamping(2);
-    }
+     b2Vec2 center = b2Vec2(pos.x,(size.height-50)/PTM_RATIO);
+//    if(pos.x < center.x){
+//        _shipBody->ApplyForce(b2Vec2(100*(center.x-pos.x), 0), center);
+//        _shipBody->SetLinearDamping(2);
+//    }
+//    if(pos.x > center.x){
+//        _shipBody->ApplyForce(b2Vec2(-100*(pos.x-center.x), 0), center);
+//        _shipBody->SetLinearDamping(2);
+//    }
     if(pos.y > center.y){
         _shipBody->ApplyForce(b2Vec2(0, -10*(pos.y-center.y)), center);
-        _shipBody->SetLinearDamping(2);
+//        _shipBody->SetLinearDamping(2);
     }
     if(pos.y < center.y){
         _shipBody->ApplyForce(b2Vec2(0, 10*(center.y-pos.y)), center);
-        _shipBody->SetLinearDamping(2);
+//        _shipBody->SetLinearDamping(2);
     }
     
 }
