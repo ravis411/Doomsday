@@ -93,7 +93,7 @@
     gadgetButtonL.position = ccp(size.width/2 - 50, 30);
 
 CCMenuItem *pause = [CCMenuItemFont itemWithString:@"||" target:self selector:@selector(pauseTapped:)];
-    pause.position = ccp(size.width+50, 50);
+    pause.position = ccp(50, size.height - 20);
 
     CCMenu *gadgetButtons = [CCMenu menuWithItems:laserButton, gadgetButtonL, gadgetButtonR, pause, nil];
     gadgetButtons.position = CGPointZero;
