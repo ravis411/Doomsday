@@ -126,8 +126,7 @@
         CGPoint backgroundScrollVel = ccp(-3000, 0);
         background.position = ccpSub(background.position, ccpMult(backgroundScrollVel, dt));
     }
-    [spriteLayer updateShipPosition:background.position.x y:background.position.y];
-}
+    }
 
 //Button actions
 
