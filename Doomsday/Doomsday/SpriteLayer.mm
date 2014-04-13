@@ -349,10 +349,23 @@
 }
 
 
+//returns the array of Hoipolloi
+-(NSMutableArray*)getHoipolloiArray{
+    NSMutableArray *arry = [[NSMutableArray alloc]init];
+    
+    for(NSValue* pBody in hoipolloiArray){
+        
+        b2Body *pody = (b2Body*)[pBody pointerValue];
+        
+        [arry addObject:(CCSprite*)pody->GetUserData()];
+    }
+    return arry;
+}
+
 //Spawns a Hoipolloi
 - (void)spawnPerson {
     
-    Hoipolloi* _humanSprite = [CCSprite spriteWithFile:@"hoipolloi.png"];
+    Hoipolloi* _humanSprite = [Hoipolloi node];
     _humanSprite.position = CGPointMake(size.width/2, size.height/2);
     [_humanSprite setScale:0.3];
     [self addChild:_humanSprite];

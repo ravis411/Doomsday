@@ -59,7 +59,34 @@ enum {
 		
 		// init physics
 		[self initPhysics];
-		
+		        
+        //batching the GUI elements
+        uiAtlasNode = [CCSpriteBatchNode batchNodeWithFile:@"gui_atlas.png"];
+        [self addChild:uiAtlasNode];
+        [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"gui_atlas.plist"];
+        
+        int numberUIFrames = 0;
+        NSMutableArray *uiFrames = [NSMutableArray array];
+        NSMutableArray *uiFilenames = [NSMutableArray array];
+        for (int ii = 1; ii <= 5; ii++) {
+            for (int jj = 0; jj <= 1; jj++) {
+                NSString *file = [NSString stringWithFormat:@"button%d_%d.png", ii, 0];
+                [uiFilenames addObject:file];
+                numberUIFrames++;
+            }
+        }
+        [uiFilenames addObject:@"dash_mainmenu.png"];
+        [uiFilenames addObject:@"dashboard.png"];
+        [uiFilenames addObject:@"killcounter.png"];
+        [uiFilenames addObject:@"titletypeface.png"];
+        numberUIFrames += 4;
+        
+        for (int i = 0; i < numberUIFrames; i++) {
+            CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:uiFilenames[i]];
+            [uiFrames addObject:frame];
+        }
+
+        
 		// create reset button
 		[self createMenu];
 		
@@ -77,12 +104,8 @@ enum {
 		[self addChild:parent z:0 tag:kTagParentNode];
 		
 		
-		[self addNewSpriteAtPosition:ccp(s.width/2, s.height/2)];
-		
-		CCLabelTTF *label = [CCLabelTTF labelWithString:@"Doomsday" fontName:@"Marker Felt" fontSize:32];
-		[self addChild:label z:0];
-		[label setColor:ccc3(0,0,255)];
-		label.position = ccp( s.width/2, s.height-50);
+//		[self addNewSpriteAtPosition:ccp(s.width/2, s.height/2)];
+        
 		
 		[self scheduleUpdate];
 	}
@@ -105,10 +128,10 @@ enum {
 	// Default font size will be 22 points.
 	[CCMenuItemFont setFontSize:22];
 	
-	// Reset Button
-	CCMenuItemLabel *reset = [CCMenuItemFont itemWithString:@"Reset" block:^(id sender){
-		[[CCDirector sharedDirector] replaceScene: [HelloWorldLayer scene]];
-	}];
+//	// Reset Button
+//	CCMenuItemLabel *reset = [CCMenuItemFont itemWithString:@"Reset" block:^(id sender){
+//		[[CCDirector sharedDirector] replaceScene: [HelloWorldLayer scene]];
+//	}];
 
 	// to avoid a retain-cycle with the menuitem and blocks
 	__block id copy_self = self;
@@ -128,34 +151,56 @@ enum {
 //	}];
 	
 	// Leaderboard Menu Item using blocks
-	CCMenuItem *itemLeaderboard = [CCMenuItemFont itemWithString:@"Leaderboard" block:^(id sender) {
-		
-		
-		GKLeaderboardViewController *leaderboardViewController = [[GKLeaderboardViewController alloc] init];
-		leaderboardViewController.leaderboardDelegate = copy_self;
-		
-		AppController *app = (AppController*) [[UIApplication sharedApplication] delegate];
-		
-		[[app navController] presentModalViewController:leaderboardViewController animated:YES];
-		
-		[leaderboardViewController release];
-	}];
+//	CCMenuItem *itemLeaderboard = [CCMenuItemFont itemWithString:@"Leaderboard" block:^(id sender) {
+//		
+//		
+//		GKLeaderboardViewController *leaderboardViewController = [[GKLeaderboardViewController alloc] init];
+//		leaderboardViewController.leaderboardDelegate = copy_self;
+//		
+//		AppController *app = (AppController*) [[UIApplication sharedApplication] delegate];
+//		
+//		[[app navController] presentModalViewController:leaderboardViewController animated:YES];
+//		
+//		[leaderboardViewController release];
+//	}];
     
-    CCMenuItem *itemNewGame = [CCMenuItemFont itemWithString:@"New Game" block:^(id sender) {
-        [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.0 scene:[GameplayScene node]]];
-    }];
+    
+    CCSprite* menuButtonSprite0 = [CCSprite spriteWithSpriteFrameName:@"button1_0.png"];
+    CCSprite* menuButtonSprite1 = [CCSprite spriteWithSpriteFrameName:@"button1_1.png"];
+    CCMenuItemSprite * itemNewGame = [CCMenuItemSprite itemWithNormalSprite:menuButtonSprite0 selectedSprite:menuButtonSprite1 target:self selector:@selector(newGame:)];
+//    CCMenuItemLabel *itemNewGameLabel = [CCLabelTTF labelWithString:@"New Game" fontName:@"Arial" fontSize:22];
+//    [itemNewGameLabel setColor:ccBLACK];
+//    [itemNewGame addChild:itemNewGameLabel];
+    
+//    CCMenuItem *itemNewGame = [CCMenuItemFont itemWithString:@"New Game" block:^(id sender) {
+//        [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.0 scene:[GameplayScene node]]];
+//    }];
+    
+//    [itemNewGame setNormalSpriteFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"button1_0.png"]];
+//    [itemNewGame setSelectedSpriteFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"button1_1.png"]];
 	
-	CCMenu *menu = [CCMenu menuWithItems: reset, itemNewGame, nil];
-	
     
-    
-    
+	CCMenu *menu = [CCMenu menuWithItems: itemNewGame, nil];
+	    
 	[menu alignItemsVertically];
 	
 	CGSize size = [[CCDirector sharedDirector] winSize];
 	[menu setPosition:ccp( size.width/2, size.height/2)];
 	
-	
+    //background elements
+    
+    CCSprite* cosmos = [CCSprite spriteWithFile:@"cosmos.png"];
+    cosmos.position = ccp(size.width/2,size.height/2);
+    
+    CCSprite* titleFace = [CCSprite spriteWithSpriteFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"titletypeface.png"]];
+    titleFace.position = ccp( size.width/2, size.height-50);
+    
+    CCSprite* dashboard = [CCSprite spriteWithSpriteFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"dash_mainmenu.png"]];
+	[dashboard setPosition:ccp(size.width/2, 150)];
+    
+    [self addChild: cosmos z:-4];
+    [self addChild: dashboard z:-3];
+    [self addChild:titleFace z:-3];
 	[self addChild: menu z:-1];	
 }
 
@@ -294,7 +339,7 @@ enum {
 		
 		location = [[CCDirector sharedDirector] convertToGL: location];
 		
-		[self addNewSpriteAtPosition: location];
+//		[self addNewSpriteAtPosition: location];
 	}
 }
 
@@ -310,6 +355,16 @@ enum {
 {
 	AppController *app = (AppController*) [[UIApplication sharedApplication] delegate];
 	[[app navController] dismissModalViewControllerAnimated:YES];
+}
+
+-(void) buildUI {
+    CGSize size = [[CCDirector sharedDirector] winSize];
+   
+
+}
+                        
+-(void) newGame:(id)sender  {
+    [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.0 scene:[GameplayScene node]]];
 }
 
 @end

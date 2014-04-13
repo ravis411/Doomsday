@@ -22,7 +22,7 @@
         background = [CCParallaxNode node];
 //        _ship = [Ship sharedModel];
         
-        
+        [self buildUI];
         
     }
     
@@ -48,23 +48,107 @@
     
 }
 
+-(void) buildUI {
+    CGSize size = [[CCDirector sharedDirector] winSize];
+
+    CCSprite* _dash;
+    CCLabelTTF *_scoreLabel = [[CCLabelTTF labelWithString:@"-/-" fontName:@"Arial" fontSize:24.0] retain];
+    CCSprite* _killCounter;
+    //CCSprite* pause = null;
+    
+    
+    _dash = [CCSprite spriteWithFile:@"dashboard.png"];
+   
+    _dash.position = CGPointMake(size.width/2, 30);
+    [self addChild:_dash];
+    //killcounter
+    [uiLayer addUIElement:_killCounter withFrame:@"killcounter.png" x:(size.width-115) y:(size.height-18)];
+    
+//    _scoreLabel.position = _killCounter.position;
+    [uiLayer addChild:_scoreLabel];
+    
+    //testinglabel
+    _label = [[CCLabelTTF labelWithString:@" " fontName:@"Arial" fontSize:24.0] retain];
+    _label.position = ccp(size.width/3,
+                          size.height-(_label.contentSize.height/2));
+    [uiLayer addChild:_label];
+    
+    
+    NSString* placeHolderSprite = @"button_round_unlit.png";
+    
+    CCMenuItem *pause = [CCMenuItemFont itemWithString:@"||" target:self selector:@selector(pauseTapped:)];
+    pause.position = ccp(50, size.height - 20);
+
+    
+    CCMenuItem *laserButton = [CCMenuItemImage
+                               itemFromNormalImage:placeHolderSprite selectedImage:placeHolderSprite
+                               target:self selector:@selector(laserButtonTapped:)];
+    [uiLayer setMenuItem:laserButton buttonID:3 x:size.width/2 y:30];
+    
+    CCMenuItem *gadgetButtonR = [CCMenuItemImage
+                                 itemFromNormalImage:placeHolderSprite selectedImage:placeHolderSprite
+                                 target:self selector:@selector(gadgetButtonRTapped:)];
+    [uiLayer setMenuItem:gadgetButtonR buttonID:5 x:(size.width/2 + 50) y:30];
+    
+    CCMenuItem *gadgetButtonL = [CCMenuItemImage
+                                 itemFromNormalImage:placeHolderSprite selectedImage:placeHolderSprite
+                                 target:self selector:@selector(gadgetButtonLTapped:)];
+    [uiLayer setMenuItem:gadgetButtonL buttonID:4 x:(size.width/2 - 50) y:30];
+    
+    CCMenu *gadgetButtons = [CCMenu menuWithItems: laserButton, gadgetButtonR, gadgetButtonL, pause, nil];
+    gadgetButtons.position = CGPointZero;
+    [uiLayer addChild:gadgetButtons];
+    
+//    _killCount = 0;
+//    _quota = 10000;
+    
+    [uiLayer updateKillCounter];
+    
+    
+    
+    
+}
 
 -(void)update:(ccTime)dt{
     [spriteLayer update:dt];
     
     
-    if (([spriteLayer movingRight] == YES) && background.position.x >= -14795) {
+//    if (([spriteLayer movingRight] == YES) && background.position.x >= -14795) {
+    if (([spriteLayer movingRight] == YES) && background.position.x >= -8000) {
 //        NSLog(@"\n\n\n%f\n\n\n",background.position.x);
         CGPoint backgroundScrollVel = ccp(-3000, 0);
         background.position = ccpAdd(background.position, ccpMult(backgroundScrollVel, dt));
     }
 
-    if (([spriteLayer movingLeft] == YES) && background.position.x <= 14795) {
+//    if (([spriteLayer movingLeft] == YES) && background.position.x <= 14795) {
+    if (([spriteLayer movingLeft] == YES) && background.position.x <= 8000) {
 //        NSLog(@"\n\n\n%f\n\n\n",background.position.x);
         CGPoint backgroundScrollVel = ccp(-3000, 0);
         background.position = ccpSub(background.position, ccpMult(backgroundScrollVel, dt));
     }
     [spriteLayer updateShipPosition:background.position.x y:background.position.y];
+}
+
+//Button actions
+
+-(void)laserButtonTapped:(id)sender {
+    weaponMode = WEAPON_BASIC;
+     [_label setString:@"LASER MODE (is not working yet)"];
+    
+}
+- (void)gadgetButtonRTapped:(id)sender {
+    [_label setString:@"GADGET 2 (is not working yet)"];
+}
+
+- (void)gadgetButtonLTapped:(id)sender {
+    [_label setString:@"GADGET 1 (is already sort of active)"];
+
+}
+
+- (void)pauseTapped:(id)sender {
+    [_label setString:@"PAUSE"];
+    [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.0 scene: [HelloWorldLayer node]]];
+    
 }
 
 

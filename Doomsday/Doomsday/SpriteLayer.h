@@ -34,12 +34,13 @@
 }
 @property BOOL movingLeft;
 @property BOOL movingRight;
+
 //@property Hoipolloi* hoipolloiSprite;
 
 -(void) moveScreenLeft;
 -(void) moveScreenRight;
-- (void)kick;
+-(void) kick;
 -(void)updateShipPosition:(float)xPos y:(float)yPos;
-
+-(NSMutableArray*) getHoipolloiArray;
 
 @end

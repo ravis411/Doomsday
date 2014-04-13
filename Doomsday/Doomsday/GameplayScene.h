@@ -11,12 +11,14 @@
 #import "UILayer.h"
 #import "SpriteLayer.h"
 #import "BackgroundLayer.h"
+#import "PlayerWeapon.h"
 #include "CCTouchDelegateProtocol.h"
 //#import "GameOverLayer.h"
 
 
 @interface GameplayScene : CCScene {
     
+    enum playerWeapon weaponMode;
     SpriteLayer *spriteLayer;
     UILayer *uiLayer;
     BackgroundLayer *bgLayer;
@@ -32,7 +34,16 @@
     //    IntroLayer *introLayer;
  //   ALuint soundEffectID;
     
+    //gameplay UI
+    CCLabelTTF *_label;
+
+    
 }
+
+-(void) buildUI;
+-(void) laserButtonTapped:(id)sender;
+-(void) gadgetButtonRTapped:(id)sender;
+-(void) gadgetButtonLTapped:(id)sender;
 
 //-(void) moveScreenLeft;
 //-(void) moveScreenRight;
