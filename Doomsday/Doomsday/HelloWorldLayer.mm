@@ -59,10 +59,7 @@ enum {
 		
 		// init physics
 		[self initPhysics];
-		
-        //init UI layer
-        uiLayer = [uiLayer node];
-        
+		        
         //batching the GUI elements
         uiAtlasNode = [CCSpriteBatchNode batchNodeWithFile:@"gui_atlas.png"];
         [self addChild:uiAtlasNode];
@@ -168,10 +165,19 @@ enum {
 //	}];
     
     
+    CCSprite* menuButtonSprite0 = [CCSprite spriteWithSpriteFrameName:@"button1_0.png"];
+    CCSprite* menuButtonSprite1 = [CCSprite spriteWithSpriteFrameName:@"button1_1.png"];
+    CCMenuItemSprite * itemNewGame = [CCMenuItemSprite itemWithNormalSprite:menuButtonSprite0 selectedSprite:menuButtonSprite1 target:self selector:@selector(newGame:)];
+//    CCMenuItemLabel *itemNewGameLabel = [CCLabelTTF labelWithString:@"New Game" fontName:@"Arial" fontSize:22];
+//    [itemNewGameLabel setColor:ccBLACK];
+//    [itemNewGame addChild:itemNewGameLabel];
     
-    CCMenuItem *itemNewGame = [CCMenuItemFont itemWithString:@"New Game" block:^(id sender) {
-        [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.0 scene:[GameplayScene node]]];
-    }];
+//    CCMenuItem *itemNewGame = [CCMenuItemFont itemWithString:@"New Game" block:^(id sender) {
+//        [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.0 scene:[GameplayScene node]]];
+//    }];
+    
+//    [itemNewGame setNormalSpriteFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"button1_0.png"]];
+//    [itemNewGame setSelectedSpriteFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"button1_1.png"]];
 	
     
 	CCMenu *menu = [CCMenu menuWithItems: itemNewGame, nil];
@@ -349,6 +355,16 @@ enum {
 {
 	AppController *app = (AppController*) [[UIApplication sharedApplication] delegate];
 	[[app navController] dismissModalViewControllerAnimated:YES];
+}
+
+-(void) buildUI {
+    CGSize size = [[CCDirector sharedDirector] winSize];
+   
+
+}
+                        
+-(void) newGame:(id)sender  {
+    [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.0 scene:[GameplayScene node]]];
 }
 
 @end

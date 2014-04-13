@@ -22,10 +22,10 @@
 //    NSMutableArray *heartCount;
     CGSize size;
 //    CCSpriteBatchNode *uiAtlasNode;
-    CCSprite* _dash;
-    CCLabelTTF *_label;
-    CCLabelTTF *_scoreLabel;
-    CCSprite* _killCounter;
+//    CCSprite* _dash;
+//    CCLabelTTF *_label;
+//    CCLabelTTF *_scoreLabel;
+//    CCSprite* _killCounter;
     int _quota;
     int _killCount;
 }
