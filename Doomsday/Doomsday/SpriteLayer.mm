@@ -22,6 +22,8 @@
         bombArray = [[NSMutableArray alloc]init];
         hoipolloiArray = [[NSMutableArray alloc]init];
         explosionArray = [[NSMutableArray alloc]init];
+        intentToMoveLeft = NO;
+        intentToMoveRight = NO;
         shipCooldownMode = NO;
 
 //        CCLayerColor* color = [CCLayerColor layerWithColor:ccc4(255,0,255,255)];
@@ -142,12 +144,26 @@
         }
     }
    
-     if(_shipBody->GetPosition().x*PTM_RATIO>2000.00f || _shipBody->GetPosition().x*PTM_RATIO<-1420.00f){
+     if(_shipBody->GetPosition().x*PTM_RATIO>2000.00f){
          //Stop the ship
          _shipBody->SetLinearVelocity(b2Vec2((0)/PTM_RATIO,0));
-     }
- 
 
+     }
+    
+    
+    if(_shipBody->GetPosition().x*PTM_RATIO<-1420.00f){
+        //Stop the ship
+       _shipBody->SetLinearVelocity(b2Vec2((0)/PTM_RATIO,0));
+    }
+ 
+    if(_shipBody->GetPosition().x*PTM_RATIO<1760.00f && intentToMoveLeft == YES){
+        _movingLeft = YES;
+        intentToMoveLeft = NO;
+    }
+    if(_shipBody->GetPosition().x*PTM_RATIO>-1200.00f && intentToMoveRight == YES){
+        _movingRight = YES;
+        intentToMoveRight = NO;
+    }
     [self collisionDetection];
 }
 
@@ -262,31 +278,49 @@
     UITouch *touch = [touches anyObject];
     CGPoint location = [touch locationInView:[touch view]];
     location = [[CCDirector sharedDirector] convertToGL:location];
-    NSLog(@"%f",_shipBody->GetPosition().x*PTM_RATIO);
+    NSLog(@"ship position: %f",_shipBody->GetPosition().x*PTM_RATIO);
 //    if(!shipCooldownMode)
 //        [self singleBombFire];
     
-    if (location.x <= 100) {
+    if (location.x <= 100) {//touch left
         //[self schedule:@selector(moveScreenLeft)];
         if(_shipBody->GetPosition().x*PTM_RATIO>-1420.00f){
             b2Vec2 v = b2Vec2((-300)/PTM_RATIO,0);
             _shipBody->SetLinearVelocity(v);
+            
+            _movingLeft = YES;
         }
-        _movingLeft = YES;
+        if(_shipBody->GetPosition().x*PTM_RATIO>1760.00f){
+            _movingLeft = NO;
+            intentToMoveLeft = YES;
+        }
     }
-    else if (location.x >= size.width-100) {
+    else if (location.x >= size.width-100) {//touch right
         //[self schedule:@selector(moveScreenRight)];
-        if(_shipBody->GetPosition().x*PTM_RATIO<2000.00f){
-           
-            b2Vec2 v = b2Vec2((300)/PTM_RATIO,0);
-            _shipBody->SetLinearVelocity(v);
-        }
+//        if(_shipBody->GetPosition().x*PTM_RATIO<2000.00f){
+//           
+//            b2Vec2 v = b2Vec2((300)/PTM_RATIO,0);
+//            _shipBody->SetLinearVelocity(v);
+//            if(_shipBody->GetPosition().x*PTM_RATIO>-1190.00f)
+//                _movingRight = YES;
+//        }
+        
+        b2Vec2 v = b2Vec2((300)/PTM_RATIO,0);
+        _shipBody->SetLinearVelocity(v);
         _movingRight = YES;
+        if(_shipBody->GetPosition().x*PTM_RATIO<-1200.00f){
+            _movingRight = NO;
+            intentToMoveRight = YES;
+        }
+
     }
     else{
         if(!shipCooldownMode)
             [self singleBombFire];
     }
+    
+   
+    
     
 
 }
@@ -301,6 +335,8 @@
     if (_movingRight == YES) {
         _movingRight = NO;
     }
+    intentToMoveLeft = NO;
+    intentToMoveRight = NO;
 }
 
 -(void)explodeAndRemoveBomb:(b2Body*)b{

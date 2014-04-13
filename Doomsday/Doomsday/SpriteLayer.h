@@ -23,6 +23,8 @@
     CGSize size;
     BOOL _movingLeft;
     BOOL _movingRight;
+    BOOL intentToMoveRight;
+    BOOL intentToMoveLeft;
     NSMutableArray *bombArray;
     NSMutableArray *explosionArray;
     NSMutableArray *hoipolloiArray;
