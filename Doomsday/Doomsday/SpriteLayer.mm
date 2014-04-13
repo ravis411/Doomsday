@@ -22,6 +22,8 @@
         bombArray = [[NSMutableArray alloc]init];
         hoipolloiArray = [[NSMutableArray alloc]init];
         explosionArray = [[NSMutableArray alloc]init];
+        intentToMoveLeft = NO;
+        intentToMoveRight = NO;
         shipCooldownMode = NO;
 
 //        CCLayerColor* color = [CCLayerColor layerWithColor:ccc4(255,0,255,255)];
@@ -66,13 +68,13 @@
         
         //wall definitions
         //Creating the ground
-        groundEdge.Set(b2Vec2(-14795/PTM_RATIO,groundLevel/PTM_RATIO), b2Vec2(14795/PTM_RATIO, groundLevel/PTM_RATIO));
+        groundEdge.Set(b2Vec2(-8000/PTM_RATIO,groundLevel/PTM_RATIO), b2Vec2(8000/PTM_RATIO, groundLevel/PTM_RATIO));
         _groundBody->CreateFixture(&boxShapeDef);
 
-        groundEdge.Set(b2Vec2((size.width+1500)/PTM_RATIO, 0),b2Vec2((size.width+1500)/PTM_RATIO, size.height/PTM_RATIO));
+        groundEdge.Set(b2Vec2((size.width+805)/PTM_RATIO, 0),b2Vec2((size.width+805)/PTM_RATIO, size.height/PTM_RATIO));
         _groundBody->CreateFixture(&boxShapeDef);
         
-        groundEdge.Set(b2Vec2(-1500/PTM_RATIO,0), b2Vec2(-1500/PTM_RATIO,size.height/PTM_RATIO));
+        groundEdge.Set(b2Vec2(-805/PTM_RATIO,0), b2Vec2(-805/PTM_RATIO,size.height/PTM_RATIO));
         _groundBody->CreateFixture(&boxShapeDef);
 
 
@@ -142,12 +144,18 @@
         }
     }
    
+   
     
     //Update children
     for(CCSprite *hp in self.children){
         if([hp isKindOfClass:[Hoipolloi class]]){
             [((Hoipolloi *)hp) update:dt pos:_shipSprite.position];
         }
+    }
+    if(_shipBody->GetPosition().x*PTM_RATIO>1330.00f){
+        //Stop the ship
+        _shipBody->SetLinearVelocity(b2Vec2((0)/PTM_RATIO,0));
+        
     }
     
         for(CCSprite *person in self.children){
@@ -171,7 +179,7 @@
 }
 
 -(void)updateShipPosition:(float)xPos y:(float)yPos{
-    NSLog(@"x:%f y:%f", xPos,yPos);
+//    NSLog(@"x:%f y:%f", xPos,yPos);
     CGPoint location = ccp(size.width/2-xPos, size.height/2 );
 //    b2Vec2 v = b2Vec2((2)/PTM_RATIO,0);
 ////    _shipBody->SetTransform(b2Vec2(location.x/PTM_RATIO,location.y/PTM_RATIO), 0); // Reposition the body
@@ -281,37 +289,46 @@
     UITouch *touch = [touches anyObject];
     CGPoint location = [touch locationInView:[touch view]];
     location = [[CCDirector sharedDirector] convertToGL:location];
-    
+    NSLog(@"ship position: %f",_shipBody->GetPosition().x*PTM_RATIO);
 //    if(!shipCooldownMode)
 //        [self singleBombFire];
     
-    if (location.x <= 100) {
+    if (location.x <= 100) {//touch left
         //[self schedule:@selector(moveScreenLeft)];
-        b2Vec2 v = b2Vec2((-300)/PTM_RATIO,0);
-        _shipBody->SetLinearVelocity(v);
-        _movingLeft = YES;
-    }
-    else if (location.x >= size.width-100) {
-        //[self schedule:@selector(moveScreenRight)];
-        if(_shipBody->GetPosition().x*PTM_RATIO<size.width){
-            b2Vec2 v = b2Vec2((300)/PTM_RATIO,0);
+            b2Vec2 v = b2Vec2((-300)/PTM_RATIO,0);
             _shipBody->SetLinearVelocity(v);
+            _movingLeft = YES;
+        if(_shipBody->GetPosition().x*PTM_RATIO>1086.00f){
+            _movingLeft = NO;
+            intentToMoveLeft = YES;
         }
+    }
+    else if (location.x >= size.width-100) {//touch right
+        //[self schedule:@selector(moveScreenRight)];
+        
+        b2Vec2 v = b2Vec2((300)/PTM_RATIO,0);
+        _shipBody->SetLinearVelocity(v);
         _movingRight = YES;
+        if(_shipBody->GetPosition().x*PTM_RATIO<-520.00f){
+            _movingRight = NO;
+            intentToMoveRight = YES;
+        }
+
     }
     else{
         if(!shipCooldownMode)
             [self singleBombFire];
     }
     
+   
+    
+    
 
 }
 
 -(void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
-    b2Vec2 v = b2Vec2((0)/PTM_RATIO,0);
-    ////    _shipBody->SetTransform(b2Vec2(location.x/PTM_RATIO,location.y/PTM_RATIO), 0); // Reposition the body
-    ////    _shipBody->SetAwake(true); // Make sure the object hasn't fallen "asleep," which would make it unresponsive
-    _shipBody->SetLinearVelocity(v);
+   //Stop the ship
+    _shipBody->SetLinearVelocity(b2Vec2((0)/PTM_RATIO,0));
     if (_movingLeft == YES) {
         _movingLeft = NO;
     }
@@ -319,6 +336,8 @@
     if (_movingRight == YES) {
         _movingRight = NO;
     }
+    intentToMoveLeft = NO;
+    intentToMoveRight = NO;
 }
 
 -(void)explodeAndRemoveBomb:(b2Body*)b{
