@@ -163,7 +163,7 @@
        _shipBody->SetLinearVelocity(b2Vec2((0)/PTM_RATIO,0));
     }
  
-    if(_shipBody->GetPosition().x*PTM_RATIO<1084.00f && intentToMoveLeft == YES){
+    if(_shipBody->GetPosition().x*PTM_RATIO<1086.00f && intentToMoveLeft == YES){
         _movingLeft = YES;
         intentToMoveLeft = NO;
     }
@@ -294,7 +294,7 @@
             b2Vec2 v = b2Vec2((-300)/PTM_RATIO,0);
             _shipBody->SetLinearVelocity(v);
             _movingLeft = YES;
-        if(_shipBody->GetPosition().x*PTM_RATIO>1084.00f){
+        if(_shipBody->GetPosition().x*PTM_RATIO>1086.00f){
             _movingLeft = NO;
             intentToMoveLeft = YES;
         }
