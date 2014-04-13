@@ -312,8 +312,10 @@
 
     }
     else{
-        if(!shipCooldownMode)
-            [self singleBombFire];
+        if(!shipCooldownMode){
+//            [self singleBombFire];
+            [self singleLazerFire];
+        }
     }
     
    
@@ -478,8 +480,34 @@
     }
     
 }
+-(void)singleLazerFire{
+    CCSprite* _laserSprite = [CCSprite spriteWithFile:@"laser.png"];
+    [_laserSprite setScale:0.6f];
+    [_laserSprite setPosition:CGPointMake(_shipSprite.position.x, _shipSprite.position.y)];
+    [self addChild:_laserSprite];
+    
+    b2CircleShape circle;
+    circle.m_radius = 15.0/PTM_RATIO;
+    b2BodyDef laserBodyDef;
+    laserBodyDef.type = b2_dynamicBody;
+    laserBodyDef.position.Set(_shipSprite.position.x/PTM_RATIO, (_shipSprite.position.y-20)/PTM_RATIO);
+    laserBodyDef.userData = _laserSprite;
+    laserBodyDef.fixedRotation = false;
+    b2Body* _laserBody = _world->CreateBody(&laserBodyDef);
+    
+    
+    b2FixtureDef laserShapeDef;
+    laserShapeDef.shape = &circle;
+    laserShapeDef.density = 2.5f;
+    laserShapeDef.friction = 0.8f;
+    laserShapeDef.restitution = 0.2f;
+    _laserBody->CreateFixture(&laserShapeDef);
+    [bombArray addObject:[NSValue valueWithPointer:_laserBody]];
+    shipCooldownMode = YES;
+    
+    [self performSelector:@selector(weaponReadyToFire) withObject:self afterDelay:0.5];
 
-
+}
 
 - (void)singleBombFire {
 //    b2Vec2 force = b2Vec2(30, 30);
@@ -509,11 +537,10 @@
     [bombArray addObject:[NSValue valueWithPointer:_bombBody]];
     shipCooldownMode = YES;
     
-    [self performSelector:@selector(bombReadyToFire) withObject:self afterDelay:0.5];
-    
+    [self performSelector:@selector(weaponReadyToFire) withObject:self afterDelay:0.5];
 }
 
--(void)bombReadyToFire{
+-(void)weaponReadyToFire{
     shipCooldownMode = NO;
 }
 
