@@ -54,7 +54,8 @@
     CCSprite* _dash;
     CCLabelTTF *_scoreLabel = [[CCLabelTTF labelWithString:@"-/-" fontName:@"Arial" fontSize:24.0] retain];
     CCSprite* _killCounter;
-   
+    //CCSprite* pause = null;
+    
     
     _dash = [CCSprite spriteWithFile:@"dashboard.png"];
    
@@ -90,7 +91,11 @@
 //                                 target:self selector:@selector(gadgetButtonLTapped:)];
 //    [self setMenuItem:gadgetButtonL buttonID:4 x:(size.width/2 - 50) y:30];
     
-    CCMenu *gadgetButtons = [CCMenu menuWithItems: laserButton, nil];
+    
+    CCMenuItem *pause = [CCMenuItemFont itemWithString:@"||" target:self selector:@selector(pauseTapped:)];
+    pause.position = ccp(50, size.height - 20);
+    
+    CCMenu *gadgetButtons = [CCMenu menuWithItems: laserButton, pause, nil];
     gadgetButtons.position = CGPointZero;
     [uiLayer addChild:gadgetButtons];
     
@@ -98,6 +103,9 @@
 //    _quota = 10000;
     
     [uiLayer updateKillCounter];
+    
+    
+    
     
 }
 
@@ -125,6 +133,12 @@
 -(void)laserButtonTapped:(id)sender {
      [_label setString:@"LASER MODE (is not working yet)"];
 }
+
+- (void)pauseTapped:(id)sender {
+    [_label setString:@"PAUSE"];
+    [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.0 scene: [HelloWorldLayer node]]];
+}
+
 
 
 @end
