@@ -113,7 +113,8 @@
     [spriteLayer update:dt];
     
     
-    if (([spriteLayer movingRight] == YES) && background.position.x >= -14795) {
+//    if (([spriteLayer movingRight] == YES) && background.position.x >= -14795) {
+    if (([spriteLayer movingRight] == YES) && background.position.x >= -8000) {
 //        NSLog(@"\n\n\n%f\n\n\n",background.position.x);
         CGPoint backgroundScrollVel = ccp(-3000, 0);
         background.position = ccpAdd(background.position, ccpMult(backgroundScrollVel, dt));
@@ -122,7 +123,8 @@
         }
     }
 
-    if (([spriteLayer movingLeft] == YES) && background.position.x <= 14795) {
+//    if (([spriteLayer movingLeft] == YES) && background.position.x <= 14795) {
+    if (([spriteLayer movingLeft] == YES) && background.position.x <= 8000) {
 //        NSLog(@"\n\n\n%f\n\n\n",background.position.x);
         CGPoint backgroundScrollVel = ccp(-3000, 0);
         background.position = ccpSub(background.position, ccpMult(backgroundScrollVel, dt));
