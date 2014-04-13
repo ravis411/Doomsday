@@ -145,10 +145,8 @@
         }
     }
    
-   
-    
-    b2Vec2 left = b2Vec2((-10)/PTM_RATIO,0);
-    b2Vec2 right = b2Vec2((10)/PTM_RATIO,0);
+    b2Vec2 left = b2Vec2((-20)/PTM_RATIO,0);
+    b2Vec2 right = b2Vec2((20)/PTM_RATIO,0);
     for(NSValue* pBody in hoipolloiArray){
         b2Body *pody = (b2Body*)[pBody pointerValue];
         
