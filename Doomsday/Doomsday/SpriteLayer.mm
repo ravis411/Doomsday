@@ -142,14 +142,17 @@
         }
     }
    
-    
+     if(_shipBody->GetPosition().x*PTM_RATIO>2000.00f || _shipBody->GetPosition().x*PTM_RATIO<-1420.00f){
+         //Stop the ship
+         _shipBody->SetLinearVelocity(b2Vec2((0)/PTM_RATIO,0));
+     }
  
 
     [self collisionDetection];
 }
 
 -(void)updateShipPosition:(float)xPos y:(float)yPos{
-    NSLog(@"x:%f y:%f", xPos,yPos);
+//    NSLog(@"x:%f y:%f", xPos,yPos);
     CGPoint location = ccp(size.width/2-xPos, size.height/2 );
 //    b2Vec2 v = b2Vec2((2)/PTM_RATIO,0);
 ////    _shipBody->SetTransform(b2Vec2(location.x/PTM_RATIO,location.y/PTM_RATIO), 0); // Reposition the body
@@ -259,19 +262,22 @@
     UITouch *touch = [touches anyObject];
     CGPoint location = [touch locationInView:[touch view]];
     location = [[CCDirector sharedDirector] convertToGL:location];
-    
+    NSLog(@"%f",_shipBody->GetPosition().x*PTM_RATIO);
 //    if(!shipCooldownMode)
 //        [self singleBombFire];
     
     if (location.x <= 100) {
         //[self schedule:@selector(moveScreenLeft)];
-        b2Vec2 v = b2Vec2((-300)/PTM_RATIO,0);
-        _shipBody->SetLinearVelocity(v);
+        if(_shipBody->GetPosition().x*PTM_RATIO>-1420.00f){
+            b2Vec2 v = b2Vec2((-300)/PTM_RATIO,0);
+            _shipBody->SetLinearVelocity(v);
+        }
         _movingLeft = YES;
     }
     else if (location.x >= size.width-100) {
         //[self schedule:@selector(moveScreenRight)];
-        if(_shipBody->GetPosition().x*PTM_RATIO<size.width){
+        if(_shipBody->GetPosition().x*PTM_RATIO<2000.00f){
+           
             b2Vec2 v = b2Vec2((300)/PTM_RATIO,0);
             _shipBody->SetLinearVelocity(v);
         }
@@ -286,10 +292,8 @@
 }
 
 -(void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
-    b2Vec2 v = b2Vec2((0)/PTM_RATIO,0);
-    ////    _shipBody->SetTransform(b2Vec2(location.x/PTM_RATIO,location.y/PTM_RATIO), 0); // Reposition the body
-    ////    _shipBody->SetAwake(true); // Make sure the object hasn't fallen "asleep," which would make it unresponsive
-    _shipBody->SetLinearVelocity(v);
+   //Stop the ship
+    _shipBody->SetLinearVelocity(b2Vec2((0)/PTM_RATIO,0));
     if (_movingLeft == YES) {
         _movingLeft = NO;
     }
