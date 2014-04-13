@@ -11,25 +11,13 @@
 #import "UILayer.h"
 #import "SpriteLayer.h"
 #import "BackgroundLayer.h"
+#import "PlayerWeapon.h"
 #include "CCTouchDelegateProtocol.h"
 //#import "GameOverLayer.h"
 
 
 @interface GameplayScene : CCScene {
     
-   enum playerWeapon {
-        PLAYER_OFF,
-        PLAYER_PLAYING,
-        PLAYER_PAUSED
-    };
-    
-//    enum {
-//        WEAPON_LASER,
-//        WEAPON_GADGET1,
-//        WEAPON_GADGET2
-//    };
-//    
-//    typedef NSInteger WeaponType;
     enum playerWeapon weaponMode;
     SpriteLayer *spriteLayer;
     UILayer *uiLayer;
@@ -54,6 +42,8 @@
 
 -(void) buildUI;
 -(void) laserButtonTapped:(id)sender;
+-(void) gadgetButtonRTapped:(id)sender;
+-(void) gadgetButtonLTapped:(id)sender;
 
 //-(void) moveScreenLeft;
 //-(void) moveScreenRight;

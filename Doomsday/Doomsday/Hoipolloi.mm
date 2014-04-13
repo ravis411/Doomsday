@@ -36,7 +36,7 @@
         //self.position = ccpAdd(ccp(-_movementSpeed, 0), self.position);
     }
     else{
-        NSLog(@"Hoi moveing right");
+//        NSLog(@"Hoi moveing right");
         //self.position = ccpAdd(ccp(_movementSpeed, 0), self.position);
     }
 }
