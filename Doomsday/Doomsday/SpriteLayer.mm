@@ -158,7 +158,21 @@
         
     }
     
-        for(CCSprite *person in self.children){
+    if(_shipBody->GetPosition().x*PTM_RATIO<-765.00f){
+        //Stop the ship
+        _shipBody->SetLinearVelocity(b2Vec2((0)/PTM_RATIO,0));
+    }
+    
+    if(_shipBody->GetPosition().x*PTM_RATIO<1086.00f && intentToMoveLeft == YES){
+        _movingLeft = YES;
+        intentToMoveLeft = NO;
+    }
+    if(_shipBody->GetPosition().x*PTM_RATIO>-520.00f && intentToMoveRight == YES){
+        _movingRight = YES;
+        intentToMoveRight = NO;
+    }
+    
+    for(CCSprite *person in self.children){
         if([person isKindOfClass:[Hoipolloi class]]){
             if ([person hoiMovingLeft] == YES) {
     //            //Move body left
