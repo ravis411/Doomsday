@@ -38,6 +38,7 @@
 -(void) laserButtonTapped;
 -(void) gadgetButtonLTapped;
 -(void) gadgetButtonRTapped;
+-(void) pauseTapped;
 -(void) updateKillCounter;
 -(void) addUIElement:(CCSprite*)element withFrame:(NSString*)elemFile x:(int)mX y:(int)mY;
 -(void) setMenuItem:(CCMenuItem*)element buttonID:(int)bID x:(int)mX y:(int)mY;

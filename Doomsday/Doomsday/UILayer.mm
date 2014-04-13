@@ -16,15 +16,15 @@
 {
 
 
-    if (self = [super init]) {
-        size = [[CCDirector sharedDirector] winSize];
-        [self setTouchEnabled:YES];
+if (self = [super init]) {
+size = [[CCDirector sharedDirector] winSize];
+[self setTouchEnabled:YES];
 //        [self mainGameplayMode];
 
-        [self scheduleUpdate];
+[self scheduleUpdate];
 
-        }
-    return self;
+}
+return self;
 }
 
 -(void) mainMenuMode {
@@ -97,18 +97,18 @@
 }
 
 -(void) addUIElement:(CCSprite*)element withFrame:(NSString*) elemFile x:(int)mX y:(int)mY {
-    element = [CCSprite node];
-    [element initWithSpriteFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:elemFile]];
-    element.position = CGPointMake(mX, mY);
-    [self addChild:element];
+element = [CCSprite node];
+[element initWithSpriteFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:elemFile]];
+element.position = CGPointMake(mX, mY);
+[self addChild:element];
 }
 
 -(void) setMenuItem:(CCMenuItem*)element buttonID:(int)bID x:(int)mX y:(int)mY {
-    NSString* nFrame = [NSString stringWithFormat:@"button%d_0.png", bID];
-     NSString* sFrame = [NSString stringWithFormat:@"button%d_1.png", bID];
-    [element setNormalSpriteFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:nFrame]];
-    [element setSelectedSpriteFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:sFrame]];
-    element.position = ccp(mX, mY);
+NSString* nFrame = [NSString stringWithFormat:@"button%d_0.png", bID];
+NSString* sFrame = [NSString stringWithFormat:@"button%d_1.png", bID];
+[element setNormalSpriteFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:nFrame]];
+[element setSelectedSpriteFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:sFrame]];
+element.position = ccp(mX, mY);
 }
 
 
@@ -118,8 +118,8 @@
 }
 
 -(void) update:(ccTime)dt level:(int) currentLevel lives:(int)currentLives killed:(int)currentKilled score:(double)s {
-    _killCount = currentKilled;
-    [self updateKillCounter];
+_killCount = currentKilled;
+[self updateKillCounter];
 }
 
 @end
