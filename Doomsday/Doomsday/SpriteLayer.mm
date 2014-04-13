@@ -69,13 +69,14 @@
         groundEdge.Set(b2Vec2(-14795/PTM_RATIO,groundLevel/PTM_RATIO), b2Vec2(14795/PTM_RATIO, groundLevel/PTM_RATIO));
         _groundBody->CreateFixture(&boxShapeDef);
 
+        groundEdge.Set(b2Vec2((size.width+1500)/PTM_RATIO, 0),b2Vec2((size.width+1500)/PTM_RATIO, size.height/PTM_RATIO));
+        _groundBody->CreateFixture(&boxShapeDef);
         
-        groundEdge.Set(b2Vec2(14795/PTM_RATIO,0), b2Vec2(14795/PTM_RATIO,size.height/PTM_RATIO));
+        groundEdge.Set(b2Vec2(-1500/PTM_RATIO,0), b2Vec2(-1500/PTM_RATIO,size.height/PTM_RATIO));
         _groundBody->CreateFixture(&boxShapeDef);
 
 
-        groundEdge.Set(b2Vec2(-14795/PTM_RATIO, 0),b2Vec2(-14795/PTM_RATIO, size.height/PTM_RATIO));
-        _groundBody->CreateFixture(&boxShapeDef);
+       
         
         
         
@@ -270,8 +271,10 @@
     }
     else if (location.x >= size.width-100) {
         //[self schedule:@selector(moveScreenRight)];
-         b2Vec2 v = b2Vec2((300)/PTM_RATIO,0);
-         _shipBody->SetLinearVelocity(v);
+        if(_shipBody->GetPosition().x*PTM_RATIO<size.width){
+            b2Vec2 v = b2Vec2((300)/PTM_RATIO,0);
+            _shipBody->SetLinearVelocity(v);
+        }
         _movingRight = YES;
     }
     else{
