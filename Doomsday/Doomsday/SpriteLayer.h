@@ -18,7 +18,7 @@
     b2Body* _shipBody;
     b2Body* _groundBody;
     //b2Body* _hoipolloiBody;
-    Ship* _shipSprite;
+    CCSprite* _shipSprite;
     //Hoipolloi* _hoipolloiSprite;
     CGSize size;
     BOOL _movingLeft;
@@ -38,6 +38,7 @@
 -(void) moveScreenLeft;
 -(void) moveScreenRight;
 -(void) kick;
+-(void)updateShipPosition:(float)xPos y:(float)yPos;
 -(NSMutableArray*) getHoipolloiArray;
 
 @end
