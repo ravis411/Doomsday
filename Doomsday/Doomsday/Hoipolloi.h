@@ -11,9 +11,13 @@
 
 @interface Hoipolloi : CCSprite {
     int _movementSpeed;
+    BOOL _hoiMovingLeft;
+    BOOL _hoiMovingRight;
 }
 
 @property int movementSpeed;
+@property BOOL hoiMovingLeft;
+@property BOOL hoiMovingRight;
 
 -(void)update:(ccTime)dt pos:(CGPoint)shipPosition;
 -(id)init;

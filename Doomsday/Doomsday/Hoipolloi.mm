@@ -13,12 +13,16 @@
 @implementation Hoipolloi
 
 @synthesize movementSpeed = _movementSpeed;
+@synthesize hoiMovingLeft = _hoiMovingLeft;
+@synthesize hoiMovingRight = _hoiMovingRight;
 
 - (id)init
 {
     self = [super initWithFile:@"hoipolloi.png"];
     if (self) {
         _movementSpeed = 500;
+        _hoiMovingLeft = NO;
+        _hoiMovingRight = NO;
     }
     return self;
 }
@@ -28,10 +32,14 @@
     int x = self.position.x;
     if(shipPosition.x >= self.position.x){
         NSLog(@"Hoi moveing left");
+        _hoiMovingLeft = YES;
+        _hoiMovingRight = NO;
        // self.position = ccpAdd(ccp(-_movementSpeed, 0), self.position);
     }
     else{
         NSLog(@"Hoi moveing right");
+        _hoiMovingRight = YES;
+        _hoiMovingLeft = NO;
         //self.position = ccpAdd(ccp(_movementSpeed, 0), self.position);
     }
 }

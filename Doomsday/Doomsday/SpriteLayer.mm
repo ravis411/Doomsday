@@ -150,7 +150,23 @@
         }
     }
     
+        for(CCSprite *person in self.children){
+        if([person isKindOfClass:[Hoipolloi class]]){
+            if ([person hoiMovingLeft] == YES) {
+    //            //Move body left
+                CGPoint peopleMovementVel = ccp(-1000, 0);
+                person.position = ccpSub(person.position, ccpMult(peopleMovementVel, dt));
+    //
+            }
+            else if ([person hoiMovingRight] == YES){
+    //            //Move body right
+                CGPoint peopleMovementVel = ccp(-1000, 0);
+                person.position = ccpAdd(person.position, ccpMult(peopleMovementVel, dt));
+            }
+        }
+    }
 
+   
     [self collisionDetection];
 }
 
@@ -403,6 +419,8 @@
     
     [hoipolloiArray addObject:[NSValue valueWithPointer:_hoipolloiBody]];
 }
+
+
 
 -(void)createSingleExplosion:(CGPoint)point{
     CCSprite* _explosionSprite = [CCSprite spriteWithFile:@"explosion.png"];
