@@ -134,6 +134,7 @@
     
     
     _world->Step(dt, 10, 10);
+    int i = 0;
     for(b2Body *b = _world->GetBodyList(); b; b=b->GetNext()) {
         if (b->GetUserData() != NULL) {
             CCSprite *bodyData = (CCSprite *)b->GetUserData();
@@ -143,13 +144,28 @@
     }
    
     
+    b2Vec2 left = b2Vec2((-10)/PTM_RATIO,0);
+    b2Vec2 right = b2Vec2((10)/PTM_RATIO,0);
+    for(NSValue* pBody in hoipolloiArray){
+        b2Body *pody = (b2Body*)[pBody pointerValue];
+        
+        if(pody->GetPosition().x < pos.x){
+            pody->SetLinearVelocity(left);
+        }else{
+            pody->SetLinearVelocity(right);
+        }
+
+    }
+
+    
+ /*
     //Update children
     for(CCSprite *hp in self.children){
         if([hp isKindOfClass:[Hoipolloi class]]){
             [((Hoipolloi *)hp) update:dt pos:_shipSprite.position];
         }
     }
-    
+   */
 
     [self collisionDetection];
 }

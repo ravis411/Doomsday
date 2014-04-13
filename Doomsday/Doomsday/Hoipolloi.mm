@@ -9,10 +9,10 @@
 #import "Hoipolloi.h"
 
 
-
 @implementation Hoipolloi
 
 @synthesize movementSpeed = _movementSpeed;
+@synthesize myBody = _myBody;
 
 - (id)init
 {
@@ -23,12 +23,17 @@
     return self;
 }
 
--(void)update:(ccTime)dt pos:(CGPoint)shipPosition{
+
+
+//-(void)update:(ccTime)dt pos:(int)shipPosition body:(b2Body*)myBody{
+-(void)update:(ccTime)dt pos:(CGPoint)shipPos{
     //If ship is greater than current position...nove left
-    int x = self.position.x;
-    if(shipPosition.x >= self.position.x){
+    //b2Vec2 x = _myBody->GetPosition();
+    //if(shipPos.x >= x.x){
+    if (true) {
+       // NSLog(@"Pos %f", shipPos.x);
         NSLog(@"Hoi moveing left");
-       // self.position = ccpAdd(ccp(-_movementSpeed, 0), self.position);
+        //self.position = ccpAdd(ccp(-_movementSpeed, 0), self.position);
     }
     else{
         NSLog(@"Hoi moveing right");
