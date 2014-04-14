@@ -435,7 +435,10 @@
 - (void)spawnPerson2 {
     
     Hoipolloi* _humanSprite = [Hoipolloi node];
-    _humanSprite.position = CGPointMake(size.width/2, size.height/2);
+    
+    NSInteger x =( arc4random() % (int)(size.width - 0+1)) + 0;
+    
+    _humanSprite.position = CGPointMake(x, size.height/3);
     [_humanSprite setScale:0.3];
     [self addChild:_humanSprite];
     b2Body* _hoipolloiBody;
@@ -443,7 +446,8 @@
     //Creating Hoipolloi Box2D Body
     b2BodyDef hoipolloiBodyDef;
     hoipolloiBodyDef.type = b2_dynamicBody;
-    hoipolloiBodyDef.position.Set((size.width/2)/PTM_RATIO, (size.height/2)/PTM_RATIO);
+//
+    hoipolloiBodyDef.position.Set((x/PTM_RATIO), (size.height/3)/PTM_RATIO);
     hoipolloiBodyDef.userData = _humanSprite;
     hoipolloiBodyDef.fixedRotation = false;
     _hoipolloiBody = _world->CreateBody(&hoipolloiBodyDef);
