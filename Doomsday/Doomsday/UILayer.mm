@@ -11,6 +11,7 @@
 @implementation UILayer
 
 @synthesize quota = _quota;
+@synthesize killed = _killCount;
 
 - (id)init
 {
@@ -29,9 +30,18 @@ return self;
 
 }
 
+
+-(void) displayScoreLabel {
+    
+    _scoreLabel = [[CCLabelTTF labelWithString:@" " fontName:@"Arial" fontSize:24.0] retain];
+    _scoreLabel.position = ccp(size.width-115,size.height-18);
+    [self addChild:_scoreLabel];
+}
+
+
 -(void) updateKillCounter {
-//    NSString *updateLabel = [NSString stringWithFormat:@"%d/%d", _killCount, _quota];
-//    [_scoreLabel setString:updateLabel];
+NSString *updateLabel = [NSString stringWithFormat:@"%d/%d", _killCount, _quota];
+[_scoreLabel setString:updateLabel];
 }
 
 -(void) addUIElement:(CCSprite*)element withFrame:(NSString*) elemFile x:(int)mX y:(int)mY {
@@ -49,13 +59,14 @@ NSString* sFrame = [NSString stringWithFormat:@"button%d_1.png", bID];
 element.position = ccp(mX, mY);
 }
 
+
 -(void) dealloc {
 [super dealloc];
 }
 
 -(void) update:(ccTime)dt level:(int) currentLevel lives:(int)currentLives killed:(int)currentKilled score:(double)s {
-_killCount = currentKilled;
-[self updateKillCounter];
+//    _killCount = currentKilled;
+//    [self updateKillCounter];
 }
 
 @end
