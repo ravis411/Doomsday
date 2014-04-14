@@ -240,7 +240,16 @@
                 b2Body *pody = (b2Body*)[pBody pointerValue];
                 if ((contact.fixtureA == eX->GetFixtureList() && contact.fixtureB == pody->GetFixtureList()) || (contact.fixtureA == pody->GetFixtureList() && contact.fixtureB == eX->GetFixtureList())) {
                     NSLog(@"Explosion hit person.");
-                   pody->SetAngularVelocity(20);
+
+                    if (eX->GetPosition().x > pody->GetPosition().x) {
+                        pody->SetAngularVelocity(100);
+                    }
+                    else{
+                        pody->SetAngularVelocity(-100);
+                    }
+                   //pody->SetAngularVelocity(50);
+//                    [deletePeople addObject:pBody];
+
                     CCSprite* dead = [CCSprite spriteWithFile:@"deadhoipolloi.png"];
                     dead.position = CGPointMake(size.width/2, size.height/2);
                     [dead setScale:0.3];
