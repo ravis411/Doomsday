@@ -373,7 +373,7 @@
 //            [self singleLazerFire];
             switch(_weaponMode) {
                 case WEAPON_BASIC:
-                    [self singleLazerFire];
+                    [self singleLazerFire:location];
                     break;
                 case WEAPON_GADGET1:
                     [self singleBombFire];
@@ -405,16 +405,20 @@
     
     [self createSingleExplosion:CGPointMake(b->GetPosition().x*PTM_RATIO, (b->GetPosition().y*PTM_RATIO)-10)];
         NSLog(@"Destroy b");
+    if(b!=NULL){
     _world->DestroyBody(b);
     [self removeChild:(CCSprite*)b->GetUserData()];
+    }
 }
 -(void)explodeAndRemoveLaser:(b2Body*)b{
     NSLog(@"explode!");
     
     [self createHugeExplosion:CGPointMake(b->GetPosition().x*PTM_RATIO, (b->GetPosition().y*PTM_RATIO)-10)];
     NSLog(@"Destroy b");
+    if(b!=NULL){
     _world->DestroyBody(b);
     [self removeChild:(CCSprite*)b->GetUserData()];
+    }
 }
 
 
@@ -511,15 +515,20 @@
     [hoipolloiArray addObject:[NSValue valueWithPointer:_hoipolloiBody]];
 }
 
--(void)singleLazerFire{
+-(void)singleLazerFire:(CGPoint)point{
+    
+    float xPoint = point.x-283.00f;
+    float yPoint = (_shipBody->GetPosition().y*PTM_RATIO)- point.y;
+    float answer = atanf(xPoint/yPoint)*55;
+    NSLog(@"x: %f y:%f angle:%f",xPoint,yPoint,answer);
     
     CCSprite* _laserSprite = [CCSprite spriteWithFile:@"laser.png"];
-    [_laserSprite setScale:0.6f];
-    [_laserSprite setPosition:CGPointMake(_shipSprite.position.x, _shipSprite.position.y-100)];
+    [_laserSprite setScale:1.0f];
+    [_laserSprite setPosition:CGPointMake(point.x, _shipSprite.position.y-160)];
     [self addChild:_laserSprite];
     
     b2BodyDef laserBodyDef;
-    laserBodyDef.position.Set((_shipSprite.position.x)/PTM_RATIO, (_shipSprite.position.y-100)/PTM_RATIO);
+    laserBodyDef.position.Set((point.x)/PTM_RATIO, (_shipSprite.position.y-160)/PTM_RATIO);
     laserBodyDef.type = b2_dynamicBody;
     laserBodyDef.userData = _laserSprite;
     laserBodyDef.fixedRotation = false;
@@ -528,10 +537,10 @@
     b2PolygonShape polygon;
     int num = 4;
     b2Vec2 vertices[4];
-    vertices[0].Set(-15/ PTM_RATIO, -60/ PTM_RATIO);
-    vertices[1].Set(10/ PTM_RATIO,-60/ PTM_RATIO);
-    vertices[2].Set(10/ PTM_RATIO,80/ PTM_RATIO);
-    vertices[3].Set(-15/ PTM_RATIO,80/ PTM_RATIO);
+    vertices[0].Set(-25/ PTM_RATIO, -90/ PTM_RATIO);
+    vertices[1].Set(15/ PTM_RATIO,-90/ PTM_RATIO);
+    vertices[2].Set(15/ PTM_RATIO,120/ PTM_RATIO);
+    vertices[3].Set(-25/ PTM_RATIO,120/ PTM_RATIO);
     polygon.Set(vertices, num);
     
     b2FixtureDef laserShapeDef;
@@ -540,6 +549,12 @@
     laserShapeDef.friction = 0.8f;
     laserShapeDef.restitution = 0.2f;
     _laserBody->CreateFixture(&laserShapeDef);
+    _laserBody->SetTransform(_laserBody->GetPosition(), CC_DEGREES_TO_RADIANS(answer));
+//    b2Vec2 vectorForce = b2Vec2(cosf(answer),sinf(answer));
+    b2Vec2 vectorForce =  b2Rot(answer).GetXAxis();
+    vectorForce = 50*vectorForce;
+    _laserBody->ApplyForceToCenter(vectorForce);
+    _laserBody->SetGravityScale(0.1);
     [laserArray addObject:[NSValue valueWithPointer:_laserBody]];
     shipCooldownMode = YES;
     [self performSelector:@selector(weaponReadyToFire) withObject:self afterDelay:1.0];
@@ -575,15 +590,15 @@
 }
 -(void)createHugeExplosion:(CGPoint)point{
     CCSprite* _explosionSprite = [CCSprite spriteWithFile:@"explosion.png"];
-    [_explosionSprite setScale:0.4f];
+    [_explosionSprite setScale:0.3f];
     [_explosionSprite setPosition:point];
     [self addChild:_explosionSprite];
     
     b2CircleShape circle;
-    circle.m_radius = 70.0/PTM_RATIO;
+    circle.m_radius = 55.0/PTM_RATIO;
     b2BodyDef explosionBodyDef;
     explosionBodyDef.type = b2_dynamicBody;
-    explosionBodyDef.position.Set(point.x/PTM_RATIO, (point.y)/PTM_RATIO);
+    explosionBodyDef.position.Set(point.x/PTM_RATIO, (point.y-60)/PTM_RATIO);
     explosionBodyDef.userData = _explosionSprite;
     explosionBodyDef.fixedRotation = false;
     b2Body* _explosionBody = _world->CreateBody(&explosionBodyDef);
@@ -609,9 +624,11 @@
     for(b2Body *b = _world->GetBodyList();b;b = b->GetNext()){
         if(b == xplode){
             [explosionArray removeObject:[NSValue valueWithPointer:xplode]];
+            if(b!=NULL){
             _world->DestroyBody(xplode);
             [self removeChild:(CCSprite*)xplode->GetUserData()];
             NSLog(@"not exploded");
+            }
             break;
         }
     }
