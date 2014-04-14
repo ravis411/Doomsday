@@ -12,11 +12,15 @@
 
 @interface Hoipolloi : CCSprite {
     int _movementSpeed;
+    int _stamina;
+    int _health;
     b2Body* _myBody;
 }
 
 @property int movementSpeed;
 @property b2Body* myBody;
+@property int health;
+@property int stamina;
 
 //-(void)update:(ccTime)dt pos:(int)shipPosition body:(b2Body*)myBody;
 -(void)update:(ccTime)dt pos:(CGPoint)shipPos;

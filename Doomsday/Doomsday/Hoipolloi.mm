@@ -13,6 +13,8 @@
 
 @synthesize movementSpeed = _movementSpeed;
 @synthesize myBody = _myBody;
+@synthesize health = _health;
+@synthesize stamina = _stamina;
 
 - (id)init
 {

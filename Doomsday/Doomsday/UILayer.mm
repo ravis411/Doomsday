@@ -12,6 +12,7 @@
 
 @synthesize quota = _quota;
 @synthesize killed = _killCount;
+@synthesize timeLeft = _remainingTime;
 
 - (id)init
 {
@@ -26,22 +27,26 @@
 return self;
 }
 
--(void) mainMenuMode {
-
-}
-
-
 -(void) displayScoreLabel {
     
     _scoreLabel = [[CCLabelTTF labelWithString:@" " fontName:@"Arial" fontSize:24.0] retain];
-    _scoreLabel.position = ccp(size.width-115,size.height-18);
+    _scoreLabel.position = ccp(size.width-100,size.height-18);
     [self addChild:_scoreLabel];
 }
 
+-(void) displayTimer {
+    _timeLabel = [[CCLabelTTF labelWithString:@"XXX" fontName:@"Arial" fontSize:20.0] retain];
+    _timeLabel.position = ccp(size.width-96,size.height-42);
+    [self addChild:_timeLabel];
+}
 
 -(void) updateKillCounter {
 NSString *updateLabel = [NSString stringWithFormat:@"%d/%d", _killCount, _quota];
 [_scoreLabel setString:updateLabel];
+}
+
+-(void) updateTimer:(int)newTime {
+[_timeLabel setString:[NSString stringWithFormat:@"%d SCHMECKONDS", [self ticksToSchmeckonds:newTime]]];
 }
 
 -(void) addUIElement:(CCSprite*)element withFrame:(NSString*) elemFile x:(int)mX y:(int)mY {
@@ -67,6 +72,10 @@ element.position = ccp(mX, mY);
 -(void) update:(ccTime)dt level:(int) currentLevel lives:(int)currentLives killed:(int)currentKilled score:(double)s {
 //    _killCount = currentKilled;
 //    [self updateKillCounter];
+}
+
+-(int) ticksToSchmeckonds: (int)ticks {
+    return ticks/12;
 }
 
 @end

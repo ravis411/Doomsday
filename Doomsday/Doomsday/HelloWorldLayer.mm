@@ -168,6 +168,7 @@ enum {
     CCSprite* menuButtonSprite0 = [CCSprite spriteWithSpriteFrameName:@"button1_0.png"];
     CCSprite* menuButtonSprite1 = [CCSprite spriteWithSpriteFrameName:@"button1_1.png"];
     CCMenuItemSprite * itemNewGame = [CCMenuItemSprite itemWithNormalSprite:menuButtonSprite0 selectedSprite:menuButtonSprite1 target:self selector:@selector(newGame:)];
+    
 //    CCMenuItemLabel *itemNewGameLabel = [CCLabelTTF labelWithString:@"New Game" fontName:@"Arial" fontSize:22];
 //    [itemNewGameLabel setColor:ccBLACK];
 //    [itemNewGame addChild:itemNewGameLabel];
@@ -187,6 +188,10 @@ enum {
 	CGSize size = [[CCDirector sharedDirector] winSize];
 	[menu setPosition:ccp( size.width/2, size.height/2)];
 	
+//    CCLabelTTF* killThemAll = [CCLabelTTF labelWithString:@"SMITE" fontName:@"Arial" fontSize:22];
+//    [killThemAll setPosition: ccp(500, 500)];
+//    [self addChild:killThemAll];
+    
     //background elements
     
     CCSprite* cosmos = [CCSprite spriteWithFile:@"cosmos.png"];
