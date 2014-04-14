@@ -16,6 +16,7 @@
     
     if(self = [super init])
 	{
+        [self setTimer:300];
         spriteLayer = [SpriteLayer node];
         uiLayer = [UILayer node];
         bgLayer = [BackgroundLayer node];
@@ -24,6 +25,7 @@
         
         weaponMode = WEAPON_GADGET1;
         [self buildUI];
+        [self setTimer:300];
         
     }
     
@@ -55,6 +57,7 @@
     CCSprite* _dash;
     CCLabelTTF *_scoreLabel = [[CCLabelTTF labelWithString:@"-/-" fontName:@"Arial" fontSize:24.0] retain];
     CCSprite* _killCounter;
+    CCLabelTTF* _timeLabel = [[CCLabelTTF labelWithString:@"000" fontName:@"Arial" fontSize:18] retain];
     //CCSprite* pause = null;
     
     
@@ -64,15 +67,14 @@
     [self addChild:_dash];
     
     //testinglabel
-    _label = [[CCLabelTTF labelWithString:@" " fontName:@"Arial" fontSize:24.0] retain];
+    _label = [[CCLabelTTF labelWithString:@" " fontName:@"Arial" fontSize:18.0] retain];
     _label.position = ccp(size.width/3, size.height-(_label.contentSize.height/2));
     [uiLayer addChild:_label];
     
     //killcounter
     [uiLayer addUIElement:_killCounter withFrame:@"killcounter.png" x:(size.width-115) y:(size.height-18)];
     [uiLayer displayScoreLabel];
-    uiLayer.quota = 1000;
-    
+    uiLayer.quota = 50;
     
     NSString* placeHolderSprite = @"button_round_unlit.png";
     
@@ -99,35 +101,11 @@
     gadgetButtons.position = CGPointZero;
     [uiLayer addChild:gadgetButtons];
     
-//    _killCount = 0;
-//    _quota = 10000;
-    
     [uiLayer updateKillCounter];
     
+    //TIMER UI
+    [uiLayer displayTimer];
     
-    
-    
-}
-
--(void)update:(ccTime)dt{
-    [spriteLayer update:dt];
-    
-    
-//    if (([spriteLayer movingRight] == YES) && background.position.x >= -14795) {
-    if (([spriteLayer movingRight] == YES) && background.position.x >= -8000) {
-//        NSLog(@"\n\n\n%f\n\n\n",background.position.x);
-        CGPoint backgroundScrollVel = ccp(-3000, 0);
-        background.position = ccpAdd(background.position, ccpMult(backgroundScrollVel, dt));
-    }
-
-//    if (([spriteLayer movingLeft] == YES) && background.position.x <= 14795) {
-    if (([spriteLayer movingLeft] == YES) && background.position.x <= 8000) {
-//        NSLog(@"\n\n\n%f\n\n\n",background.position.x);
-        CGPoint backgroundScrollVel = ccp(-3000, 0);
-        background.position = ccpSub(background.position, ccpMult(backgroundScrollVel, dt));
-    }
-    [self updateUILayer];
-    [spriteLayer setWeaponMode:weaponMode];
 }
 
 //Button actions
@@ -170,11 +148,46 @@
     [_label setString:[NSString stringWithFormat:@"Active Weapon: %@", weaponLabelString]];
     uiLayer.killed = [spriteLayer enemiesKilled];
     [uiLayer updateKillCounter];
+    [uiLayer updateTimer:_timeRemaining];
     
 }
 
+-(void) setTimer:(int)mT {
+    _timeRemaining = mT;
+    _timerOn = true;
+}
 
-\
+-(void)update:(ccTime)dt{
+    [spriteLayer update:dt];
+    
+       
+    //    if (([spriteLayer movingRight] == YES) && background.position.x >= -14795) {
+    if (([spriteLayer movingRight] == YES) && background.position.x >= -8000) {
+        //        NSLog(@"\n\n\n%f\n\n\n",background.position.x);
+        CGPoint backgroundScrollVel = ccp(-3000, 0);
+        background.position = ccpAdd(background.position, ccpMult(backgroundScrollVel, dt));
+    }
+    
+    //    if (([spriteLayer movingLeft] == YES) && background.position.x <= 14795) {
+    if (([spriteLayer movingLeft] == YES) && background.position.x <= 8000) {
+        //        NSLog(@"\n\n\n%f\n\n\n",background.position.x);
+        CGPoint backgroundScrollVel = ccp(-3000, 0);
+        background.position = ccpSub(background.position, ccpMult(backgroundScrollVel, dt));
+    }
+    [self updateUILayer];
+    [spriteLayer setWeaponMode:weaponMode];
+    
+    if (_timerOn) {
+        _timeRemaining -= 1;
+        if (_timeRemaining < 0) {
+            //user fails level
+            _timerOn = false;
+            [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.0 scene: [HelloWorldLayer node]]];
+        }
+    }
+
+}
+
 
 
 @end

@@ -26,20 +26,26 @@
 //    CCSprite* _dash;
 //    CCLabelTTF *_label;
     CCLabelTTF *_scoreLabel;
+    CCLabelTTF *_timeLabel;
 //    CCSprite* _killCounter;
     int _quota;
     int _killCount;
+    int _remainingTime;
     enum playerWeapon _displayWeapon;
 }
 
 @property int quota;
 @property int killed;
+@property int timeLeft;
 
 -(void) showGameOverLabel;
 -(void) pauseTapped;
 -(void) updateKillCounter;
+-(void) updateTimer:(int)newTime;
 -(void) displayScoreLabel;
+-(void) displayTimer;
 -(void) addUIElement:(CCSprite*)element withFrame:(NSString*)elemFile x:(int)mX y:(int)mY;
 -(void) setMenuItem:(CCMenuItem*)element buttonID:(int)bID x:(int)mX y:(int)mY;
 -(void) update:(ccTime)dt level:(int) currentLevel lives:(int)currentLives killed:(int)currentKilled score:(double)s;
+-(int) ticksToSchmeckonds:(int)ticks;
 @end

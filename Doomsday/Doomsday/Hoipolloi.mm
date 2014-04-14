@@ -11,6 +11,9 @@
 
 @implementation Hoipolloi
 
+@synthesize movementSpeed = _movementSpeed;
+@synthesize health = _health;
+@synthesize stamina = _stamina;
 
 - (id)init
 {

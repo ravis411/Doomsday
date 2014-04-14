@@ -17,7 +17,8 @@
 
 
 @interface GameplayScene : CCScene {
-    
+    int _timeRemaining;
+    Boolean _timerOn;
     enum playerWeapon weaponMode;
     SpriteLayer *spriteLayer;
     UILayer *uiLayer;

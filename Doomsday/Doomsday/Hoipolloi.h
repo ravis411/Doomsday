@@ -10,9 +10,15 @@
 #import "cocos2d.h"
 
 @interface Hoipolloi : CCSprite {
-    
+
+    int _movementSpeed;
+    int _stamina;
+    int _health;
 }
 
+@property int movementSpeed;
+@property int health;
+@property int stamina;
 
 -(id)init;
 
