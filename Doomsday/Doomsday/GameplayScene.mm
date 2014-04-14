@@ -77,7 +77,7 @@
     NSString* placeHolderSprite = @"button_round_unlit.png";
     
     CCMenuItem *pause = [CCMenuItemFont itemWithString:@"||" target:self selector:@selector(pauseTapped:)];
-    pause.position = ccp(50, size.height - 20);
+    pause.position = ccp(size.width - 20, 20);
 
     
     CCMenuItem *laserButton = [CCMenuItemImage
