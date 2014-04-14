@@ -11,21 +11,14 @@
 
 @implementation Hoipolloi
 
-@synthesize movementSpeed = _movementSpeed;
-@synthesize myBody = _myBody;
 
 - (id)init
 {
     self = [super initWithFile:@"hoipolloi.png"];
     if (self) {
-        _movementSpeed = 500;
+        //_movementSpeed = 500;
     }
     return self;
-}
-
-
--(void)update:(ccTime)dt pos:(CGPoint)shipPos{
-    
 }
 
 
