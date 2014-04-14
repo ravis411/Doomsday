@@ -19,13 +19,13 @@
 //    CCLabelTTF *m_WeaponLabel;
 //    CCLabelTTF *m_GameOverLabel;
 //    CCLabelTTF *m_EnemyKilledLabel;
-//    CCLabelTTF *m_TotalScore;
+    CCLabelTTF *m_TotalScore;
 //    NSMutableArray *heartCount;
     CGSize size;
 //    CCSpriteBatchNode *uiAtlasNode;
 //    CCSprite* _dash;
 //    CCLabelTTF *_label;
-//    CCLabelTTF *_scoreLabel;
+    CCLabelTTF *_scoreLabel;
 //    CCSprite* _killCounter;
     int _quota;
     int _killCount;
@@ -33,10 +33,12 @@
 }
 
 @property int quota;
+@property int killed;
 
 -(void) showGameOverLabel;
 -(void) pauseTapped;
 -(void) updateKillCounter;
+-(void) displayScoreLabel;
 -(void) addUIElement:(CCSprite*)element withFrame:(NSString*)elemFile x:(int)mX y:(int)mY;
 -(void) setMenuItem:(CCMenuItem*)element buttonID:(int)bID x:(int)mX y:(int)mY;
 -(void) update:(ccTime)dt level:(int) currentLevel lives:(int)currentLives killed:(int)currentKilled score:(double)s;

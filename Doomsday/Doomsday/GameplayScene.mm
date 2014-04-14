@@ -62,22 +62,22 @@
    
     _dash.position = CGPointMake(size.width/2, 30);
     [self addChild:_dash];
-    //killcounter
-    [uiLayer addUIElement:_killCounter withFrame:@"killcounter.png" x:(size.width-115) y:(size.height-18)];
-    
-//    _scoreLabel.position = _killCounter.position;
-    [uiLayer addChild:_scoreLabel];
     
     //testinglabel
     _label = [[CCLabelTTF labelWithString:@" " fontName:@"Arial" fontSize:24.0] retain];
     _label.position = ccp(size.width/3, size.height-(_label.contentSize.height/2));
     [uiLayer addChild:_label];
     
+    //killcounter
+    [uiLayer addUIElement:_killCounter withFrame:@"killcounter.png" x:(size.width-115) y:(size.height-18)];
+    [uiLayer displayScoreLabel];
+    uiLayer.quota = 1000;
+    
     
     NSString* placeHolderSprite = @"button_round_unlit.png";
     
     CCMenuItem *pause = [CCMenuItemFont itemWithString:@"||" target:self selector:@selector(pauseTapped:)];
-    pause.position = ccp(50, size.height - 20);
+    pause.position = ccp(size.width - 20, 20);
 
     
     CCMenuItem *laserButton = [CCMenuItemImage
@@ -168,6 +168,9 @@
             break;
     }
     [_label setString:[NSString stringWithFormat:@"Active Weapon: %@", weaponLabelString]];
+    uiLayer.killed = [spriteLayer enemiesKilled];
+    [uiLayer updateKillCounter];
+    
 }
 
 
