@@ -108,7 +108,17 @@
     
         _shipBody->SetGravityScale(0);
         
-        
+        [self schedule:@selector(spawnPerson) interval:1];
+        [self schedule:@selector(spawnPerson) interval:2.25];
+        [self schedule:@selector(spawnPerson) interval:5.5];
+        [self schedule:@selector(spawnPerson) interval:2];
+        [self schedule:@selector(spawnPerson) interval:3];
+
+
+        [self spawnPerson];
+        [self spawnPerson];
+        [self spawnPerson];
+        [self spawnPerson];
         [self spawnPerson];
         [self spawnPerson2];
         
