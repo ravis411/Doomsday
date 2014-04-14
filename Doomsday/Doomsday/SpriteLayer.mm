@@ -241,7 +241,6 @@
                 b2Body *pody = (b2Body*)[pBody pointerValue];
                 if ((contact.fixtureA == eX->GetFixtureList() && contact.fixtureB == pody->GetFixtureList()) || (contact.fixtureA == pody->GetFixtureList() && contact.fixtureB == eX->GetFixtureList())) {
                     NSLog(@"Explosion hit person.");
-                   pody->SetAngularVelocity(20);
                     if (eX->GetPosition().x > pody->GetPosition().x) {
                         pody->SetAngularVelocity(50);
                     }
