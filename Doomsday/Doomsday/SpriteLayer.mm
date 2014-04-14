@@ -139,6 +139,8 @@
         [self spawnPerson];
     }
     
+    [self collisionDetection];
+    
     b2Vec2 pos = _shipBody->GetPosition();
     
     b2Vec2 center = b2Vec2(pos.x,(size.height-50)/PTM_RATIO);
@@ -203,7 +205,7 @@
         intentToMoveRight = NO;
     }
 
-    [self collisionDetection];
+    
 }
 
 
@@ -301,8 +303,9 @@
 
 
     for(NSValue* pBody in deletePeople){
-        [self performSelector:@selector(removeDeadBodies:) withObject:pBody afterDelay:2.0];
         [hoipolloiArray removeObject:pBody];
+        [self performSelector:@selector(removeDeadBodies:) withObject:pBody afterDelay:1.0];
+        
     }
     
     for(NSValue* bBody in deleteBombs){
@@ -315,12 +318,7 @@
         b2Body* nuke = (b2Body*)[bBody pointerValue];
         [self explodeAndRemoveLaser:nuke];
     }
-    for(NSValue* bBody in deleteBombs){
-        [bombArray removeObject:bBody];
-        b2Body* nuke = (b2Body*)[bBody pointerValue];
-        [self explodeAndRemoveBomb:nuke];
-    }
-    
+ 
     
     [deleteBombs dealloc];
     [deletePeople dealloc];
@@ -331,8 +329,10 @@
     
     NSLog(@"Destroy polli");
     b2Body* polloi = (b2Body*)[pBody pointerValue];
-    _world->DestroyBody(polloi);
-    [self removeChild:(CCSprite*)polloi->GetUserData()];
+    if(polloi != NULL){
+        _world->DestroyBody(polloi);
+        [self removeChild:(CCSprite*)polloi->GetUserData()];
+    }
 }
 
 
@@ -432,7 +432,7 @@
 }
 
 //Spawns a Hoipolloi
-- (void)spawnPerson {
+- (void)spawnPerson2 {
     
     Hoipolloi* _humanSprite = [Hoipolloi node];
     _humanSprite.position = CGPointMake(size.width/2, size.height/2);
@@ -461,7 +461,7 @@
     [hoipolloiArray addObject:[NSValue valueWithPointer:_hoipolloiBody]];
 }
 
-- (void)spawnPerson2 {
+- (void)spawnPerson {
     
     Hoipolloi* _humanSprite = [CCSprite spriteWithFile:@"hoipolloi.png"];
     _humanSprite.position = CGPointMake(size.width/2, size.height/2);
@@ -492,10 +492,10 @@
     
     b2Vec2 vertices[4];
     
-    vertices[0].Set(-10/ PTM_RATIO, -20/ PTM_RATIO);
-    vertices[1].Set(10/ PTM_RATIO,-20/ PTM_RATIO);
-    vertices[2].Set(10/ PTM_RATIO,20/ PTM_RATIO);
-    vertices[3].Set(-10/ PTM_RATIO,20/ PTM_RATIO);
+    vertices[0].Set(-7/ PTM_RATIO, -20/ PTM_RATIO);
+    vertices[1].Set(7/ PTM_RATIO,-20/ PTM_RATIO);
+    vertices[2].Set(7/ PTM_RATIO,20/ PTM_RATIO);
+    vertices[3].Set(-7/ PTM_RATIO,20/ PTM_RATIO);
 
     polygon.Set(vertices, num);
     hoipolloiShapeDef.shape = &polygon;
