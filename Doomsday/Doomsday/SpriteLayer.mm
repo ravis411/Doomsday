@@ -109,11 +109,6 @@
         _shipBody->SetGravityScale(0);
         
         [self schedule:@selector(spawnPerson) interval:1];
-        [self schedule:@selector(spawnPerson) interval:2.25];
-        [self schedule:@selector(spawnPerson) interval:5.5];
-        [self schedule:@selector(spawnPerson) interval:2];
-        [self schedule:@selector(spawnPerson) interval:3];
-
 
         [self spawnPerson];
         [self spawnPerson];
@@ -139,6 +134,10 @@
 
 
 -(void)update:(ccTime)dt{
+    
+    if( (NSInteger)(dt*769) % 3 == 0){
+        [self spawnPerson];
+    }
     
     b2Vec2 pos = _shipBody->GetPosition();
     
@@ -248,11 +247,13 @@
         
         MyContact contact = *position;
         //Collision detection for explosion
-        for(NSValue* eBody in explosionArray){
-            b2Body *eX = (b2Body*)[eBody pointerValue];
+        
+        for(NSValue* pBody in hoipolloiArray){
+            b2Body *pody = (b2Body*)[pBody pointerValue];
+        
+            for(NSValue* eBody in explosionArray){
+                b2Body *eX = (b2Body*)[eBody pointerValue];
             
-            for(NSValue* pBody in hoipolloiArray){
-                b2Body *pody = (b2Body*)[pBody pointerValue];
                 if ((contact.fixtureA == eX->GetFixtureList() && contact.fixtureB == pody->GetFixtureList()) || (contact.fixtureA == pody->GetFixtureList() && contact.fixtureB == eX->GetFixtureList())) {
                     NSLog(@"Explosion hit person.");
 
