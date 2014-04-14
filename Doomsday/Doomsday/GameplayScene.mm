@@ -25,7 +25,7 @@
         
         weaponMode = WEAPON_GADGET1;
         [self buildUI];
-        [self setTimer:300];
+        [self setTimer:700];
         
     }
     
