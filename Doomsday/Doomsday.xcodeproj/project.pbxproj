@@ -27,6 +27,7 @@
 		3D97F9C318E8F15D00FE374E /* ground.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D97F9BE18E8F15D00FE374E /* ground.png */; };
 		3D97F9C418E8F15D00FE374E /* hoipolloi.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D97F9BF18E8F15D00FE374E /* hoipolloi.png */; };
 		3D97F9C518E8F15D00FE374E /* ship.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D97F9C018E8F15D00FE374E /* ship.png */; };
+		4900CB9218FB6D6F0079CCF9 /* deadhoipolloi.png in Resources */ = {isa = PBXBuildFile; fileRef = 4900CB9118FB6D6F0079CCF9 /* deadhoipolloi.png */; };
 		4937867918FA6D6600ECA5F8 /* laser.png in Resources */ = {isa = PBXBuildFile; fileRef = 4937867818FA6D6600ECA5F8 /* laser.png */; };
 		497A4FC318E11B8500B19D54 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 497A4FC218E11B8500B19D54 /* QuartzCore.framework */; };
 		497A4FC518E11B8500B19D54 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 497A4FC418E11B8500B19D54 /* OpenGLES.framework */; };
@@ -246,6 +247,7 @@
 		3D97F9BE18E8F15D00FE374E /* ground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ground.png; path = Resources/ground.png; sourceTree = "<group>"; };
 		3D97F9BF18E8F15D00FE374E /* hoipolloi.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = hoipolloi.png; path = Resources/hoipolloi.png; sourceTree = "<group>"; };
 		3D97F9C018E8F15D00FE374E /* ship.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ship.png; path = Resources/ship.png; sourceTree = "<group>"; };
+		4900CB9118FB6D6F0079CCF9 /* deadhoipolloi.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = deadhoipolloi.png; sourceTree = "<group>"; };
 		4937867818FA6D6600ECA5F8 /* laser.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = laser.png; sourceTree = "<group>"; };
 		497A4FBF18E11B8500B19D54 /* Doomsday.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Doomsday.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		497A4FC218E11B8500B19D54 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -731,6 +733,7 @@
 		497A4FD718E11B8500B19D54 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				4900CB9118FB6D6F0079CCF9 /* deadhoipolloi.png */,
 				4937867818FA6D6600ECA5F8 /* laser.png */,
 				3D15CB0F18F7665900A5510B /* cosmos.png */,
 				3D268F2E18F39EE300E35F33 /* gui_atlas.plist */,
@@ -1348,6 +1351,7 @@
 				497A4FE118E11B8500B19D54 /* Icon-72.png in Resources */,
 				497A4FD918E11B8500B19D54 /* Default.png in Resources */,
 				497A4FE318E11B8500B19D54 /* Icon-Small-50.png in Resources */,
+				4900CB9218FB6D6F0079CCF9 /* deadhoipolloi.png in Resources */,
 				497A4FEE18E11B8500B19D54 /* iTunesArtwork in Resources */,
 				497A520718E11B8800B19D54 /* blocks.png in Resources */,
 				49EC18A418E900CB00186109 /* rifle.png in Resources */,

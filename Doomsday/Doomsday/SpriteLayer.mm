@@ -241,6 +241,15 @@
                 if ((contact.fixtureA == eX->GetFixtureList() && contact.fixtureB == pody->GetFixtureList()) || (contact.fixtureA == pody->GetFixtureList() && contact.fixtureB == eX->GetFixtureList())) {
                     NSLog(@"Explosion hit person.");
                    pody->SetAngularVelocity(20);
+                    CCSprite* dead = [CCSprite spriteWithFile:@"deadhoipolloi.png"];
+                    dead.position = CGPointMake(size.width/2, size.height/2);
+                    [dead setScale:0.3];
+                    [self addChild:dead];
+                    [self removeChild:(CCSprite*)pody->GetUserData()];
+                    pody->SetUserData(dead);
+                    [deletePeople addObject:pBody];
+                    
+                    
                 }
             }
         }
@@ -265,11 +274,8 @@
 
 
     for(NSValue* pBody in deletePeople){
+        [self performSelector:@selector(removeDeadBodies:) withObject:pBody afterDelay:2.0];
         [hoipolloiArray removeObject:pBody];
-        b2Body* polloi = (b2Body*)[pBody pointerValue];
-            NSLog(@"Destroy polli");
-        _world->DestroyBody(polloi);
-        [self removeChild:(CCSprite*)polloi->GetUserData()];
     }
     
     for(NSValue* bBody in deleteBombs){
@@ -291,6 +297,15 @@
     
     [deleteBombs dealloc];
     [deletePeople dealloc];
+    [deleteLaser dealloc];
+}
+
+-(void)removeDeadBodies:(NSValue*)pBody{
+    
+    NSLog(@"Destroy polli");
+    b2Body* polloi = (b2Body*)[pBody pointerValue];
+    _world->DestroyBody(polloi);
+    [self removeChild:(CCSprite*)polloi->GetUserData()];
 }
 
 
@@ -330,11 +345,6 @@
             [self singleLazerFire];
         }
     }
-    
-   
-    
-    
-
 }
 
 -(void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
@@ -489,7 +499,7 @@
     _laserBody->CreateFixture(&laserShapeDef);
     [laserArray addObject:[NSValue valueWithPointer:_laserBody]];
     shipCooldownMode = YES;
-    [self performSelector:@selector(weaponReadyToFire) withObject:self afterDelay:0.1];
+    [self performSelector:@selector(weaponReadyToFire) withObject:self afterDelay:1.0];
 }
 
 
