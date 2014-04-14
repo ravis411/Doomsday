@@ -304,7 +304,7 @@
 
     for(NSValue* pBody in deletePeople){
         [hoipolloiArray removeObject:pBody];
-        [self performSelector:@selector(removeDeadBodies:) withObject:pBody afterDelay:1.0];
+        [self performSelector:@selector(removeDeadBodies:) withObject:pBody afterDelay:0.7];
         
     }
     
@@ -329,9 +329,11 @@
     
     NSLog(@"Destroy polli");
     b2Body* polloi = (b2Body*)[pBody pointerValue];
-    if(polloi != NULL){
-        _world->DestroyBody(polloi);
-        [self removeChild:(CCSprite*)polloi->GetUserData()];
+    for(b2Body *b = _world->GetBodyList();b;b = b->GetNext()){
+        if(polloi != NULL && polloi == b){
+            _world->DestroyBody(b);
+            [self removeChild:(CCSprite*)b->GetUserData()];
+        }
     }
 }
 
@@ -524,11 +526,15 @@
     
     CCSprite* _laserSprite = [CCSprite spriteWithFile:@"laser.png"];
     [_laserSprite setScale:1.0f];
-    [_laserSprite setPosition:CGPointMake(point.x, _shipSprite.position.y-160)];
+
+    [_laserSprite setPosition:CGPointMake(_shipSprite.position.x+xPoint, _shipSprite.position.y-150)];
+ 
+
     [self addChild:_laserSprite];
     
     b2BodyDef laserBodyDef;
-    laserBodyDef.position.Set((point.x)/PTM_RATIO, (_shipSprite.position.y-160)/PTM_RATIO);
+    laserBodyDef.position.Set((_shipSprite.position.x+xPoint)/PTM_RATIO, (_shipSprite.position.y-150)/PTM_RATIO);
+  
     laserBodyDef.type = b2_dynamicBody;
     laserBodyDef.userData = _laserSprite;
     laserBodyDef.fixedRotation = false;
