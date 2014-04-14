@@ -127,6 +127,7 @@
         background.position = ccpSub(background.position, ccpMult(backgroundScrollVel, dt));
     }
     [self updateUILayer];
+    [spriteLayer setWeaponMode:weaponMode];
 }
 
 //Button actions
@@ -157,7 +158,7 @@
     NSString* weaponLabelString;
     switch(weaponMode) {
         case WEAPON_BASIC:
-            weaponLabelString = @"LASER (not functional)";
+            weaponLabelString =@"LASER";
             break;
         case WEAPON_GADGET1:
             weaponLabelString = @"BOMB";

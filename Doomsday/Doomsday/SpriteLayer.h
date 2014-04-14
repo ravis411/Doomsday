@@ -12,6 +12,7 @@
 #import "Ship.h"
 #import "Hoipolloi.h"
 #import "MyContactListener.h"
+#import "PlayerWeapon.h"
 
 @interface SpriteLayer : CCLayer{
     b2World* _world;
@@ -33,10 +34,13 @@
     BOOL shipCooldownMode;
     float groundLevel;
     int _enemiesKilled;
+    enum playerWeapon _weaponMode;
+
 }
 @property BOOL movingLeft;
 @property BOOL movingRight;
 @property int enemiesKilled;
+@property enum playerWeapon weaponMode;
 
 //@property Hoipolloi* hoipolloiSprite;
 

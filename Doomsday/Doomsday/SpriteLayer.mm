@@ -15,6 +15,7 @@
 @synthesize movingLeft = _movingLeft;
 @synthesize movingRight = _movingRight;
 @synthesize enemiesKilled = _enemiesKilled;
+@synthesize weaponMode = _weaponMode;
 
 
 -(id)init{
@@ -356,7 +357,19 @@
     else{
         if(!shipCooldownMode){
 //            [self singleBombFire];
-            [self singleLazerFire];
+            
+//            [self singleLazerFire];
+            switch(_weaponMode) {
+                case WEAPON_BASIC:
+                    [self singleLazerFire];
+                    break;
+                case WEAPON_GADGET1:
+                    [self singleBombFire];
+                    break;
+                case WEAPON_GADGET2:
+                    //weaponLabelString = @"GADGET 2 (not functional)";
+                    break;
+            }
         }
     }
 }
