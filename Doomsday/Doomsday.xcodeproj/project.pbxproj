@@ -17,6 +17,10 @@
 		3D268F2B18F3704500E35F33 /* killcounter.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D268F2A18F3704500E35F33 /* killcounter.png */; };
 		3D268F2D18F39ED800E35F33 /* gui_atlas.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D268F2C18F39ED800E35F33 /* gui_atlas.png */; };
 		3D268F2F18F39EE300E35F33 /* gui_atlas.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3D268F2E18F39EE300E35F33 /* gui_atlas.plist */; };
+		3D3B5F6418FB9FFF00EFBD9E /* laserblast_end.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D3B5F6218FB9FFF00EFBD9E /* laserblast_end.png */; };
+		3D3B5F6718FBA07F00EFBD9E /* ship_firing.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D3B5F6618FBA07F00EFBD9E /* ship_firing.png */; };
+		3D3B5F6A18FBA45800EFBD9E /* BuildingBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D3B5F6918FBA45800EFBD9E /* BuildingBlock.m */; };
+		3D3B5F6C18FBA4A700EFBD9E /* building_block.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D3B5F6B18FBA4A700EFBD9E /* building_block.png */; };
 		3D97F9AE18E8E70A00FE374E /* GameplayScene.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3D97F9AD18E8E70A00FE374E /* GameplayScene.mm */; };
 		3D97F9B118E8E72000FE374E /* SpriteLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3D97F9AF18E8E72000FE374E /* SpriteLayer.mm */; };
 		3D97F9B218E8E72000FE374E /* UILayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3D97F9B018E8E72000FE374E /* UILayer.mm */; };
@@ -232,6 +236,11 @@
 		3D268F2A18F3704500E35F33 /* killcounter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = killcounter.png; sourceTree = "<group>"; };
 		3D268F2C18F39ED800E35F33 /* gui_atlas.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = gui_atlas.png; path = Resources/gui_atlas.png; sourceTree = "<group>"; };
 		3D268F2E18F39EE300E35F33 /* gui_atlas.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = gui_atlas.plist; path = Resources/gui_atlas.plist; sourceTree = "<group>"; };
+		3D3B5F6218FB9FFF00EFBD9E /* laserblast_end.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = laserblast_end.png; path = Resources/SpriteAtlas/laserblast_end.png; sourceTree = "<group>"; };
+		3D3B5F6618FBA07F00EFBD9E /* ship_firing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ship_firing.png; path = Resources/SpriteAtlas/ship_firing.png; sourceTree = "<group>"; };
+		3D3B5F6818FBA45800EFBD9E /* BuildingBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuildingBlock.h; sourceTree = "<group>"; };
+		3D3B5F6918FBA45800EFBD9E /* BuildingBlock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuildingBlock.m; sourceTree = "<group>"; };
+		3D3B5F6B18FBA4A700EFBD9E /* building_block.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = building_block.png; path = Resources/building_block.png; sourceTree = "<group>"; };
 		3D97F9A418E8E45D00FE374E /* GameplayScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameplayScene.h; sourceTree = "<group>"; };
 		3D97F9A718E8E5D600FE374E /* SpriteLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpriteLayer.h; sourceTree = "<group>"; };
 		3D97F9AA18E8E5E200FE374E /* UILayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UILayer.h; sourceTree = "<group>"; };
@@ -705,6 +714,8 @@
 				49EC18A618E9348A00186109 /* Ship.mm */,
 				49EC18A818E9400E00186109 /* Hoipolloi.h */,
 				49EC18A918E9400E00186109 /* Hoipolloi.mm */,
+				3D3B5F6818FBA45800EFBD9E /* BuildingBlock.h */,
+				3D3B5F6918FBA45800EFBD9E /* BuildingBlock.m */,
 				3D97F9A718E8E5D600FE374E /* SpriteLayer.h */,
 				3D97F9AF18E8E72000FE374E /* SpriteLayer.mm */,
 				3D97F9B918E8EE4700FE374E /* AttackLayer.h */,
@@ -733,6 +744,9 @@
 		497A4FD718E11B8500B19D54 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				3D3B5F6B18FBA4A700EFBD9E /* building_block.png */,
+				3D3B5F6618FBA07F00EFBD9E /* ship_firing.png */,
+				3D3B5F6218FB9FFF00EFBD9E /* laserblast_end.png */,
 				4900CB9118FB6D6F0079CCF9 /* deadhoipolloi.png */,
 				4937867818FA6D6600ECA5F8 /* laser.png */,
 				3D15CB0F18F7665900A5510B /* cosmos.png */,
@@ -1378,6 +1392,9 @@
 				3D268F2D18F39ED800E35F33 /* gui_atlas.png in Resources */,
 				3D268F2F18F39EE300E35F33 /* gui_atlas.plist in Resources */,
 				3D15CB1018F7665900A5510B /* cosmos.png in Resources */,
+				3D3B5F6418FB9FFF00EFBD9E /* laserblast_end.png in Resources */,
+				3D3B5F6718FBA07F00EFBD9E /* ship_firing.png in Resources */,
+				3D3B5F6C18FBA4A700EFBD9E /* building_block.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1554,6 +1571,7 @@
 				3D97F9B218E8E72000FE374E /* UILayer.mm in Sources */,
 				3D97F9B518E8E78B00FE374E /* BackgroundLayer.mm in Sources */,
 				3D97F9BB18E8EE4700FE374E /* AttackLayer.mm in Sources */,
+				3D3B5F6A18FBA45800EFBD9E /* BuildingBlock.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

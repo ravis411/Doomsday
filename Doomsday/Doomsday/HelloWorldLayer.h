@@ -27,6 +27,7 @@
 	b2World* world;					// strong ref
 	GLESDebugDraw *m_debugDraw;		// strong ref
     CCSpriteBatchNode *uiAtlasNode;
+    CCSpriteBatchNode *spriteAtlasNode;
 }
 
 // returns a CCScene that contains the HelloWorldLayer as the only child

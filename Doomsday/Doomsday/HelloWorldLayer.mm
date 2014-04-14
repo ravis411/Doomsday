@@ -59,7 +59,9 @@ enum {
 		
 		// init physics
 		[self initPhysics];
-		        
+		//batching sprites
+        
+        
         //batching the GUI elements
         uiAtlasNode = [CCSpriteBatchNode batchNodeWithFile:@"gui_atlas.png"];
         [self addChild:uiAtlasNode];
@@ -90,7 +92,7 @@ enum {
 		// create reset button
 		[self createMenu];
 		
-		//Set up sprite
+
 		
 #if 1
 		// Use batch node. Faster
