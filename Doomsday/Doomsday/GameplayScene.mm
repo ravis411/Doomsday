@@ -167,8 +167,9 @@
             break;
     }
     [_label setString:[NSString stringWithFormat:@"Active Weapon: %@", weaponLabelString]];
-    
     uiLayer.killed = [spriteLayer enemiesKilled];
+    [uiLayer updateKillCounter];
+    
 }
 
 
