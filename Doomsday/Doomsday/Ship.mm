@@ -9,7 +9,11 @@
 #import "Ship.h"
 
 
+
 @implementation Ship
+
+@synthesize firing = _firing;
+
 - (instancetype)init
 {
     self = [super init];
@@ -17,6 +21,7 @@
         self = [CCSprite spriteWithFile:@"ship.png"];
 
     }
+    [self scheduleUpdate];
     return self;
 }
 
@@ -29,6 +34,16 @@
     });
     
     return _sharedModel;
+}
+
+-(void) update:(ccTime)dT {
+    if (_firing) {
+        _firing = false;
+        [self setTexture:[[CCTextureCache sharedTextureCache] addImage:@"ship_firing.png"]];
+    }
+    else {
+        [self setTexture:[[CCTextureCache sharedTextureCache] addImage:@"ship.png"]];
+    }
 }
 
 @end

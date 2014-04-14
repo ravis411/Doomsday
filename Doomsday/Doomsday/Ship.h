@@ -11,8 +11,11 @@
 #import "Box2D.h"
 
 @interface Ship : CCSprite {
-    
+    Boolean _firing;
 }
+@property Boolean firing;
+
 +(instancetype) sharedModel;
 
+-(void) update:(ccTime)dT;
 @end
