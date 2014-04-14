@@ -32,9 +32,11 @@
     MyContactListener *_contactListener;
     BOOL shipCooldownMode;
     float groundLevel;
+    int _enemiesKilled;
 }
 @property BOOL movingLeft;
 @property BOOL movingRight;
+@property int enemiesKilled;
 
 //@property Hoipolloi* hoipolloiSprite;
 

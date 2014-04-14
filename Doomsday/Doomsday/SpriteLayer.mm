@@ -14,6 +14,7 @@
 
 @synthesize movingLeft = _movingLeft;
 @synthesize movingRight = _movingRight;
+@synthesize enemiesKilled = _enemiesKilled;
 
 
 -(id)init{
@@ -26,6 +27,8 @@
         intentToMoveLeft = NO;
         intentToMoveRight = NO;
         shipCooldownMode = NO;
+        
+        _enemiesKilled = 0;
 
 //        CCLayerColor* color = [CCLayerColor layerWithColor:ccc4(255,0,255,255)];
 //        [self addChild:color z:0];
@@ -250,6 +253,7 @@
                    //pody->SetAngularVelocity(50);
 //                    [deletePeople addObject:pBody];
 
+                    _enemiesKilled++;
                     CCSprite* dead = [CCSprite spriteWithFile:@"deadhoipolloi.png"];
                     dead.position = CGPointMake(size.width/2, size.height/2);
                     [dead setScale:0.3];
@@ -257,6 +261,7 @@
                     [self removeChild:(CCSprite*)pody->GetUserData()];
                     pody->SetUserData(dead);
                     [deletePeople addObject:pBody];
+                    NSLog(@"\nEnemies Killed: %d\n\n", _enemiesKilled);
                     
                     
                 }
