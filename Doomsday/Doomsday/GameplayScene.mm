@@ -176,6 +176,11 @@
     [self updateUILayer];
     [spriteLayer setWeaponMode:weaponMode];
     
+    if([spriteLayer gameOver]){
+        [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.0 scene: [HelloWorldLayer node]]];
+    }
+    
+    
     if (_timerOn) {
         _timeRemaining -= 1;
         if (_timeRemaining < 0) {

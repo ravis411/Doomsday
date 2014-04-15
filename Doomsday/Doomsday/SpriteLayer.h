@@ -37,9 +37,11 @@
     BOOL shipBombCooldownMode;
     float groundLevel;
     int _enemiesKilled;
+    BOOL _gameOver;
     enum playerWeapon _weaponMode;
 
 }
+@property BOOL gameOver;
 @property BOOL movingLeft;
 @property BOOL movingRight;
 @property int enemiesKilled;

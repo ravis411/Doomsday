@@ -16,11 +16,13 @@
 @synthesize movingRight = _movingRight;
 @synthesize enemiesKilled = _enemiesKilled;
 @synthesize weaponMode = _weaponMode;
+@synthesize gameOver = _gameOver;
 
 
 -(id)init{
     if(self = [super init]){
         [self setTouchEnabled:YES];
+        _gameOver = NO;
         bombArray = [[NSMutableArray alloc]init];
         hoipolloiArray = [[NSMutableArray alloc]init];
         buildingsArray = [[NSMutableArray alloc] init];
@@ -135,13 +137,15 @@
 
 
 -(void)update:(ccTime)dt{
-    NSLog(@"count: %i", [hoipolloiArray count]);
     if( (NSInteger)(dt*769) % 3 == 0){
         if((int)[hoipolloiArray count]<50)
             [self spawnPerson];
     }
     
     
+    if(_enemiesKilled >30){
+        _gameOver = YES;
+    }
     
     [self collisionDetection];
     
