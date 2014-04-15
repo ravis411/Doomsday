@@ -16,16 +16,16 @@
     
     if(self = [super init])
 	{
-        [self setTimer:300];
         spriteLayer = [SpriteLayer node];
         uiLayer = [UILayer node];
         bgLayer = [BackgroundLayer node];
         background = [CCParallaxNode node];
 //        _ship = [Ship sharedModel];
         
-        weaponMode = WEAPON_GADGET1;
+        weaponMode = WEAPON_BASIC;
         [self buildUI];
-        [self setTimer:300];
+        [self setTimer:1800];
+        _quota = 75;
         
     }
     
@@ -59,7 +59,7 @@
     CCSprite* _killCounter;
     CCLabelTTF* _timeLabel = [[CCLabelTTF labelWithString:@"000" fontName:@"Arial" fontSize:18] retain];
     //CCSprite* pause = null;
-    
+    uiLayer.quota = _quota;
     
     _dash = [CCSprite spriteWithFile:@"dashboard.png"];
    
@@ -74,7 +74,6 @@
     //killcounter
     [uiLayer addUIElement:_killCounter withFrame:@"killcounter.png" x:(size.width-115) y:(size.height-18)];
     [uiLayer displayScoreLabel];
-    uiLayer.quota = 50;
     
     NSString* placeHolderSprite = @"button_round_unlit.png";
     
