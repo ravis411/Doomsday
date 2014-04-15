@@ -29,7 +29,7 @@
         
     }
     
-    CGSize winSize = [[CCDirector sharedDirector] winSize];
+    winSize = [[CCDirector sharedDirector] winSize];
     
     CGPoint backgroundLayerSpeed = ccp(0.05, 0.05);
     CGPoint spriteLayerSpeed = ccp(0.1, 0.1);
@@ -177,6 +177,9 @@
     [spriteLayer setWeaponMode:weaponMode];
     
     if([spriteLayer gameOver]){
+        CCLabelTTF* winMessage = [[CCLabelTTF labelWithString:@"WIN!" fontName:@"Arial" fontSize:30] retain];
+        winMessage.position = ccp(winSize.width/2, winSize.height/2);
+        [uiLayer addChild:winMessage];
         [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.0 scene: [HelloWorldLayer node]]];
     }
     

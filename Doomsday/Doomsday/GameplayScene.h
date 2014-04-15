@@ -39,6 +39,7 @@
     
     //gameplay UI
     CCLabelTTF *_label;
+    CGSize winSize;
 
     
 }
