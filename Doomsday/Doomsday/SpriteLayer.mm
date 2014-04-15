@@ -111,19 +111,15 @@
         _shipBody->CreateFixture(&shipShapeDef);
     
         _shipBody->SetGravityScale(0);
-
-//        [self spawnPerson];
-//        [self spawnPerson];
-//        [self spawnPerson];
-//        [self spawnPerson];
-//        [self spawnPerson];
         
-        
-//        _hoipolloiBody->SetGravityScale(2);
+//      _hoipolloiBody->SetGravityScale(2);
         
 //        [self schedule:@selector(tick:)];
         //[self schedule:@selector(kick) interval:10.0];
         
+        for(NSInteger i = 1; i < 20; i++ ){
+            [self spawnRandomPerson];
+        }
         
         
         _contactListener = new MyContactListener();
@@ -137,8 +133,8 @@
 
 
 -(void)update:(ccTime)dt{
-    int time = (NSInteger)(dt*100000);
-    if( time % 7 == 0){
+    int time = (NSInteger)(dt*769);//a prime number
+    if( time % 2 == 0){
         if((int)[hoipolloiArray count]<50)
             [self spawnPerson];
     }
@@ -449,8 +445,56 @@
 }
 
 
-- (void)spawnPerson {
+-(void)spawnRandomPerson{
+    NSInteger x =( arc4random() % (int)(size.width - 0+1)) + 0;
     
+    Hoipolloi* _humanSprite = [CCSprite spriteWithFile:@"hoipolloi.png"];
+    _humanSprite.position = CGPointMake(x, size.height/4);
+    [_humanSprite setScale:0.3];
+    [self addChild:_humanSprite];
+    b2Body* _hoipolloiBody;
+    
+    //Creating Hoipolloi Box2D Body
+    b2BodyDef hoipolloiBodyDef;
+    hoipolloiBodyDef.type = b2_dynamicBody;
+    hoipolloiBodyDef.position.Set((x)/PTM_RATIO, (size.height/4)/PTM_RATIO);
+    hoipolloiBodyDef.userData = _humanSprite;
+    hoipolloiBodyDef.fixedRotation = false;
+    _hoipolloiBody = _world->CreateBody(&hoipolloiBodyDef);
+    
+    
+    b2FixtureDef hoipolloiShapeDef;
+    b2PolygonShape polygon;
+    //    b2CircleShape circle;
+    //    circle.m_radius = 20.0/PTM_RATIO;
+    int num = 4;
+    //    b2Vec2 vertices[] = {
+    //        b2Vec2(-50.0f / PTM_RATIO, -50.0f / PTM_RATIO),
+    //        b2Vec2(-100.0f / PTM_RATIO, -100.0f / PTM_RATIO),
+    //        b2Vec2(100.0f / PTM_RATIO, 100.0f / PTM_RATIO),
+    //        b2Vec2(50.0f / PTM_RATIO, 50.0f / PTM_RATIO)
+    //    };
+    
+    b2Vec2 vertices[4];
+    
+    vertices[0].Set(-7/ PTM_RATIO, -20/ PTM_RATIO);
+    vertices[1].Set(7/ PTM_RATIO,-20/ PTM_RATIO);
+    vertices[2].Set(7/ PTM_RATIO,20/ PTM_RATIO);
+    vertices[3].Set(-7/ PTM_RATIO,20/ PTM_RATIO);
+    
+    polygon.Set(vertices, num);
+    hoipolloiShapeDef.shape = &polygon;
+    hoipolloiShapeDef.density = 2.0f;
+    hoipolloiShapeDef.friction = 0.01f;
+    hoipolloiShapeDef.restitution = 0.2f;
+    _hoipolloiBody->CreateFixture(&hoipolloiShapeDef);
+    
+    [hoipolloiArray addObject:[NSValue valueWithPointer:_hoipolloiBody]];
+    
+}
+
+
+- (void)spawnPerson {
     Hoipolloi* _humanSprite = [CCSprite spriteWithFile:@"hoipolloi.png"];
     _humanSprite.position = CGPointMake(size.width/2, size.height/2);
     [_humanSprite setScale:0.3];
