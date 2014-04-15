@@ -112,11 +112,11 @@
     
         _shipBody->SetGravityScale(0);
 
-        [self spawnPerson];
-        [self spawnPerson];
-        [self spawnPerson];
-        [self spawnPerson];
-        [self spawnPerson];
+//        [self spawnPerson];
+//        [self spawnPerson];
+//        [self spawnPerson];
+//        [self spawnPerson];
+//        [self spawnPerson];
         
         
 //        _hoipolloiBody->SetGravityScale(2);
@@ -137,13 +137,15 @@
 
 
 -(void)update:(ccTime)dt{
-    if( (NSInteger)(dt*769) % 3 == 0){
+    int time = (NSInteger)(dt*100000);
+    if( time % 7 == 0){
         if((int)[hoipolloiArray count]<50)
             [self spawnPerson];
     }
     
     
-    if(_enemiesKilled >30){
+//    [self spawnPerson];
+    if(_enemiesKilled >60){
         _gameOver = YES;
     }
     
@@ -226,15 +228,15 @@
 	// This is only for debug purposes
 	// It is recommend to disable it
 	//
-	[super draw];
-	
-	ccGLEnableVertexAttribs( kCCVertexAttribFlag_Position );
-	
-	kmGLPushMatrix();
-	
-	_world->DrawDebugData();
-	
-	kmGLPopMatrix();
+//	[super draw];
+//	
+//	ccGLEnableVertexAttribs( kCCVertexAttribFlag_Position );
+//	
+//	kmGLPushMatrix();
+//	
+//	_world->DrawDebugData();
+//	
+//	kmGLPopMatrix();
 }
 
 -(void)collisionDetection{

@@ -59,7 +59,7 @@
     CCSprite* _killCounter;
     CCLabelTTF* _timeLabel = [[CCLabelTTF labelWithString:@"000" fontName:@"Arial" fontSize:18] retain];
     //CCSprite* pause = null;
-    uiLayer.quota = _quota;
+    uiLayer.quota = 60;
     
     _dash = [CCSprite spriteWithFile:@"dashboard.png"];
    
