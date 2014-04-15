@@ -7,9 +7,12 @@
 //
 
 #import "CCSprite.h"
+#import "cocos2d.h"
+#import "Box2D.h"
 
-@interface BuildingBlock : CCSprite
+@interface BuildingBlock : CCSprite {}
 
+-(id)initAtPosition:(CGPoint)location;
 
 
 @end
