@@ -539,7 +539,7 @@
     _laserBody->SetGravityScale(0.1);
     [laserArray addObject:[NSValue valueWithPointer:_laserBody]];
     shipLaserCooldownMode = YES;
-    [self performSelector:@selector(laserWeaponReadyToFire) withObject:self afterDelay:5.0];
+    [self performSelector:@selector(laserWeaponReadyToFire) withObject:self afterDelay:1.0];
 }
 
 
