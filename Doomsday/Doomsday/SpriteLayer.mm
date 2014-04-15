@@ -389,7 +389,7 @@
                     //weaponLabelString = @"GADGET 2 (not functional)";
                     break;
                  case WEAPON_BASIC:
-                    if(!shipLaserCooldownMode)
+                    if(!shipLaserCooldownMode && location.y <=100)
                         [self singleLazerFire:location];
                      break;
              }
