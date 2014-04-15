@@ -107,15 +107,12 @@
         _shipBody->CreateFixture(&shipShapeDef);
     
         _shipBody->SetGravityScale(0);
-        
-        [self schedule:@selector(spawnPerson) interval:1];
 
         [self spawnPerson];
         [self spawnPerson];
         [self spawnPerson];
         [self spawnPerson];
         [self spawnPerson];
-        [self spawnPerson2];
         
         
 //        _hoipolloiBody->SetGravityScale(2);
@@ -134,10 +131,13 @@
 
 
 -(void)update:(ccTime)dt{
-    
+    NSLog(@"count: %i", [hoipolloiArray count]);
     if( (NSInteger)(dt*769) % 3 == 0){
-        [self spawnPerson];
+        if((int)[hoipolloiArray count]<50)
+            [self spawnPerson];
     }
+    
+    
     
     [self collisionDetection];
     
@@ -437,39 +437,6 @@
     return arry;
 }
 
-//Spawns a Hoipolloi
-- (void)spawnPerson2 {
-    
-    Hoipolloi* _humanSprite = [Hoipolloi node];
-    
-    NSInteger x =( arc4random() % (int)(size.width - 0+1)) + 0;
-    
-    _humanSprite.position = CGPointMake(x, size.height/3);
-    [_humanSprite setScale:0.3];
-    [self addChild:_humanSprite];
-    b2Body* _hoipolloiBody;
-    
-    //Creating Hoipolloi Box2D Body
-    b2BodyDef hoipolloiBodyDef;
-    hoipolloiBodyDef.type = b2_dynamicBody;
-//
-    hoipolloiBodyDef.position.Set((x/PTM_RATIO), (size.height/3)/PTM_RATIO);
-    hoipolloiBodyDef.userData = _humanSprite;
-    hoipolloiBodyDef.fixedRotation = false;
-    _hoipolloiBody = _world->CreateBody(&hoipolloiBodyDef);
-    
-    
-    b2FixtureDef hoipolloiShapeDef;
-    b2CircleShape circle;
-    circle.m_radius = 20.0/PTM_RATIO;
-    hoipolloiShapeDef.shape = &circle;
-    hoipolloiShapeDef.density = 2.0f;
-    hoipolloiShapeDef.friction = 0.2f;
-    hoipolloiShapeDef.restitution = 0.2f;
-    _hoipolloiBody->CreateFixture(&hoipolloiShapeDef);
-    
-    [hoipolloiArray addObject:[NSValue valueWithPointer:_hoipolloiBody]];
-}
 
 - (void)spawnPerson {
     
