@@ -31,7 +31,8 @@
     NSMutableArray *explosionArray;
     NSMutableArray *hoipolloiArray;
     MyContactListener *_contactListener;
-    BOOL shipCooldownMode;
+    BOOL shipLaserCooldownMode;
+    BOOL shipBombCooldownMode;
     float groundLevel;
     int _enemiesKilled;
     enum playerWeapon _weaponMode;

@@ -27,7 +27,8 @@
         laserArray = [[NSMutableArray alloc]init];
         intentToMoveLeft = NO;
         intentToMoveRight = NO;
-        shipCooldownMode = NO;
+        shipLaserCooldownMode = NO;
+        shipBombCooldownMode = NO;
         
         _enemiesKilled = 0;
 
@@ -147,8 +148,10 @@
     if((pos - center).Length() != 0){
         [self gravitateToCenter];
     }
-    if(pos.y*PTM_RATIO>size.height+10)
-        shipCooldownMode = YES;
+    if(pos.y*PTM_RATIO>size.height+10){
+        shipBombCooldownMode = YES;
+        shipLaserCooldownMode = YES;
+    }
     
     
     _world->Step(dt, 10, 10);
@@ -369,22 +372,21 @@
 
     }
     else{
-        if(!shipCooldownMode){
-//            [self singleBombFire];
-            
-//            [self singleLazerFire];
+        
             switch(_weaponMode) {
-                case WEAPON_BASIC:
-                    [self singleLazerFire:location];
-                    break;
                 case WEAPON_GADGET1:
-                    [self singleBombFire];
+                    if(!shipBombCooldownMode)
+                        [self singleBombFire];
                     break;
                 case WEAPON_GADGET2:
                     //weaponLabelString = @"GADGET 2 (not functional)";
                     break;
-            }
-        }
+                 case WEAPON_BASIC:
+                    if(!shipLaserCooldownMode)
+                        [self singleLazerFire:location];
+                     break;
+             }
+        
     }
 }
 
@@ -529,8 +531,8 @@
     _laserBody->ApplyForceToCenter(vectorForce);
     _laserBody->SetGravityScale(0.1);
     [laserArray addObject:[NSValue valueWithPointer:_laserBody]];
-    shipCooldownMode = YES;
-    [self performSelector:@selector(weaponReadyToFire) withObject:self afterDelay:1.0];
+    shipLaserCooldownMode = YES;
+    [self performSelector:@selector(laserWeaponReadyToFire) withObject:self afterDelay:5.0];
 }
 
 
@@ -634,13 +636,16 @@
     bombShapeDef.restitution = 0.2f;
     _bombBody->CreateFixture(&bombShapeDef);
     [bombArray addObject:[NSValue valueWithPointer:_bombBody]];
-    shipCooldownMode = YES;
+    shipBombCooldownMode = YES;
     
-    [self performSelector:@selector(weaponReadyToFire) withObject:self afterDelay:0.5];
+    [self performSelector:@selector(bombWeaponReadyToFire) withObject:self afterDelay:0.5];
 }
 
--(void)weaponReadyToFire{
-    shipCooldownMode = NO;
+-(void)laserWeaponReadyToFire{
+    shipLaserCooldownMode = NO;
+}
+-(void)bombWeaponReadyToFire{
+    shipBombCooldownMode = NO;
 }
 
 -(void)gravitateToCenter{
