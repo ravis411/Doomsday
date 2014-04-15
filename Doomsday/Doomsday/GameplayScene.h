@@ -18,6 +18,8 @@
 
 @interface GameplayScene : CCScene {
     int _timeRemaining;
+    int _quota;
+    int _killCount;
     Boolean _timerOn;
     enum playerWeapon weaponMode;
     SpriteLayer *spriteLayer;

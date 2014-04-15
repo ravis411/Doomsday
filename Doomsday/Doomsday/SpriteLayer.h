@@ -11,6 +11,7 @@
 #import "Box2D.h"
 #import "Ship.h"
 #import "Hoipolloi.h"
+#import "BuildingBlock.h"
 #import "MyContactListener.h"
 #import "PlayerWeapon.h"
 
@@ -30,6 +31,7 @@
     NSMutableArray *laserArray;
     NSMutableArray *explosionArray;
     NSMutableArray *hoipolloiArray;
+    NSMutableArray *buildingsArray;
     MyContactListener *_contactListener;
     BOOL shipCooldownMode;
     float groundLevel;
@@ -48,5 +50,6 @@
 -(void) moveScreenRight;
 -(void) kick;
 -(NSMutableArray*) getHoipolloiArray;
+-(void) spawnBuilding:(int)height;
 
 @end

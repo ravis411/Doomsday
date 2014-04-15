@@ -23,6 +23,7 @@
         [self setTouchEnabled:YES];
         bombArray = [[NSMutableArray alloc]init];
         hoipolloiArray = [[NSMutableArray alloc]init];
+        buildingsArray = [[NSMutableArray alloc] init];
         explosionArray = [[NSMutableArray alloc]init];
         laserArray = [[NSMutableArray alloc]init];
         intentToMoveLeft = NO;
@@ -108,7 +109,7 @@
     
         _shipBody->SetGravityScale(0);
         
-        [self schedule:@selector(spawnPerson) interval:1];
+        [self schedule:@selector(spawnPerson) interval:0.5];
 
         [self spawnPerson];
         [self spawnPerson];
@@ -127,6 +128,8 @@
         
         _contactListener = new MyContactListener();
         _world->SetContactListener(_contactListener);
+        
+        [self spawnBuildingWithHeight:1 atPosition:(size.width/2)];
         
     }
     return self;
@@ -698,12 +701,26 @@
     
 }
 
+-(void) spawnBuildingWithHeight:(int)height atPosition:(int)x{
+//    [self addChild:[BuildingBlock initAtPosition:ccp(x, 150)];
+//    [buildingsArray addObject:[BuildingBlock node]];
+//    [self addChild:[BuildingBlock node]];
+    BuildingBlock *bb1, *bb2;
+    bb1 = [BuildingBlock node];
+    bb2 = [BuildingBlock node];
+    [bb2 setPosition:ccp(size.width/2, size.height/2 - 20)];
+    [self addChild:bb1];
+    [self addChild:bb2];
+}
+     
+    
 
 - (void)dealloc {
     delete _contactListener;
     [bombArray dealloc];
     [hoipolloiArray dealloc];
     [explosionArray dealloc];
+    [buildingsArray dealloc];
     delete _world;
     _shipBody = NULL;
     _world = NULL;
