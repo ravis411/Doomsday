@@ -356,7 +356,7 @@
 //    if(!shipCooldownMode)
 //        [self singleBombFire];
     
-    if (location.x <= 100) {//touch left
+    if (location.x <= 100 && location.y <= 60) {//touch left
         //[self schedule:@selector(moveScreenLeft)];
             b2Vec2 v = b2Vec2((-300)/PTM_RATIO,0);
             _shipBody->SetLinearVelocity(v);
@@ -366,7 +366,7 @@
             intentToMoveLeft = YES;
         }
     }
-    else if (location.x >= size.width-100) {//touch right
+    else if (location.x >= size.width-100 && location.y <=60) {//touch right
         //[self schedule:@selector(moveScreenRight)];
         
         b2Vec2 v = b2Vec2((300)/PTM_RATIO,0);
