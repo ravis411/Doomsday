@@ -77,11 +77,14 @@ enum {
                 numberUIFrames++;
             }
         }
+        [uiFilenames addObject:@"cosmos.png"];
         [uiFilenames addObject:@"dash_mainmenu.png"];
         [uiFilenames addObject:@"dashboard.png"];
+        [uiFilenames addObject:@"failure_message.png"];
         [uiFilenames addObject:@"killcounter.png"];
         [uiFilenames addObject:@"titletypeface.png"];
-        numberUIFrames += 4;
+        [uiFilenames addObject:@"victory_message.png"];
+        numberUIFrames += 7;
         
         for (int i = 0; i < numberUIFrames; i++) {
             CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:uiFilenames[i]];
