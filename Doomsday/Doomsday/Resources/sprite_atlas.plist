@@ -56,10 +56,23 @@
                 <key>sourceSize</key>
                 <string>{65,224}</string>
             </dict>
+            <key>laser.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{845,2},{45,408}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{45,408}}</string>
+                <key>sourceSize</key>
+                <string>{45,408}</string>
+            </dict>
             <key>laserblast_end.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{845,2},{41,41}}</string>
+                <string>{{892,2},{41,41}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -69,23 +82,10 @@
                 <key>sourceSize</key>
                 <string>{41,41}</string>
             </dict>
-            <key>laserblast_origin.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{888,2},{41,20}}</string>
-                <key>offset</key>
-                <string>{0,0}</string>
-                <key>rotated</key>
-                <false/>
-                <key>sourceColorRect</key>
-                <string>{{0,0},{41,20}}</string>
-                <key>sourceSize</key>
-                <string>{41,20}</string>
-            </dict>
             <key>rifle.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{931,2},{244,61}}</string>
+                <string>{{935,2},{244,61}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -98,7 +98,20 @@
             <key>ship.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{1177,2},{390,405}}</string>
+                <string>{{1181,2},{390,405}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{390,405}}</string>
+                <key>sourceSize</key>
+                <string>{390,405}</string>
+            </dict>
+            <key>ship_firing.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{1573,2},{390,405}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -116,9 +129,9 @@
             <key>realTextureFileName</key>
             <string>sprite_atlas.png</string>
             <key>size</key>
-            <string>{1569,409}</string>
+            <string>{1965,412}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:90d095c2e1520cb9f189bc2dace78fe4:137882be7599f5dae400bfc8e54e936e:db0a33a2fde794dcb79af30e0154b1d0$</string>
+            <string>$TexturePacker:SmartUpdate:7fedeed8aaea413114a17443ec5c4b27:7f31446e99dc88bc9649fd7b58fac621:db0a33a2fde794dcb79af30e0154b1d0$</string>
             <key>textureFileName</key>
             <string>sprite_atlas.png</string>
         </dict>
