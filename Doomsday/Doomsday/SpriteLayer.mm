@@ -330,9 +330,9 @@
     }
  
     
-    [deleteBombs dealloc];
-    [deletePeople dealloc];
-    [deleteLaser dealloc];
+    [deleteBombs release];
+    [deletePeople release];
+    [deleteLaser release];
 }
 
 -(void)removeDeadBodies:(NSValue*)pBody{
@@ -693,10 +693,11 @@
 
 - (void)dealloc {
     delete _contactListener;
-    [bombArray dealloc];
-    [hoipolloiArray dealloc];
-    [explosionArray dealloc];
-    [buildingsArray dealloc];
+    [bombArray release];
+    [hoipolloiArray release];
+    [explosionArray release];
+    [buildingsArray release];
+    [laserArray release];
     delete _world;
     _shipBody = NULL;
     _world = NULL;

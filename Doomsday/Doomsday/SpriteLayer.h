@@ -9,7 +9,6 @@
 #import "CCLayer.h"
 #import "AppDelegate.h"
 #import "Box2D.h"
-#import "Ship.h"
 #import "Hoipolloi.h"
 #import "BuildingBlock.h"
 #import "MyContactListener.h"
