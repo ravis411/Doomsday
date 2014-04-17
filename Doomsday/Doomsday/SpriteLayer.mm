@@ -243,7 +243,7 @@
         }
     }
     
-     
+    BOOL hitPerson = NO;
     std::vector<MyContact>::iterator position;
     for(position = _contactListener->_contacts.begin(); position != _contactListener->_contacts.end(); ++position) {
         
@@ -293,8 +293,11 @@
         for(NSValue* bBody in laserArray){
             b2Body *body = (b2Body*)[bBody pointerValue];
             if ((contact.fixtureA == body->GetFixtureList() || contact.fixtureB == body->GetFixtureList()) && (contact.fixtureA != _shipBody->GetFixtureList() && contact.fixtureB != _shipBody->GetFixtureList()) && (contact.fixtureA != _groundBody->GetFixtureList() && contact.fixtureB != _groundBody->GetFixtureList())){
-                NSLog(@"Heyo, laser touched something.");
-                [deletedLaser addObject:bBody];
+                if(!hitPerson){
+                    NSLog(@"Heyo, laser touched something.");
+                    hitPerson = YES;
+                    [deletedLaser addObject:bBody];
+                }
             }
         }
         
@@ -654,8 +657,8 @@
         if(b == xplode){
             [explosionArray removeObject:[NSValue valueWithPointer:xplode]];
             if(b!=NULL){
-            _world->DestroyBody(xplode);
-            [self removeChild:(CCSprite*)xplode->GetUserData()];
+                _world->DestroyBody(xplode);
+            [   self removeChild:(CCSprite*)xplode->GetUserData()];
             NSLog(@"not exploded");
             }
             break;
