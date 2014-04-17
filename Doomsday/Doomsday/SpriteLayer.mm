@@ -183,7 +183,7 @@
    
 
 
-    if(_shipBody->GetPosition().x*PTM_RATIO>1330.00f || _shipBody->GetPosition().x*PTM_RATIO<-765.00f){
+    if((_shipBody->GetPosition().x*PTM_RATIO>1330.00f && _movingRight == YES) || (_shipBody->GetPosition().x*PTM_RATIO<-765.00f && _movingLeft == YES)){
         //Stop the ship
         _shipBody->SetLinearVelocity(b2Vec2((0)/PTM_RATIO,0));
     }
@@ -556,7 +556,23 @@
     [self addChild:_laserSprite];
     
     b2BodyDef laserBodyDef;
-    laserBodyDef.position.Set((_shipSprite.position.x+xPoint)/PTM_RATIO, (_shipSprite.position.y-150)/PTM_RATIO);
+    if(_shipBody->GetPosition().x*PTM_RATIO>1129.00f){
+        laserBodyDef.position.Set((_shipSprite.position.x+100)/PTM_RATIO, (_shipSprite.position.y-150)/PTM_RATIO);
+        if(_shipBody->GetPosition().x*PTM_RATIO>1275.00f){
+            answer = 0.01f;
+            laserBodyDef.position.Set((_shipSprite.position.x)/PTM_RATIO, (_shipSprite.position.y-150)/PTM_RATIO);
+        }
+    }
+    else if(_shipBody->GetPosition().x*PTM_RATIO<-555.00f){
+        
+        laserBodyDef.position.Set((_shipSprite.position.x-100)/PTM_RATIO, (_shipSprite.position.y-150)/PTM_RATIO);
+        if(_shipBody->GetPosition().x*PTM_RATIO<-715.00f){
+            answer = 0.01f;
+            laserBodyDef.position.Set((_shipSprite.position.x)/PTM_RATIO, (_shipSprite.position.y-150)/PTM_RATIO);
+        }
+    }
+    else
+        laserBodyDef.position.Set((_shipSprite.position.x+xPoint)/PTM_RATIO, (_shipSprite.position.y-150)/PTM_RATIO);
   
     laserBodyDef.type = b2_dynamicBody;
     laserBodyDef.userData = _laserSprite;
