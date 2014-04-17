@@ -21,5 +21,6 @@
 @property int stamina;
 
 -(id)init;
+-(float) getSpeed;
 
 @end
