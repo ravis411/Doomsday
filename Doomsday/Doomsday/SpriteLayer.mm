@@ -28,6 +28,9 @@
         buildingsArray = [[NSMutableArray alloc] init];
         explosionArray = [[NSMutableArray alloc]init];
         laserArray = [[NSMutableArray alloc]init];
+        deletedBombs = [[NSMutableArray alloc]init];
+        deletedLaser = [[NSMutableArray alloc]init];
+        deletedPeople= [[NSMutableArray alloc]init];
         intentToMoveLeft = NO;
         intentToMoveRight = NO;
         shipLaserCooldownMode = NO;
@@ -74,6 +77,7 @@
         b2EdgeShape groundEdge;
         b2FixtureDef boxShapeDef;
         boxShapeDef.shape = &groundEdge;
+        boxShapeDef.filter.categoryBits = 2;
         
         //wall definitions
         //Creating the ground
@@ -133,22 +137,17 @@
 
 
 -(void)update:(ccTime)dt{
-    int time = (NSInteger)(dt*769);//a prime number
-    if( time % 2 == 0){
+    if( (NSInteger)(dt*769) % 2 == 0){
         if((int)[hoipolloiArray count]<50)
             [self spawnPerson];
     }
     
-    
-//    [self spawnPerson];
     if(_enemiesKilled >60){
         _gameOver = YES;
     }
     
-    [self collisionDetection];
-    
+    //Makes sure ship stays in place in the center
     b2Vec2 pos = _shipBody->GetPosition();
-    
     b2Vec2 center = b2Vec2(pos.x,(size.height-50)/PTM_RATIO);
     if((pos - center).Length() != 0){
         [self gravitateToCenter];
@@ -157,17 +156,7 @@
         shipBombCooldownMode = YES;
         shipLaserCooldownMode = YES;
     }
-    
-    
-    _world->Step(dt, 10, 10);
-    for(b2Body *b = _world->GetBodyList(); b; b=b->GetNext()) {
-        if (b->GetUserData() != NULL) {
-            CCSprite *bodyData = (CCSprite *)b->GetUserData();
-            bodyData.position = ccp(b->GetPosition().x * 32, b->GetPosition().y * 32);
-            bodyData.rotation = -1 * CC_RADIANS_TO_DEGREES(b->GetAngle());
-        }
-    }
-   
+
     //This code makes the people move away from the ship.
     b2Vec2 left = b2Vec2((-80)/PTM_RATIO,0);
     b2Vec2 right = b2Vec2((80)/PTM_RATIO,0);
@@ -194,14 +183,9 @@
    
 
 
-    if(_shipBody->GetPosition().x*PTM_RATIO>1330.00f){
+    if(_shipBody->GetPosition().x*PTM_RATIO>1330.00f || _shipBody->GetPosition().x*PTM_RATIO<-765.00f){
         //Stop the ship
         _shipBody->SetLinearVelocity(b2Vec2((0)/PTM_RATIO,0));
-        
-    }
-    if(_shipBody->GetPosition().x*PTM_RATIO<-765.00f){
-        //Stop the ship
-       _shipBody->SetLinearVelocity(b2Vec2((0)/PTM_RATIO,0));
     }
  
     if(_shipBody->GetPosition().x*PTM_RATIO<1086.00f && intentToMoveLeft == YES){
@@ -212,8 +196,19 @@
         _movingRight = YES;
         intentToMoveRight = NO;
     }
+    
+    [self collisionDetection];
 
     
+//============================================================
+    for(b2Body *b = _world->GetBodyList(); b; b=b->GetNext()) {
+        if (b->GetUserData() != NULL) {
+            CCSprite *bodyData = (CCSprite *)b->GetUserData();
+            bodyData.position = ccp(b->GetPosition().x * 32, b->GetPosition().y * 32);
+            bodyData.rotation = -1 * CC_RADIANS_TO_DEGREES(b->GetAngle());
+        }
+    }
+    _world->Step(dt, 10, 10);
 }
 
 
@@ -239,15 +234,12 @@
     /*The bomb coming in contact with anything will create an explosion
      The explosion itself will damage anyting it is touching. Rather than the bomb itself damaging the contact fixtures.
     */
-    NSMutableArray* deleteBombs = [[NSMutableArray alloc]init];
-    NSMutableArray* deleteLaser = [[NSMutableArray alloc]init];
-    NSMutableArray* deletePeople = [[NSMutableArray alloc]init];
     
     //Collision with the bomb and the ground
     for(NSValue* bBody in bombArray){
         b2Body *body = (b2Body*)[bBody pointerValue];
         if((body->GetPosition().y*PTM_RATIO <(groundLevel+35))){
-            [deleteBombs addObject:bBody];
+            [deletedBombs addObject:bBody];
         }
     }
     
@@ -283,7 +275,7 @@
                     [self addChild:dead];
                     [self removeChild:(CCSprite*)pody->GetUserData()];
                     pody->SetUserData(dead);
-                    [deletePeople addObject:pBody];
+                    [deletedPeople addObject:pBody];
                     NSLog(@"\nEnemies Killed: %d\n\n", _enemiesKilled);
                     
                     
@@ -295,14 +287,14 @@
             b2Body *body = (b2Body*)[bBody pointerValue];
             if ((contact.fixtureA == body->GetFixtureList() || contact.fixtureB == body->GetFixtureList()) && (contact.fixtureA != _shipBody->GetFixtureList() && contact.fixtureB != _shipBody->GetFixtureList()) && (contact.fixtureA != _groundBody->GetFixtureList() && contact.fixtureB != _groundBody->GetFixtureList())){
                 NSLog(@"Heyo, bomb touched something.");
-                [deleteBombs addObject:bBody];
+                [deletedBombs addObject:bBody];
             }
         }
         for(NSValue* bBody in laserArray){
             b2Body *body = (b2Body*)[bBody pointerValue];
             if ((contact.fixtureA == body->GetFixtureList() || contact.fixtureB == body->GetFixtureList()) && (contact.fixtureA != _shipBody->GetFixtureList() && contact.fixtureB != _shipBody->GetFixtureList()) && (contact.fixtureA != _groundBody->GetFixtureList() && contact.fixtureB != _groundBody->GetFixtureList())){
                 NSLog(@"Heyo, laser touched something.");
-                [deleteLaser addObject:bBody];
+                [deletedLaser addObject:bBody];
             }
         }
         
@@ -310,27 +302,27 @@
     }
 
 
-    for(NSValue* pBody in deletePeople){
+    for(NSValue* pBody in deletedPeople){
         [hoipolloiArray removeObject:pBody];
         [self performSelector:@selector(removeDeadBodies:) withObject:pBody afterDelay:0.7];
         
     }
     
-    for(NSValue* bBody in deleteBombs){
+    for(NSValue* bBody in deletedBombs){
         [bombArray removeObject:bBody];
         b2Body* nuke = (b2Body*)[bBody pointerValue];
         [self explodeAndRemoveBomb:nuke];
     }
-    for(NSValue* bBody in deleteLaser){
+    for(NSValue* bBody in deletedLaser){
         [laserArray removeObject:bBody];
         b2Body* nuke = (b2Body*)[bBody pointerValue];
         [self explodeAndRemoveLaser:nuke];
     }
  
     
-    [deleteBombs release];
-    [deletePeople release];
-    [deleteLaser release];
+    [deletedBombs removeAllObjects];
+    [deletedPeople removeAllObjects];
+    [deletedLaser removeAllObjects];
 }
 
 -(void)removeDeadBodies:(NSValue*)pBody{
@@ -487,6 +479,8 @@
     hoipolloiShapeDef.density = 2.0f;
     hoipolloiShapeDef.friction = 0.01f;
     hoipolloiShapeDef.restitution = 0.2f;
+    hoipolloiShapeDef.filter.categoryBits = 1;
+    hoipolloiShapeDef.filter.maskBits = 2;
     _hoipolloiBody->CreateFixture(&hoipolloiShapeDef);
     
     [hoipolloiArray addObject:[NSValue valueWithPointer:_hoipolloiBody]];
@@ -507,6 +501,7 @@
     hoipolloiBodyDef.position.Set((size.width/2+10)/PTM_RATIO, (size.height/2)/PTM_RATIO);
     hoipolloiBodyDef.userData = _humanSprite;
     hoipolloiBodyDef.fixedRotation = false;
+    
     _hoipolloiBody = _world->CreateBody(&hoipolloiBodyDef);
     
     
@@ -534,6 +529,9 @@
     hoipolloiShapeDef.density = 2.0f;
     hoipolloiShapeDef.friction = 0.01f;
     hoipolloiShapeDef.restitution = 0.2f;
+    hoipolloiShapeDef.filter.categoryBits = 1;
+    hoipolloiShapeDef.filter.maskBits = 2;
+
     _hoipolloiBody->CreateFixture(&hoipolloiShapeDef);
     
     [hoipolloiArray addObject:[NSValue valueWithPointer:_hoipolloiBody]];
@@ -576,6 +574,7 @@
     laserShapeDef.density = 2.5f;
     laserShapeDef.friction = 0.8f;
     laserShapeDef.restitution = 0.2f;
+    laserShapeDef.filter.categoryBits = 2;
     _laserBody->CreateFixture(&laserShapeDef);
     _laserBody->SetTransform(_laserBody->GetPosition(), CC_DEGREES_TO_RADIANS(answer));
 //    b2Vec2 vectorForce = b2Vec2(cosf(answer),sinf(answer));
@@ -610,6 +609,7 @@
     explosionShapeDef.density = 2.5f;
     explosionShapeDef.friction = 0.8f;
     explosionShapeDef.restitution = 0.2f;
+    explosionShapeDef.filter.categoryBits = 2;
     _explosionBody->CreateFixture(&explosionShapeDef);
     _explosionBody->SetGravityScale(0);
     [explosionArray addObject:[NSValue valueWithPointer:_explosionBody]];
@@ -637,6 +637,7 @@
     explosionShapeDef.density = 2.5f;
     explosionShapeDef.friction = 0.8f;
     explosionShapeDef.restitution = 0.2f;
+    explosionShapeDef.filter.categoryBits = 2;
     _explosionBody->CreateFixture(&explosionShapeDef);
     _explosionBody->SetGravityScale(0);
     [explosionArray addObject:[NSValue valueWithPointer:_explosionBody]];
@@ -744,6 +745,9 @@
     [explosionArray release];
     [buildingsArray release];
     [laserArray release];
+    [deletedBombs release];
+    [deletedLaser release];
+    [deletedPeople release];
     delete _world;
     _shipBody = NULL;
     _world = NULL;

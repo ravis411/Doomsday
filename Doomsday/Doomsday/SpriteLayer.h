@@ -18,9 +18,7 @@
     b2World* _world;
     b2Body* _shipBody;
     b2Body* _groundBody;
-    //b2Body* _hoipolloiBody;
     CCSprite* _shipSprite;
-    //Hoipolloi* _hoipolloiSprite;
     CGSize size;
     BOOL _movingLeft;
     BOOL _movingRight;
@@ -31,6 +29,9 @@
     NSMutableArray *explosionArray;
     NSMutableArray *hoipolloiArray;
     NSMutableArray *buildingsArray;
+    NSMutableArray *deletedBombs;
+    NSMutableArray *deletedLaser;
+    NSMutableArray *deletedPeople;
     MyContactListener *_contactListener;
     BOOL shipLaserCooldownMode;
     BOOL shipBombCooldownMode;
