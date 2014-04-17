@@ -24,5 +24,14 @@
     return self;
 }
 
+-(float) getSpeed
+{
+    float s = 80;
+    float var = random() * 20;
+    s += var;
+    return s;
+
+}
+
 
 @end

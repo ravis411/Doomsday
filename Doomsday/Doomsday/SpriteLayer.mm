@@ -160,9 +160,16 @@
     //This code makes the people move away from the ship.
     b2Vec2 left = b2Vec2((-80)/PTM_RATIO,0);
     b2Vec2 right = b2Vec2((80)/PTM_RATIO,0);
-    for(NSValue* pBody in hoipolloiArray){
+    
+    for(Hoipolloi* pBody in hoipolloiArray){
+        float s = 50 + arc4random_uniform(40);
+        s += ((1 - (int)(arc4random_uniform(2))) * 120);
+        left = b2Vec2((-1 * s)/PTM_RATIO,0);
+        right = b2Vec2((s)/PTM_RATIO,0);
+        
         b2Body *pody = (b2Body*)[pBody pointerValue];
-
+        
+               
         if(pody->GetPosition().x < pos.x){
             pody->SetLinearVelocity(left);
         }else{
