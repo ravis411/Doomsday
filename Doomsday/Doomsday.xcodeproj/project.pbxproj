@@ -23,6 +23,8 @@
 		3D3B5F6C18FBA4A700EFBD9E /* building_block.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D3B5F6B18FBA4A700EFBD9E /* building_block.png */; };
 		3D90A9141906046D006833A5 /* eyecon.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D90A9131906046D006833A5 /* eyecon.png */; };
 		3D90A916190604A8006833A5 /* eyecon.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D90A915190604A8006833A5 /* eyecon.png */; };
+		3D90A9181906058D006833A5 /* eyecon_small.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D90A9171906058D006833A5 /* eyecon_small.png */; };
+		3D90A91A19060591006833A5 /* eyecon_small.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D90A91919060591006833A5 /* eyecon_small.png */; };
 		3D97F9AE18E8E70A00FE374E /* GameplayScene.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3D97F9AD18E8E70A00FE374E /* GameplayScene.mm */; };
 		3D97F9B118E8E72000FE374E /* SpriteLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3D97F9AF18E8E72000FE374E /* SpriteLayer.mm */; };
 		3D97F9B218E8E72000FE374E /* UILayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3D97F9B018E8E72000FE374E /* UILayer.mm */; };
@@ -243,6 +245,8 @@
 		3D3B5F6B18FBA4A700EFBD9E /* building_block.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = building_block.png; path = Resources/building_block.png; sourceTree = "<group>"; };
 		3D90A9131906046D006833A5 /* eyecon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = eyecon.png; path = Resources/eyecon.png; sourceTree = "<group>"; };
 		3D90A915190604A8006833A5 /* eyecon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = eyecon.png; sourceTree = "<group>"; };
+		3D90A9171906058D006833A5 /* eyecon_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = eyecon_small.png; path = Resources/eyecon_small.png; sourceTree = "<group>"; };
+		3D90A91919060591006833A5 /* eyecon_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = eyecon_small.png; sourceTree = "<group>"; };
 		3D97F9A418E8E45D00FE374E /* GameplayScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameplayScene.h; sourceTree = "<group>"; };
 		3D97F9A718E8E5D600FE374E /* SpriteLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpriteLayer.h; sourceTree = "<group>"; };
 		3D97F9AA18E8E5E200FE374E /* UILayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UILayer.h; sourceTree = "<group>"; };
@@ -671,6 +675,7 @@
 		497A4FB618E11B8500B19D54 = {
 			isa = PBXGroup;
 			children = (
+				3D90A91919060591006833A5 /* eyecon_small.png */,
 				3D90A915190604A8006833A5 /* eyecon.png */,
 				497A4FD618E11B8500B19D54 /* Doomsday */,
 				497A4FC118E11B8500B19D54 /* Frameworks */,
@@ -739,6 +744,7 @@
 		497A4FD718E11B8500B19D54 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				3D90A9171906058D006833A5 /* eyecon_small.png */,
 				3D90A9131906046D006833A5 /* eyecon.png */,
 				3D3B5F6B18FBA4A700EFBD9E /* building_block.png */,
 				3D3B5F6618FBA07F00EFBD9E /* ship_firing.png */,
@@ -1393,6 +1399,8 @@
 				3D3B5F6C18FBA4A700EFBD9E /* building_block.png in Resources */,
 				3D90A9141906046D006833A5 /* eyecon.png in Resources */,
 				3D90A916190604A8006833A5 /* eyecon.png in Resources */,
+				3D90A9181906058D006833A5 /* eyecon_small.png in Resources */,
+				3D90A91A19060591006833A5 /* eyecon_small.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
