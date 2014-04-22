@@ -229,15 +229,15 @@
 	// This is only for debug purposes
 	// It is recommend to disable it
 	//
-//	[super draw];
-//	
-//	ccGLEnableVertexAttribs( kCCVertexAttribFlag_Position );
-//	
-//	kmGLPushMatrix();
-//	
-//	_world->DrawDebugData();
-//	
-//	kmGLPopMatrix();
+	[super draw];
+	
+	ccGLEnableVertexAttribs( kCCVertexAttribFlag_Position );
+	
+	kmGLPushMatrix();
+	
+	_world->DrawDebugData();
+	
+	kmGLPopMatrix();
 }
 
 -(void)collisionDetection{
@@ -553,49 +553,54 @@
 -(void)singleLazerFire:(CGPoint)point{
     
     float xPoint = point.x-283.00f;
+    if(_shipBody->GetPosition().x*PTM_RATIO>1120.00f){
+        xPoint+=((_shipBody->GetPosition().x*PTM_RATIO)-1120.00)*-1;
+//        laserBodyDef.position.Set(((_shipBody->GetPosition().x*PTM_RATIO)+(xPoint/2))/PTM_RATIO, ((_shipBody->GetPosition().y*PTM_RATIO)-50)/PTM_RATIO);
+    }
+    else if(_shipBody->GetPosition().x*PTM_RATIO<-520.00f){
+        xPoint+=((_shipBody->GetPosition().x*PTM_RATIO)+520.00)*-1;
+//        laserBodyDef.position.Set(((_shipBody->GetPosition().x*PTM_RATIO)+(xPoint*2))/PTM_RATIO, ((_shipBody->GetPosition().y*PTM_RATIO)-50)/PTM_RATIO);
+        
+    }
+    
+    
     float yPoint = (_shipBody->GetPosition().y*PTM_RATIO)- point.y;
     float answer = atanf(xPoint/yPoint)*55;
-    NSLog(@"x: %f y:%f angle:%f",xPoint,yPoint,answer);
+//    NSLog(@"x: %f y:%f angle:%f",xPoint,yPoint,answer);
     
     CCSprite* _laserSprite = [CCSprite spriteWithFile:@"laser.png"];
-    [_laserSprite setScale:1.0f];
+    [_laserSprite setScale:0.3f];
 
-    [_laserSprite setPosition:CGPointMake(_shipSprite.position.x+xPoint, _shipSprite.position.y-150)];
- 
+    [_laserSprite setPosition:CGPointMake((_shipBody->GetPosition().x*PTM_RATIO)+xPoint, (_shipBody->GetPosition().y*PTM_RATIO)-150)];
+    NSLog(@"ship x position: %f", _shipSprite.position.x);
 
     [self addChild:_laserSprite];
     
     b2BodyDef laserBodyDef;
-    if(_shipBody->GetPosition().x*PTM_RATIO>1129.00f){
-        laserBodyDef.position.Set((_shipSprite.position.x+100)/PTM_RATIO, (_shipSprite.position.y-150)/PTM_RATIO);
-        if(_shipBody->GetPosition().x*PTM_RATIO>1275.00f){
-            answer = 0.01f;
-            laserBodyDef.position.Set((_shipSprite.position.x)/PTM_RATIO, (_shipSprite.position.y-150)/PTM_RATIO);
-        }
-    }
-    else if(_shipBody->GetPosition().x*PTM_RATIO<-555.00f){
-        
-        laserBodyDef.position.Set((_shipSprite.position.x-100)/PTM_RATIO, (_shipSprite.position.y-150)/PTM_RATIO);
-        if(_shipBody->GetPosition().x*PTM_RATIO<-715.00f){
-            answer = 0.01f;
-            laserBodyDef.position.Set((_shipSprite.position.x)/PTM_RATIO, (_shipSprite.position.y-150)/PTM_RATIO);
-        }
-    }
-    else
-        laserBodyDef.position.Set((_shipSprite.position.x+xPoint)/PTM_RATIO, (_shipSprite.position.y-150)/PTM_RATIO);
-  
+//    if(_shipBody->GetPosition().x*PTM_RATIO>1120.00f){
+//        xPoint+=((_shipBody->GetPosition().x*PTM_RATIO)-1120.00)*-1;
+//        laserBodyDef.position.Set(((_shipBody->GetPosition().x*PTM_RATIO)+(xPoint/2))/PTM_RATIO, ((_shipBody->GetPosition().y*PTM_RATIO)-50)/PTM_RATIO);
+//    }
+//    else if(_shipBody->GetPosition().x*PTM_RATIO<-520.00f){
+//        xPoint+=(_shipBody->GetPosition().x*PTM_RATIO)+520.00;
+//        laserBodyDef.position.Set(((_shipBody->GetPosition().x*PTM_RATIO)+(xPoint*2))/PTM_RATIO, ((_shipBody->GetPosition().y*PTM_RATIO)-50)/PTM_RATIO);
+//
+//    }
+//    else
+        laserBodyDef.position.Set(((_shipBody->GetPosition().x*PTM_RATIO)+(xPoint/2))/PTM_RATIO, ((_shipBody->GetPosition().y*PTM_RATIO)-50)/PTM_RATIO);
+      NSLog(@"x: %f y:%f angle:%f",xPoint,yPoint,answer);
     laserBodyDef.type = b2_dynamicBody;
     laserBodyDef.userData = _laserSprite;
-    laserBodyDef.fixedRotation = false;
+    laserBodyDef.fixedRotation = true;
     b2Body* _laserBody = _world->CreateBody(&laserBodyDef);
 
     b2PolygonShape polygon;
     int num = 4;
     b2Vec2 vertices[4];
-    vertices[0].Set(-25/ PTM_RATIO, -90/ PTM_RATIO);
-    vertices[1].Set(15/ PTM_RATIO,-90/ PTM_RATIO);
-    vertices[2].Set(15/ PTM_RATIO,120/ PTM_RATIO);
-    vertices[3].Set(-25/ PTM_RATIO,120/ PTM_RATIO);
+    vertices[0].Set(-5/ PTM_RATIO, -18/ PTM_RATIO);
+    vertices[1].Set(3/ PTM_RATIO,-18/ PTM_RATIO);
+    vertices[2].Set(3/ PTM_RATIO,24/ PTM_RATIO);
+    vertices[3].Set(-5/ PTM_RATIO,24/ PTM_RATIO);
     polygon.Set(vertices, num);
     
     b2FixtureDef laserShapeDef;
@@ -606,11 +611,18 @@
     laserShapeDef.filter.categoryBits = 2;
     _laserBody->CreateFixture(&laserShapeDef);
     _laserBody->SetTransform(_laserBody->GetPosition(), CC_DEGREES_TO_RADIANS(answer));
-//    b2Vec2 vectorForce = b2Vec2(cosf(answer),sinf(answer));
-    b2Vec2 vectorForce =  b2Rot(answer).GetXAxis();
-    vectorForce = 50*vectorForce;
-    _laserBody->ApplyForceToCenter(vectorForce);
-    _laserBody->SetGravityScale(0.1);
+    
+//    b2Vec2 vectorForce =  b2Rot(answer).GetXAxis();
+//    vectorForce = 50*vectorForce;
+//    _laserBody->ApplyForceToCenter(vectorForce);
+    
+    b2Vec2 force = b2Vec2(xPoint, -1*yPoint);
+    force *= 2.5;  // Use this if your game engine uses an explicit time step
+    b2Vec2 p = _laserBody->GetWorldPoint(b2Vec2(0.0f, 0.0f));
+    _laserBody->ApplyForce(force, p);
+    
+    _laserBody->SetGravityScale(0.0f);
+//    _laserBody->SetFixedRotation(YES);
     [laserArray addObject:[NSValue valueWithPointer:_laserBody]];
     shipLaserCooldownMode = YES;
     [self performSelector:@selector(laserWeaponReadyToFire) withObject:self afterDelay:1.0];
@@ -654,6 +666,9 @@
     b2CircleShape circle;
     circle.m_radius = 55.0/PTM_RATIO;
     b2BodyDef explosionBodyDef;
+    NSLog(@"Explosion Point Y: %f", point.y-60);
+    if(point.y<120)
+        point.y = 120;
     explosionBodyDef.type = b2_dynamicBody;
     explosionBodyDef.position.Set(point.x/PTM_RATIO, (point.y-60)/PTM_RATIO);
     explosionBodyDef.userData = _explosionSprite;
