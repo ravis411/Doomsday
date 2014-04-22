@@ -9,6 +9,9 @@
 #import "SpriteLayer.h"
 #import "GLES-Render.h"
 #define PTM_RATIO 32.0f
+#define ARROWBUTTONWIDTH 100
+#define GROUNDBOTTOM 60
+#define GROUNDTOP 100
 
 @implementation SpriteLayer
 
@@ -356,7 +359,7 @@
 //    if(!shipCooldownMode)
 //        [self singleBombFire];
     
-    if (location.x <= 100 && location.y <= 60) {//touch left
+    if (location.x <= ARROWBUTTONWIDTH && ( location.y <= GROUNDBOTTOM || location.y >= GROUNDTOP ) ) {//touch left
         //[self schedule:@selector(moveScreenLeft)];
             b2Vec2 v = b2Vec2((-300)/PTM_RATIO,0);
             _shipBody->SetLinearVelocity(v);
@@ -366,7 +369,7 @@
             intentToMoveLeft = YES;
         }
     }
-    else if (location.x >= size.width-100 && location.y <=60) {//touch right
+    else if (location.x >= size.width - ARROWBUTTONWIDTH && (location.y <= GROUNDBOTTOM || location.y >= GROUNDTOP) ){//touch right
         //[self schedule:@selector(moveScreenRight)];
         
         b2Vec2 v = b2Vec2((300)/PTM_RATIO,0);
@@ -389,7 +392,7 @@
                     //weaponLabelString = @"GADGET 2 (not functional)";
                     break;
                  case WEAPON_BASIC:
-                    if(!shipLaserCooldownMode && location.y <=100)
+                    if(!shipLaserCooldownMode && location.y <= GROUNDTOP)
                         [self singleLazerFire:location];
                      break;
              }
@@ -500,7 +503,7 @@
 
 - (void)spawnPerson {
     Hoipolloi* _humanSprite = [CCSprite spriteWithFile:@"hoipolloi.png"];
-    _humanSprite.position = CGPointMake(size.width/2, size.height/2);
+    _humanSprite.position = CGPointMake(size.width/2, GROUNDBOTTOM + 20);
     [_humanSprite setScale:0.3];
     [self addChild:_humanSprite];
     b2Body* _hoipolloiBody;
@@ -508,7 +511,7 @@
     //Creating Hoipolloi Box2D Body
     b2BodyDef hoipolloiBodyDef;
     hoipolloiBodyDef.type = b2_dynamicBody;
-    hoipolloiBodyDef.position.Set((size.width/2+10)/PTM_RATIO, (size.height/2)/PTM_RATIO);
+    hoipolloiBodyDef.position.Set((size.width/2+10)/PTM_RATIO, (GROUNDBOTTOM + 20)/PTM_RATIO);
     hoipolloiBodyDef.userData = _humanSprite;
     hoipolloiBodyDef.fixedRotation = false;
     
@@ -550,15 +553,26 @@
 -(void)singleLazerFire:(CGPoint)point{
     
     float xPoint = point.x-283.00f;
+    if(_shipBody->GetPosition().x*PTM_RATIO>1120.00f){
+        xPoint+=((_shipBody->GetPosition().x*PTM_RATIO)-1120.00)*-1;
+//        laserBodyDef.position.Set(((_shipBody->GetPosition().x*PTM_RATIO)+(xPoint/2))/PTM_RATIO, ((_shipBody->GetPosition().y*PTM_RATIO)-50)/PTM_RATIO);
+    }
+    else if(_shipBody->GetPosition().x*PTM_RATIO<-520.00f){
+        xPoint+=((_shipBody->GetPosition().x*PTM_RATIO)+520.00)*-1;
+//        laserBodyDef.position.Set(((_shipBody->GetPosition().x*PTM_RATIO)+(xPoint*2))/PTM_RATIO, ((_shipBody->GetPosition().y*PTM_RATIO)-50)/PTM_RATIO);
+        
+    }
+    
+    
     float yPoint = (_shipBody->GetPosition().y*PTM_RATIO)- point.y;
     float answer = atanf(xPoint/yPoint)*55;
-    NSLog(@"x: %f y:%f angle:%f",xPoint,yPoint,answer);
+//    NSLog(@"x: %f y:%f angle:%f",xPoint,yPoint,answer);
     
     CCSprite* _laserSprite = [CCSprite spriteWithFile:@"laser.png"];
-    [_laserSprite setScale:1.0f];
+    [_laserSprite setScale:0.3f];
 
-    [_laserSprite setPosition:CGPointMake(_shipSprite.position.x+xPoint, _shipSprite.position.y-150)];
- 
+    [_laserSprite setPosition:CGPointMake((_shipBody->GetPosition().x*PTM_RATIO)+xPoint, (_shipBody->GetPosition().y*PTM_RATIO)-150)];
+    NSLog(@"ship x position: %f", _shipSprite.position.x);
 
     [self addChild:_laserSprite];
     
@@ -593,16 +607,16 @@
   
     laserBodyDef.type = b2_dynamicBody;
     laserBodyDef.userData = _laserSprite;
-    laserBodyDef.fixedRotation = false;
+    laserBodyDef.fixedRotation = true;
     b2Body* _laserBody = _world->CreateBody(&laserBodyDef);
 
     b2PolygonShape polygon;
     int num = 4;
     b2Vec2 vertices[4];
-    vertices[0].Set(-25/ PTM_RATIO, -90/ PTM_RATIO);
-    vertices[1].Set(15/ PTM_RATIO,-90/ PTM_RATIO);
-    vertices[2].Set(15/ PTM_RATIO,120/ PTM_RATIO);
-    vertices[3].Set(-25/ PTM_RATIO,120/ PTM_RATIO);
+    vertices[0].Set(-5/ PTM_RATIO, -18/ PTM_RATIO);
+    vertices[1].Set(3/ PTM_RATIO,-18/ PTM_RATIO);
+    vertices[2].Set(3/ PTM_RATIO,24/ PTM_RATIO);
+    vertices[3].Set(-5/ PTM_RATIO,24/ PTM_RATIO);
     polygon.Set(vertices, num);
     
     b2FixtureDef laserShapeDef;
@@ -613,11 +627,18 @@
     laserShapeDef.filter.categoryBits = 2;
     _laserBody->CreateFixture(&laserShapeDef);
     _laserBody->SetTransform(_laserBody->GetPosition(), CC_DEGREES_TO_RADIANS(answer));
-//    b2Vec2 vectorForce = b2Vec2(cosf(answer),sinf(answer));
-    b2Vec2 vectorForce =  b2Rot(answer).GetXAxis();
-    vectorForce = 50*vectorForce;
-    _laserBody->ApplyForceToCenter(vectorForce);
-    _laserBody->SetGravityScale(0.1);
+    
+//    b2Vec2 vectorForce =  b2Rot(answer).GetXAxis();
+//    vectorForce = 50*vectorForce;
+//    _laserBody->ApplyForceToCenter(vectorForce);
+    
+    b2Vec2 force = b2Vec2(xPoint, -1*yPoint);
+    force *= 2.5;  // Use this if your game engine uses an explicit time step
+    b2Vec2 p = _laserBody->GetWorldPoint(b2Vec2(0.0f, 0.0f));
+    _laserBody->ApplyForce(force, p);
+    
+    _laserBody->SetGravityScale(0.0f);
+//    _laserBody->SetFixedRotation(YES);
     [laserArray addObject:[NSValue valueWithPointer:_laserBody]];
     shipLaserCooldownMode = YES;
     [self performSelector:@selector(laserWeaponReadyToFire) withObject:self afterDelay:1.0];
@@ -661,6 +682,9 @@
     b2CircleShape circle;
     circle.m_radius = 55.0/PTM_RATIO;
     b2BodyDef explosionBodyDef;
+    NSLog(@"Explosion Point Y: %f", point.y-60);
+    if(point.y<120)
+        point.y = 120;
     explosionBodyDef.type = b2_dynamicBody;
     explosionBodyDef.position.Set(point.x/PTM_RATIO, (point.y-60)/PTM_RATIO);
     explosionBodyDef.userData = _explosionSprite;

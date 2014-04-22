@@ -56,7 +56,8 @@ enum {
 		self.touchEnabled = YES;
 		self.accelerometerEnabled = YES;
 		CGSize s = [CCDirector sharedDirector].winSize;
-		
+		size = [[CCDirector sharedDirector] winSize];
+        
 		// init physics
 		[self initPhysics];
 		//batching sprites
@@ -94,6 +95,7 @@ enum {
         
 		// create reset button
 		[self createMenu];
+        
 		
 
 		
@@ -174,9 +176,9 @@ enum {
     CCSprite* menuButtonSprite1 = [CCSprite spriteWithSpriteFrameName:@"button1_1.png"];
     CCMenuItemSprite * itemNewGame = [CCMenuItemSprite itemWithNormalSprite:menuButtonSprite0 selectedSprite:menuButtonSprite1 target:self selector:@selector(newGame:)];
     
-//    CCMenuItemLabel *itemNewGameLabel = [CCLabelTTF labelWithString:@"New Game" fontName:@"Arial" fontSize:22];
-//    [itemNewGameLabel setColor:ccBLACK];
-//    [itemNewGame addChild:itemNewGameLabel];
+    CCMenuItem* testButton = [uiLayer addButtonWithText:@"TEST" ShapeID:3 x:size.width/2 y:size.height/2];
+    
+
     
 //    CCMenuItem *itemNewGame = [CCMenuItemFont itemWithString:@"New Game" block:^(id sender) {
 //        [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.0 scene:[GameplayScene node]]];
@@ -186,11 +188,11 @@ enum {
 //    [itemNewGame setSelectedSpriteFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"button1_1.png"]];
 	
     
-	CCMenu *menu = [CCMenu menuWithItems: itemNewGame, nil];
+	CCMenu *menu = [CCMenu menuWithItems: itemNewGame, testButton, nil];
 	    
 	[menu alignItemsVertically];
 	
-	CGSize size = [[CCDirector sharedDirector] winSize];
+    
 	[menu setPosition:ccp( size.width/2, size.height/2)];
 	
 //    CCLabelTTF* killThemAll = [CCLabelTTF labelWithString:@"SMITE" fontName:@"Arial" fontSize:22];
@@ -208,10 +210,14 @@ enum {
     CCSprite* dashboard = [CCSprite spriteWithSpriteFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"dash_mainmenu.png"]];
 	[dashboard setPosition:ccp(size.width/2, 150)];
     
+//    CCMenuItem* testButton = [uiLayer addButtonWithText:@"TEST" ShapeID:3 x:size.width/2 y:size.height/2];
+//    
+    
+    
     [self addChild: cosmos z:-4];
     [self addChild: dashboard z:-3];
     [self addChild:titleFace z:-3];
-	[self addChild: menu z:-1];	
+    [self addChild: menu z:-1];
 }
 
 -(void) initPhysics
@@ -368,7 +374,6 @@ enum {
 }
 
 -(void) buildUI {
-    CGSize size = [[CCDirector sharedDirector] winSize];
    
 
 }
