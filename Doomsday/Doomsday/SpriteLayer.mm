@@ -9,6 +9,9 @@
 #import "SpriteLayer.h"
 #import "GLES-Render.h"
 #define PTM_RATIO 32.0f
+#define ARROWBUTTONWIDTH 100
+#define GROUNDBOTTOM 60
+#define GROUNDTOP 100
 
 @implementation SpriteLayer
 
@@ -356,7 +359,7 @@
 //    if(!shipCooldownMode)
 //        [self singleBombFire];
     
-    if (location.x <= 100 && location.y <= 60) {//touch left
+    if (location.x <= ARROWBUTTONWIDTH && ( location.y <= GROUNDBOTTOM || location.y >= GROUNDTOP ) ) {//touch left
         //[self schedule:@selector(moveScreenLeft)];
             b2Vec2 v = b2Vec2((-300)/PTM_RATIO,0);
             _shipBody->SetLinearVelocity(v);
@@ -366,7 +369,7 @@
             intentToMoveLeft = YES;
         }
     }
-    else if (location.x >= size.width-100 && location.y <=60) {//touch right
+    else if (location.x >= size.width - ARROWBUTTONWIDTH && (location.y <= GROUNDBOTTOM || location.y >= GROUNDTOP) ){//touch right
         //[self schedule:@selector(moveScreenRight)];
         
         b2Vec2 v = b2Vec2((300)/PTM_RATIO,0);
@@ -389,7 +392,7 @@
                     //weaponLabelString = @"GADGET 2 (not functional)";
                     break;
                  case WEAPON_BASIC:
-                    if(!shipLaserCooldownMode && location.y <=100)
+                    if(!shipLaserCooldownMode && location.y <= GROUNDTOP)
                         [self singleLazerFire:location];
                      break;
              }
@@ -500,7 +503,7 @@
 
 - (void)spawnPerson {
     Hoipolloi* _humanSprite = [CCSprite spriteWithFile:@"hoipolloi.png"];
-    _humanSprite.position = CGPointMake(size.width/2, size.height/2);
+    _humanSprite.position = CGPointMake(size.width/2, GROUNDBOTTOM + 20);
     [_humanSprite setScale:0.3];
     [self addChild:_humanSprite];
     b2Body* _hoipolloiBody;
@@ -508,7 +511,7 @@
     //Creating Hoipolloi Box2D Body
     b2BodyDef hoipolloiBodyDef;
     hoipolloiBodyDef.type = b2_dynamicBody;
-    hoipolloiBodyDef.position.Set((size.width/2+10)/PTM_RATIO, (size.height/2)/PTM_RATIO);
+    hoipolloiBodyDef.position.Set((size.width/2+10)/PTM_RATIO, (GROUNDBOTTOM + 20)/PTM_RATIO);
     hoipolloiBodyDef.userData = _humanSprite;
     hoipolloiBodyDef.fixedRotation = false;
     
