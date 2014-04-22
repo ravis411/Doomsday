@@ -84,7 +84,7 @@
         groundEdge.Set(b2Vec2(-8000/PTM_RATIO,groundLevel/PTM_RATIO), b2Vec2(8000/PTM_RATIO, groundLevel/PTM_RATIO));
         _groundBody->CreateFixture(&boxShapeDef);
 
-        groundEdge.Set(b2Vec2((size.width+805)/PTM_RATIO, 0),b2Vec2((size.width+805)/PTM_RATIO, size.height/PTM_RATIO));
+        groundEdge.Set(b2Vec2((size.width+815)/PTM_RATIO, 0),b2Vec2((size.width+815)/PTM_RATIO, size.height/PTM_RATIO));
         _groundBody->CreateFixture(&boxShapeDef);
         
         groundEdge.Set(b2Vec2(-805/PTM_RATIO,0), b2Vec2(-805/PTM_RATIO,size.height/PTM_RATIO));
@@ -226,15 +226,15 @@
 	// This is only for debug purposes
 	// It is recommend to disable it
 	//
-//	[super draw];
-//	
-//	ccGLEnableVertexAttribs( kCCVertexAttribFlag_Position );
-//	
-//	kmGLPushMatrix();
-//	
-//	_world->DrawDebugData();
-//	
-//	kmGLPopMatrix();
+	[super draw];
+	
+	ccGLEnableVertexAttribs( kCCVertexAttribFlag_Position );
+	
+	kmGLPushMatrix();
+	
+	_world->DrawDebugData();
+	
+	kmGLPopMatrix();
 }
 
 -(void)collisionDetection{
@@ -564,18 +564,28 @@
     
     b2BodyDef laserBodyDef;
     if(_shipBody->GetPosition().x*PTM_RATIO>1129.00f){
-        laserBodyDef.position.Set((_shipSprite.position.x+100)/PTM_RATIO, (_shipSprite.position.y-150)/PTM_RATIO);
-        if(_shipBody->GetPosition().x*PTM_RATIO>1275.00f){
-            answer = 0.01f;
-            laserBodyDef.position.Set((_shipSprite.position.x)/PTM_RATIO, (_shipSprite.position.y-150)/PTM_RATIO);
+        if(xPoint>0){
+            laserBodyDef.position.Set((_shipSprite.position.x+150)/PTM_RATIO, (_shipSprite.position.y-150)/PTM_RATIO);
+            if(_shipBody->GetPosition().x*PTM_RATIO>1275.00f){
+                answer = 0.01f;
+                laserBodyDef.position.Set((_shipSprite.position.x)/PTM_RATIO, (_shipSprite.position.y-150)/PTM_RATIO);
+            }
+        }
+        else{
+            laserBodyDef.position.Set((_shipSprite.position.x+xPoint)/PTM_RATIO, (_shipSprite.position.y-150)/PTM_RATIO);
         }
     }
     else if(_shipBody->GetPosition().x*PTM_RATIO<-555.00f){
-        
-        laserBodyDef.position.Set((_shipSprite.position.x-100)/PTM_RATIO, (_shipSprite.position.y-150)/PTM_RATIO);
-        if(_shipBody->GetPosition().x*PTM_RATIO<-715.00f){
-            answer = 0.01f;
-            laserBodyDef.position.Set((_shipSprite.position.x)/PTM_RATIO, (_shipSprite.position.y-150)/PTM_RATIO);
+        if(xPoint<0){
+
+            laserBodyDef.position.Set((_shipSprite.position.x-150)/PTM_RATIO, (_shipSprite.position.y-150)/PTM_RATIO);
+            if(_shipBody->GetPosition().x*PTM_RATIO<-715.00f){
+                answer = 0.01f;
+                laserBodyDef.position.Set((_shipSprite.position.x)/PTM_RATIO, (_shipSprite.position.y-150)/PTM_RATIO);
+            }
+        }
+        else{
+            laserBodyDef.position.Set((_shipSprite.position.x+xPoint)/PTM_RATIO, (_shipSprite.position.y-150)/PTM_RATIO);
         }
     }
     else
