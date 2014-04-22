@@ -182,6 +182,12 @@
 }
 
 -(void)update:(ccTime)dt{
+    
+    //Paused so don't update anything.
+    if (_paused) {
+        return;
+    }
+    
     [spriteLayer update:dt];
     
        
