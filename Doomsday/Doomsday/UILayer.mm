@@ -65,17 +65,37 @@ element.position = ccp(mX, mY);
 }
 
 
+
+-(int) ticksToSchmeckonds: (int)ticks {
+return ticks/12;
+}
+
+-(CCMenuItem*) addButtonWithText:(NSString*)bText ShapeID:(int)sID x:(int)mX y:(int)mY {
+    NSString* nFrame = [NSString stringWithFormat:@"button%d_0.png", sID];
+    NSString* sFrame = [NSString stringWithFormat:@"button%d_1.png", sID];
+    CCMenuItem* tMenuItem = [CCMenuItemImage itemFromNormalImage:nFrame selectedImage:sFrame target:self selector:@selector(nullSelector)];
+    tMenuItem.position = ccp(mX, mY);
+    CCLabelTTF* buttonLabel = [[CCLabelTTF labelWithString:bText fontName:@"Arial" fontSize:18.0] retain];
+//    tMenuItem.width/2
+    buttonLabel.position = tMenuItem.position;
+//    [self addChild: tMenuItem];
+//    [self addChild: buttonLabel];
+    return tMenuItem;
+}
+
+-(void) nullSelector {}
+
 -(void) dealloc {
 [super dealloc];
 }
+
+
 
 -(void) update:(ccTime)dt level:(int) currentLevel lives:(int)currentLives killed:(int)currentKilled score:(double)s {
 //    _killCount = currentKilled;
 //    [self updateKillCounter];
 }
 
--(int) ticksToSchmeckonds: (int)ticks {
-    return ticks/12;
-}
+
 
 @end

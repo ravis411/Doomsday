@@ -20,6 +20,7 @@
         uiLayer = [UILayer node];
         bgLayer = [BackgroundLayer node];
         background = [CCParallaxNode node];
+        _paused = false;
 //        _ship = [Ship sharedModel];
         
         weaponMode = WEAPON_BASIC;
@@ -127,8 +128,15 @@
 
 - (void)pauseTapped:(id)sender {
 //    [_label setString:@"PAUSE"];
-    [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.0 scene: [HelloWorldLayer node]]];
-    
+//    [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.0 scene: [HelloWorldLayer node]]];
+    if (!_paused){
+        [self pauseGame];
+    }
+    else {
+        [self resumeGame];
+    }
+    _paused = !_paused;
+
 }
 
 -(void) updateUILayer {
@@ -154,6 +162,23 @@
 -(void) setTimer:(int)mT {
     _timeRemaining = mT;
     _timerOn = true;
+}
+
+-(void) freezeGame {
+    CCLayerColor* layercolorHalftransparentgray = [CCLayerColor layerWithColor:ccc4(69,69,69, 128)];
+    [uiLayer addChild: layercolorHalftransparentgray];
+}
+
+-(void) pauseGame {
+    [self freezeGame];
+    CCLabelTTF* pauseLabel = [[CCLabelTTF labelWithString:@"PAUSE" fontName:@"Arial" fontSize:30] retain];
+    pauseLabel.position = ccp(winSize.width/2, winSize.height/2);
+    [uiLayer addChild:pauseLabel];
+}
+
+-(void) resumeGame {
+    CCLayerColor* clearLayer = [CCLayerColor layerWithColor:ccc4(69,69,69, 0)];
+    [uiLayer addChild: clearLayer];
 }
 
 -(void)update:(ccTime)dt{

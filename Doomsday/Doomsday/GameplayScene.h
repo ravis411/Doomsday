@@ -21,6 +21,7 @@
     int _quota;
     int _killCount;
     Boolean _timerOn;
+    Boolean _paused;
     enum playerWeapon weaponMode;
     SpriteLayer *spriteLayer;
     UILayer *uiLayer;
@@ -48,6 +49,10 @@
 -(void) laserButtonTapped:(id)sender;
 -(void) gadgetButtonRTapped:(id)sender;
 -(void) gadgetButtonLTapped:(id)sender;
+-(void) freezeGame;
+-(void) pauseGame;
+-(void) winGame;
+-(void) loseGame;
 
 //-(void) moveScreenLeft;
 //-(void) moveScreenRight;
