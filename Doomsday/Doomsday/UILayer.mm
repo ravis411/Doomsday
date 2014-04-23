@@ -23,7 +23,7 @@
         [self setTouchEnabled:YES];
         [self scheduleUpdate];
 
-}
+    }
 return self;
 }
 

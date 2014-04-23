@@ -170,15 +170,22 @@
 }
 
 -(void) pauseGame {
-    [self freezeGame];
-    CCLabelTTF* pauseLabel = [[CCLabelTTF labelWithString:@"PAUSE" fontName:@"Arial" fontSize:30] retain];
-    pauseLabel.position = ccp(winSize.width/2, winSize.height/2);
-    [uiLayer addChild:pauseLabel];
+//    [self freezeGame];
+//    CCLabelTTF* pauseLabel = [[CCLabelTTF labelWithString:@"PAUSE" fontName:@"Arial" fontSize:30] retain];
+//    pauseLabel.position = ccp(winSize.width/2, winSize.height/2);
+//    [uiLayer addChild:pauseLabel];
+    [self endGame];
+    
 }
 
 -(void) resumeGame {
     CCLayerColor* clearLayer = [CCLayerColor layerWithColor:ccc4(69,69,69, 0)];
     [uiLayer addChild: clearLayer];
+}
+
+-(void) endGame {
+    [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.0 scene:
+                                               [[GameoverScene alloc] gameOverWithScore:_killCount outOf:_quota]]];
 }
 
 -(void)update:(ccTime)dt{
