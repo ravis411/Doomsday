@@ -49,6 +49,8 @@ NSString *updateLabel = [NSString stringWithFormat:@"%d/%d", _killCount, _quota]
 [_timeLabel setString:[NSString stringWithFormat:@"%d SCHMECKONDS", [self ticksToSchmeckonds:newTime]]];
 }
 
+
+
 -(void) addUIElement:(CCSprite*)element withFrame:(NSString*) elemFile x:(int)mX y:(int)mY {
 element = [CCSprite node];
 [element initWithSpriteFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:elemFile]];
@@ -64,24 +66,45 @@ NSString* sFrame = [NSString stringWithFormat:@"button%d_1.png", bID];
 element.position = ccp(mX, mY);
 }
 
-
-
 -(int) ticksToSchmeckonds: (int)ticks {
 return ticks/12;
 }
 
--(CCMenuItem*) addButtonWithText:(NSString*)bText ShapeID:(int)sID x:(int)mX y:(int)mY {
+-(CCMenuItem*) buildButtonWithShapeID:(int)sID x:(int)mX y:(int)mY {
     NSString* nFrame = [NSString stringWithFormat:@"button%d_0.png", sID];
     NSString* sFrame = [NSString stringWithFormat:@"button%d_1.png", sID];
-    CCMenuItem* tMenuItem = [CCMenuItemImage itemFromNormalImage:nFrame selectedImage:sFrame target:self selector:@selector(nullSelector)];
+    CCMenuItem* tMenuItem = [CCMenuItemImage
+                                itemFromNormalImage:@"blank.png"
+                                selectedImage:@"blank.png"
+                                target:self
+                                selector:@selector(nullSelector)];
     tMenuItem.position = ccp(mX, mY);
-    CCLabelTTF* buttonLabel = [[CCLabelTTF labelWithString:bText fontName:@"Arial" fontSize:18.0] retain];
-//    tMenuItem.width/2
-    buttonLabel.position = tMenuItem.position;
-//    [self addChild: tMenuItem];
-//    [self addChild: buttonLabel];
+
+    [tMenuItem setNormalSpriteFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:nFrame]];
+    [tMenuItem setSelectedSpriteFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:sFrame]];
+
     return tMenuItem;
 }
+
+//-(CCMenuItem*) makeButtonWithText:(NSString*)bText ShapeID:(int)sID x:(int)mX y:(int)mY {
+//    CCMenuItem* tMenuItem = [self buildButtonWithShapeID:sID x:mX y:mY];
+//    CCLabelTTF* buttonLabel = [[CCLabelTTF labelWithString:bText fontName:@"Arial" fontSize:18.0] retain];
+////    tMenuItem.width/2
+//    buttonLabel.position = tMenuItem.position;
+//    [self addChild:buttonLabel];
+////    [self addChild: tMenuItem];
+////    [self addChild: buttonLabel];
+////    [self addChild: tMenuItem];
+//    return tMenuItem;
+//}
+
+-(void) addText:(NSString*)mText toButton:(CCMenuItem*)mButton {
+    CCLabelTTF* buttonLabel = [[CCLabelTTF labelWithString:mText fontName:@"Arial" fontSize:18.0] retain];
+    //    tMenuItem.width/2
+    buttonLabel.position = ccp(mButton.position.x, mButton.position.y + 50);
+    [self addChild:buttonLabel];
+}
+
 
 -(void) nullSelector {}
 
@@ -92,6 +115,7 @@ return ticks/12;
 
 
 -(void) update:(ccTime)dt level:(int) currentLevel lives:(int)currentLives killed:(int)currentKilled score:(double)s {
+
 //    _killCount = currentKilled;
 //    [self updateKillCounter];
 }

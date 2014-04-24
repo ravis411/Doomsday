@@ -46,7 +46,9 @@
 -(void) displayTimer;
 -(void) addUIElement:(CCSprite*)element withFrame:(NSString*)elemFile x:(int)mX y:(int)mY;
 -(void) setMenuItem:(CCMenuItem*)element buttonID:(int)bID x:(int)mX y:(int)mY;
--(CCMenuItem*) addButtonWithText:(NSString*)bText ShapeID:(int)sID x:(int)mX y:(int)mY;
+-(CCMenuItem*) buildButtonWithShapeID:(int)sID x:(int)mX y:(int)mY;
+-(CCMenuItem*) makeButtonWithText:(NSString*)bText ShapeID:(int)sID x:(int)mX y:(int)mY;
+-(void) addText:(NSString*)mText toButton:(CCMenuItem*)mButton;
 -(void) nullSelector;
 -(void) update:(ccTime)dt level:(int) currentLevel lives:(int)currentLives killed:(int)currentKilled score:(double)s;
 -(int) ticksToSchmeckonds:(int)ticks;
