@@ -31,11 +31,14 @@
                              fontSize:30];
         score.position = ccp(size.width/2, size.height/2 + 48);
         
-        CCMenuItem* restartButton = [uiLayer buildButtonWithShapeID:1 x:0 y:0];
+        
+        CCMenuItem* restartButton = [uiLayer makeButtonWithText:@"TRY AGAIN" ShapeID:1 x:0 y:0];
+//        CCMenuItem* restartButton = [uiLayer buildButtonWithShapeID:1 x:0 y:0];
         [restartButton setTarget:self selector:@selector(retry)];
         
         CCMenuItem* returnButton = [uiLayer buildButtonWithShapeID:1 x:size.width/2 y:size.height/2 - 48];
         [returnButton setTarget:self selector:@selector(returnToMain)];
+        
         
         CCMenu *menu = [CCMenu menuWithItems: restartButton, returnButton, nil];
         [uiLayer addChild: menu];
@@ -43,8 +46,6 @@
         [menu alignItemsVertically];
         [menu setPosition:ccp( size.width/2, size.height/2)];
         
-        [uiLayer addText:@"TRY AGAIN" toButton:restartButton];
-        [uiLayer addText:@"MAIN MENU" toButton:returnButton];
         
         [uiLayer addChild:vfMSG];
         [uiLayer addChild:score];

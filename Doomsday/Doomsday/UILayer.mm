@@ -86,23 +86,50 @@ return ticks/12;
     return tMenuItem;
 }
 
-//-(CCMenuItem*) makeButtonWithText:(NSString*)bText ShapeID:(int)sID x:(int)mX y:(int)mY {
-//    CCMenuItem* tMenuItem = [self buildButtonWithShapeID:sID x:mX y:mY];
-//    CCLabelTTF* buttonLabel = [[CCLabelTTF labelWithString:bText fontName:@"Arial" fontSize:18.0] retain];
-////    tMenuItem.width/2
-//    buttonLabel.position = tMenuItem.position;
-//    [self addChild:buttonLabel];
-////    [self addChild: tMenuItem];
-////    [self addChild: buttonLabel];
-////    [self addChild: tMenuItem];
-//    return tMenuItem;
-//}
+-(CCMenuItem*) makeButtonWithText:(NSString*)bText ShapeID:(int)sID x:(int)mX y:(int)mY {
+    NSString* nFrameS = [NSString stringWithFormat:@"button%d_0.png", sID];
+    NSString* sFrameS = [NSString stringWithFormat:@"button%d_1.png", sID];
+
+    CCSpriteFrame *nSFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:nFrameS];
+    CCSpriteFrame *sSFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:nFrameS];
+    CCLabelTTF* buttonLabel = [[CCLabelTTF labelWithString:bText fontName:@"Arial" fontSize:18.0] retain];
+
+    CCSprite* nSprite = [[CCSprite alloc] initWithSpriteFrame:nSFrame];
+    CCSprite* sSprite = [[CCSprite alloc] initWithSpriteFrame:sSFrame];
+    [nSprite addChild: buttonLabel];
+//    [sSprite addChild: buttonLabel];
+
+    CCMenuItem* tMenuItem = [CCMenuItemSprite
+        itemFromNormalSprite:nSprite
+        selectedSprite:sSprite
+        target:self
+        selector:@selector(nullSelector)];
+    tMenuItem.position = ccp(mX, mY);
+
+    
+//    CGSize os = [nSFrame originalSize];
+//
+//    buttonLabel.position = ccp(os.width/2, os.height/2);
+
+//    CCMenuItemSprite *buttonSprite = [CCMenuItemImage itemFromNormalSprite:nSprite selectedSprite:sSprite];
+
+//    [tMenuItem ]
+//
+//
+//    [tMenuItem setNormalImage:nSprite];
+//    [tMenuItem setSelectedImage:sSprite];
+
+    return tMenuItem;
+
+}
+
 
 -(void) addText:(NSString*)mText toButton:(CCMenuItem*)mButton {
     CCLabelTTF* buttonLabel = [[CCLabelTTF labelWithString:mText fontName:@"Arial" fontSize:18.0] retain];
-    //    tMenuItem.width/2
-    buttonLabel.position = ccp(mButton.position.x, mButton.position.y + 50);
-    [self addChild:buttonLabel];
+    [mButton addChild:buttonLabel];
+    int w;
+//    buttonLabel.position = ccp(mButton.position.x, mButton.position.y);
+
 }
 
 
