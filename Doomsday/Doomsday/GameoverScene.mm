@@ -32,19 +32,19 @@
         score.position = ccp(size.width/2, size.height/2 + 48);
         
         
-        CCMenuItem* restartButton = [uiLayer makeButtonWithText:@"TRY AGAIN" ShapeID:1 x:0 y:0];
-//        CCMenuItem* restartButton = [uiLayer buildButtonWithShapeID:1 x:0 y:0];
+        CCMenuItemSprite* restartButton = [uiLayer makeButtonWithText:@"TRY AGAIN" ShapeID:1 x:0 y:0];
         [restartButton setTarget:self selector:@selector(retry)];
         
-        CCMenuItem* returnButton = [uiLayer buildButtonWithShapeID:1 x:size.width/2 y:size.height/2 - 48];
+        CCMenuItemSprite* returnButton = [uiLayer makeButtonWithText:@"MAIN MENU" ShapeID:1 x:0 y:0];
         [returnButton setTarget:self selector:@selector(returnToMain)];
         
         
         CCMenu *menu = [CCMenu menuWithItems: restartButton, returnButton, nil];
+        
         [uiLayer addChild: menu];
 	    
         [menu alignItemsVertically];
-        [menu setPosition:ccp( size.width/2, size.height/2)];
+        [menu setPosition:ccp( size.width/2, size.height/2 - 50)];
         
         
         [uiLayer addChild:vfMSG];
@@ -60,9 +60,13 @@
 
 -(void) retry {
     NSLog(@"New Game");
+    [[CCDirector sharedDirector]
+        replaceScene:[CCTransitionFade transitionWithDuration:0.0 scene:[GameplayScene node]]];
 }
 -(void) returnToMain{
     NSLog(@"Return to main");
+//    CCScene* mMS = [HelloWorldLayer scene];
+    [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.0 scene: [HelloWorldLayer node]]];
 }
 
 @end

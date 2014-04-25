@@ -29,11 +29,13 @@
 	GLESDebugDraw *m_debugDraw;		// strong ref
     CCSpriteBatchNode *uiAtlasNode;
     CCSpriteBatchNode *spriteAtlasNode;
-    UILayer *uiLayer;
     CGSize size;
+    CCScene *menuScene;
 }
 
 // returns a CCScene that contains the HelloWorldLayer as the only child
 +(CCScene *) scene;
+-(void) createMenu;
+-(void) newGame:(id)sender;
 
 @end

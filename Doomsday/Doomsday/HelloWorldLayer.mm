@@ -27,11 +27,12 @@ enum {
 @interface HelloWorldLayer()
 -(void) initPhysics;
 -(void) addNewSpriteAtPosition:(CGPoint)p;
--(void) createMenu;
+
 @end
 
 @implementation HelloWorldLayer
 
+UILayer *uiLayer;
 +(CCScene *) scene
 {
 	// 'scene' is an autorelease object.
@@ -39,20 +40,25 @@ enum {
 	
 	// 'layer' is an autorelease object.
 	HelloWorldLayer *layer = [HelloWorldLayer node];
-	
 	// add layer as a child to scene
 	[scene addChild: layer];
+    if (!uiLayer) {uiLayer = [UILayer node];};
+    [scene addChild: uiLayer];
 	
 	// return the scene
 	return scene;
 }
+
 
 -(id) init
 {
 	if( (self=[super init])) {
 		
 		// enable events
-		
+        menuScene = [CCScene node];
+        if (!uiLayer) {uiLayer = [UILayer node];};
+//        [menuScene addChild:uiLayer];
+        
 		self.touchEnabled = YES;
 		self.accelerometerEnabled = YES;
 		CGSize s = [CCDirector sharedDirector].winSize;
@@ -92,11 +98,6 @@ enum {
             [uiFrames addObject:frame];
         }
 
-        
-		// create reset button
-		[self createMenu];
-        
-		
 
 		
 #if 1
@@ -109,11 +110,9 @@ enum {
 		CCNode *parent = [CCNode node];
 #endif
 		[self addChild:parent z:0 tag:kTagParentNode];
-		
-		
-//		[self addNewSpriteAtPosition:ccp(s.width/2, s.height/2)];
         
 		
+		[self createMenu];
 		[self scheduleUpdate];
 	}
 	return self;
@@ -174,31 +173,16 @@ enum {
     
     CCSprite* menuButtonSprite0 = [CCSprite spriteWithSpriteFrameName:@"button1_0.png"];
     CCSprite* menuButtonSprite1 = [CCSprite spriteWithSpriteFrameName:@"button1_1.png"];
-    CCMenuItemSprite * itemNewGame = [CCMenuItemSprite itemWithNormalSprite:menuButtonSprite0 selectedSprite:menuButtonSprite1 target:self selector:@selector(newGame:)];
+//    CCMenuItemSprite * itemNewGame = [CCMenuItemSprite itemWithNormalSprite:menuButtonSprite0 selectedSprite:menuButtonSprite1 target:self selector:@selector(newGame:)];
     
-    CCMenuItem* testButton = [uiLayer addButtonWithText:@"TEST" ShapeID:3 x:size.width/2 y:size.height/2];
+    CCMenuItemSprite* itemNewGame = [uiLayer makeButtonWithText:@"KILL THEM ALL" ShapeID:1 x:500 y:500];
+    [itemNewGame setTarget:self selector:@selector(newGame:)];
+//    [uiLayer addChild:itemNewGame];
     
-
-    
-//    CCMenuItem *itemNewGame = [CCMenuItemFont itemWithString:@"New Game" block:^(id sender) {
-//        [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.0 scene:[GameplayScene node]]];
-//    }];
-    
-//    [itemNewGame setNormalSpriteFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"button1_0.png"]];
-//    [itemNewGame setSelectedSpriteFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"button1_1.png"]];
-	
-    
-	CCMenu *menu = [CCMenu menuWithItems: itemNewGame, testButton, nil];
-	    
+	CCMenu *menu = [CCMenu menuWithItems: itemNewGame, nil];
 	[menu alignItemsVertically];
-	
-    
 	[menu setPosition:ccp( size.width/2, size.height/2)];
-	
-//    CCLabelTTF* killThemAll = [CCLabelTTF labelWithString:@"SMITE" fontName:@"Arial" fontSize:22];
-//    [killThemAll setPosition: ccp(500, 500)];
-//    [self addChild:killThemAll];
-    
+	    
     //background elements
     
     CCSprite* cosmos = [CCSprite spriteWithFile:@"cosmos.png"];
@@ -216,8 +200,10 @@ enum {
     
     [self addChild: cosmos z:-4];
     [self addChild: dashboard z:-3];
-    [self addChild:titleFace z:-3];
-    [self addChild: menu z:-1];
+//    [self addChild:titleFace z:-3];
+    [uiLayer addChild:titleFace];
+    [uiLayer addChild: menu];
+    
 }
 
 -(void) initPhysics

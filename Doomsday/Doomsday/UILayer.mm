@@ -86,18 +86,19 @@ return ticks/12;
     return tMenuItem;
 }
 
--(CCMenuItem*) makeButtonWithText:(NSString*)bText ShapeID:(int)sID x:(int)mX y:(int)mY {
+-(CCMenuItemSprite*) makeButtonWithText:(NSString*)bText ShapeID:(int)sID x:(int)mX y:(int)mY {
     NSString* nFrameS = [NSString stringWithFormat:@"button%d_0.png", sID];
     NSString* sFrameS = [NSString stringWithFormat:@"button%d_1.png", sID];
 
     CCSpriteFrame *nSFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:nFrameS];
-    CCSpriteFrame *sSFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:nFrameS];
+    CCSpriteFrame *sSFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:sFrameS];
     CCLabelTTF* buttonLabel = [[CCLabelTTF labelWithString:bText fontName:@"Arial" fontSize:18.0] retain];
+    buttonLabel.fontName = @"Futura-Medium";
 
     CCSprite* nSprite = [[CCSprite alloc] initWithSpriteFrame:nSFrame];
     CCSprite* sSprite = [[CCSprite alloc] initWithSpriteFrame:sSFrame];
     [nSprite addChild: buttonLabel];
-//    [sSprite addChild: buttonLabel];
+    buttonLabel.position = ccp([nSprite boundingBox].size.width/2,[nSprite boundingBox].size.height/2);
 
     CCMenuItem* tMenuItem = [CCMenuItemSprite
         itemFromNormalSprite:nSprite
@@ -105,19 +106,6 @@ return ticks/12;
         target:self
         selector:@selector(nullSelector)];
     tMenuItem.position = ccp(mX, mY);
-
-    
-//    CGSize os = [nSFrame originalSize];
-//
-//    buttonLabel.position = ccp(os.width/2, os.height/2);
-
-//    CCMenuItemSprite *buttonSprite = [CCMenuItemImage itemFromNormalSprite:nSprite selectedSprite:sSprite];
-
-//    [tMenuItem ]
-//
-//
-//    [tMenuItem setNormalImage:nSprite];
-//    [tMenuItem setSelectedImage:sSprite];
 
     return tMenuItem;
 

@@ -9,6 +9,9 @@
 #import "CCScene.h"
 #import "cocos2d.h"
 #import "UILayer.h"
+#import "GameplayScene.h"
+#import "HelloWorldLayer.h"
+
 
 @interface GameoverScene : CCScene {
     UILayer* uiLayer;
