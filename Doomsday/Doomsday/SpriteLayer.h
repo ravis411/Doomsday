@@ -30,6 +30,7 @@
     NSMutableArray *explosionArray;
     NSMutableArray *hoipolloiArray;
     NSMutableArray *buildingsArray;
+    NSMutableArray *debrisArray;
     NSMutableArray *deletedBombs;
     NSMutableArray *deletedLaser;
     NSMutableArray *deletedPeople;
@@ -56,5 +57,6 @@
 -(void) kick;
 -(NSMutableArray*) getHoipolloiArray;
 -(void) spawnBuilding:(int)height;
+-(void) spawnDebrisAtPosition:(CGPoint)cgp;
 
 @end

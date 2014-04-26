@@ -31,6 +31,7 @@
         bombArray = [[NSMutableArray alloc]init];
         hoipolloiArray = [[NSMutableArray alloc]init];
         buildingsArray = [[NSMutableArray alloc] init];
+        debrisArray = [[NSMutableArray alloc] init];
         explosionArray = [[NSMutableArray alloc]init];
         laserArray = [[NSMutableArray alloc]init];
         deletedBombs = [[NSMutableArray alloc]init];
@@ -134,7 +135,13 @@
         _contactListener = new MyContactListener();
         _world->SetContactListener(_contactListener);
         
-        [self spawnBuildingWithHeight:1 atPosition:(size.width/2)];
+        
+//        [self spawnBuildingWithHeight:1 atPosition:(size.width/2)];
+        
+        //testing
+//        [self spawnDebrisAtPosition:ccp(size.width/2, size.height/2)];
+        CGPoint center = ccp(size.width/2, size.height/2);
+        [self spawnDebrisRectAt:center.x width:2 height:3];
         
     }
     return self;
@@ -769,9 +776,32 @@
     BuildingBlock *bb1, *bb2;
     bb1 = [BuildingBlock node];
     bb2 = [BuildingBlock node];
+//    b2SquareShape* bSqS;
     [bb2 setPosition:ccp(size.width/2, size.height/2 - 20)];
     [self addChild:bb1];
     [self addChild:bb2];
+}
+
+-(void) spawnDebrisAtPosition:(CGPoint)cgp {
+    NSLog(@"Spawning debris");
+    Debris* d = [[Debris alloc] makeInWorld:_world atPosition:cgp];
+    [debrisArray addObject:[NSValue valueWithPointer:[d body]]];
+    [self addChild:d];
+    
+}
+
+-(void) spawnDebrisRectAt:(float)mX width:(int)w height:(int)h {
+    float dim = 60;
+    float tX = mX;
+    float tY = groundLevel + dim + 1;
+    CGPoint tCGP;
+    
+    for (int jj = 0; jj < h; jj++) {
+        for(int ii = 0; ii < w; ii++) {
+            tCGP = ccp(tX + 1 + (ii * dim), tY + 1 + (jj * dim));
+            [self spawnDebrisAtPosition:tCGP];
+        }
+    }
 }
      
     
@@ -782,6 +812,7 @@
     [hoipolloiArray release];
     [explosionArray release];
     [buildingsArray release];
+    [debrisArray release];
     [laserArray release];
     [deletedBombs release];
     [deletedLaser release];
