@@ -19,12 +19,18 @@
         spriteLayer = [SpriteLayer node];
         uiLayer = [UILayer node];
         bgLayer = [BackgroundLayer node];
+        pauseLayer = [UILayer node];
         background = [CCParallaxNode node];
         _paused = false;
+        
+        [self addChild:pauseLayer];
 //        _ship = [Ship sharedModel];
         
         weaponMode = WEAPON_BASIC;
         _quota = 60;
+        
+//        [self addChild:pauseLayer];
+        
         [self buildUI];
         [self setTimer:1600];
         
@@ -128,20 +134,6 @@
 
 }
 
-- (void)pauseTapped:(id)sender {
-//    [_label setString:@"PAUSE"];
-    //    [HelloWorldLayer alloc];
-    [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.0 scene: [HelloWorldLayer scene]]];
-//    if (!_paused){
-//        [self pauseGame];
-//    }
-//    else {
-//        [self resumeGame];
-//    }
-//    _paused = !_paused;
-
-}
-
 -(void) updateUILayer {
     NSString* weaponLabelString;
     switch(weaponMode) {
@@ -167,24 +159,34 @@
     _timerOn = true;
 }
 
--(void) freezeGame {
-    CCLayerColor* layercolorHalftransparentgray = [CCLayerColor layerWithColor:ccc4(69,69,69, 128)];
-    [uiLayer addChild: layercolorHalftransparentgray];
+- (void)pauseTapped:(id)sender {
+//    [_label setString:@"PAUSE"];
+    //    [HelloWorldLayer alloc];
+    
+    
+//    [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.0 scene: [HelloWorldLayer scene]]];
+    if (!_paused){
+        [self pauseGame];
+    }
+    else {
+        [self resumeGame];
+    }
+    _paused = !_paused;
+
 }
 
 -(void) pauseGame {
-//    [self freezeGame];
-//    CCLabelTTF* pauseLabel = [[CCLabelTTF labelWithString:@"PAUSE" fontName:@"Arial" fontSize:30] retain];
-//    pauseLabel.position = ccp(winSize.width/2, winSize.height/2);
-//    [uiLayer addChild:pauseLabel];
-    [self endGame];
-    
+    CCLabelTTF* pauseLabel = [[CCLabelTTF labelWithString:@"PAUSE" fontName:@"Arial" fontSize:30] retain];
+    pauseLabel.position = ccp(winSize.width/2, winSize.height/2);
+    [pauseLayer addChild:pauseLabel];
+    [spriteLayer setIsTouchEnabled:NO];
+    [uiLayer setIsTouchEnabled:NO];    
 }
 
 -(void) resumeGame {
-    CCLayerColor* clearLayer = [CCLayerColor layerWithColor:ccc4(69,69,69, 0)];
-//        [spriteLayer setIsTouchEnabled:NO];
-    [uiLayer addChild: clearLayer];
+    [spriteLayer setIsTouchEnabled:YES];
+    [uiLayer setIsTouchEnabled:YES];
+    [pauseLayer removeAllChildren];
 }
 
 -(void) endGame {
