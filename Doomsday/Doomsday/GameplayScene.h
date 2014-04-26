@@ -13,6 +13,7 @@
 #import "BackgroundLayer.h"
 #import "PlayerWeapon.h"
 #include "CCTouchDelegateProtocol.h"
+#import "GameoverScene.h"
 //#import "GameOverLayer.h"
 
 
@@ -51,9 +52,7 @@
 -(void) gadgetButtonLTapped:(id)sender;
 -(void) freezeGame;
 -(void) pauseGame;
--(void) winGame;
--(void) loseGame;
-
+-(void) endGame;
 //-(void) moveScreenLeft;
 //-(void) moveScreenRight;
 //@property int level;

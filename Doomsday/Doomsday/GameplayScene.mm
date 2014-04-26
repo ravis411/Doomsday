@@ -24,9 +24,9 @@
 //        _ship = [Ship sharedModel];
         
         weaponMode = WEAPON_BASIC;
+        _quota = 60;
         [self buildUI];
         [self setTimer:1600];
-        _quota = 75;
         
     }
     
@@ -52,6 +52,7 @@
     
 }
 
+
 -(void) buildUI {
     CGSize size = [[CCDirector sharedDirector] winSize];
 
@@ -60,7 +61,7 @@
     CCSprite* _killCounter;
     CCLabelTTF* _timeLabel = [[CCLabelTTF labelWithString:@"000" fontName:@"Arial" fontSize:18] retain];
     //CCSprite* pause = null;
-    uiLayer.quota = 60;
+    uiLayer.quota = _quota;
     
     _dash = [CCSprite spriteWithFile:@"dashboard.png"];
    
@@ -129,14 +130,15 @@
 
 - (void)pauseTapped:(id)sender {
 //    [_label setString:@"PAUSE"];
-//    [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.0 scene: [HelloWorldLayer node]]];
-    if (!_paused){
-        [self pauseGame];
-    }
-    else {
-        [self resumeGame];
-    }
-    _paused = !_paused;
+    //    [HelloWorldLayer alloc];
+    [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.0 scene: [HelloWorldLayer scene]]];
+//    if (!_paused){
+//        [self pauseGame];
+//    }
+//    else {
+//        [self resumeGame];
+//    }
+//    _paused = !_paused;
 
 }
 
@@ -184,6 +186,11 @@
     [uiLayer addChild: clearLayer];
 }
 
+-(void) endGame {
+    [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.0 scene:
+                                               [[GameoverScene alloc] gameOverWithScore:_killCount outOf:_quota]]];
+}
+
 -(void)update:(ccTime)dt{
     
     //Paused so don't update anything.
@@ -192,7 +199,7 @@
     }
     
     [spriteLayer update:dt];
-    
+   
        
     //    if (([spriteLayer movingRight] == YES) && background.position.x >= -14795) {
     if (([spriteLayer movingRight] == YES) && background.position.x >= -8000) {
@@ -210,12 +217,13 @@
     [self updateUILayer];
     [spriteLayer setWeaponMode:weaponMode];
     
-    if([spriteLayer gameOver]){
-        CCLabelTTF* winMessage = [[CCLabelTTF labelWithString:@"WIN!" fontName:@"Arial" fontSize:30] retain];
-        winMessage.position = ccp(winSize.width/2, winSize.height/2);
-        [uiLayer addChild:winMessage];
-        [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.0 scene: [HelloWorldLayer node]]];
-    }
+     _killCount = [spriteLayer enemiesKilled];
+//    if([spriteLayer gameOver]){
+//        CCLabelTTF* winMessage = [[CCLabelTTF labelWithString:@"WIN!" fontName:@"Arial" fontSize:30] retain];
+//        winMessage.position = ccp(winSize.width/2, winSize.height/2);
+//        [uiLayer addChild:winMessage];
+//        [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.0 scene: [HelloWorldLayer node]]];
+//    }
     
     
     if (_timerOn) {
@@ -223,7 +231,8 @@
         if (_timeRemaining < 0) {
             //user fails level
             _timerOn = false;
-            [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.0 scene: [HelloWorldLayer node]]];
+            [self endGame];
+//            [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.0 scene: [HelloWorldLayer node]]];
         }
     }
 

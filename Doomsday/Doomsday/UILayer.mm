@@ -23,7 +23,7 @@
         [self setTouchEnabled:YES];
         [self scheduleUpdate];
 
-}
+    }
 return self;
 }
 
@@ -49,6 +49,8 @@ NSString *updateLabel = [NSString stringWithFormat:@"%d/%d", _killCount, _quota]
 [_timeLabel setString:[NSString stringWithFormat:@"%d SCHMECKONDS", [self ticksToSchmeckonds:newTime]]];
 }
 
+
+
 -(void) addUIElement:(CCSprite*)element withFrame:(NSString*) elemFile x:(int)mX y:(int)mY {
 element = [CCSprite node];
 [element initWithSpriteFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:elemFile]];
@@ -64,24 +66,60 @@ NSString* sFrame = [NSString stringWithFormat:@"button%d_1.png", bID];
 element.position = ccp(mX, mY);
 }
 
-
-
 -(int) ticksToSchmeckonds: (int)ticks {
 return ticks/12;
 }
 
--(CCMenuItem*) addButtonWithText:(NSString*)bText ShapeID:(int)sID x:(int)mX y:(int)mY {
+-(CCMenuItem*) buildButtonWithShapeID:(int)sID x:(int)mX y:(int)mY {
     NSString* nFrame = [NSString stringWithFormat:@"button%d_0.png", sID];
     NSString* sFrame = [NSString stringWithFormat:@"button%d_1.png", sID];
-    CCMenuItem* tMenuItem = [CCMenuItemImage itemFromNormalImage:nFrame selectedImage:sFrame target:self selector:@selector(nullSelector)];
+    CCMenuItem* tMenuItem = [CCMenuItemImage
+                                itemFromNormalImage:@"blank.png"
+                                selectedImage:@"blank.png"
+                                target:self
+                                selector:@selector(nullSelector)];
     tMenuItem.position = ccp(mX, mY);
-    CCLabelTTF* buttonLabel = [[CCLabelTTF labelWithString:bText fontName:@"Arial" fontSize:18.0] retain];
-//    tMenuItem.width/2
-    buttonLabel.position = tMenuItem.position;
-//    [self addChild: tMenuItem];
-//    [self addChild: buttonLabel];
+
+    [tMenuItem setNormalSpriteFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:nFrame]];
+    [tMenuItem setSelectedSpriteFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:sFrame]];
+
     return tMenuItem;
 }
+
+-(CCMenuItemSprite*) makeButtonWithText:(NSString*)bText ShapeID:(int)sID x:(int)mX y:(int)mY {
+    NSString* nFrameS = [NSString stringWithFormat:@"button%d_0.png", sID];
+    NSString* sFrameS = [NSString stringWithFormat:@"button%d_1.png", sID];
+
+    CCSpriteFrame *nSFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:nFrameS];
+    CCSpriteFrame *sSFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:sFrameS];
+    CCLabelTTF* buttonLabel = [[CCLabelTTF labelWithString:bText fontName:@"Arial" fontSize:18.0] retain];
+    buttonLabel.fontName = @"Futura-Medium";
+
+    CCSprite* nSprite = [[CCSprite alloc] initWithSpriteFrame:nSFrame];
+    CCSprite* sSprite = [[CCSprite alloc] initWithSpriteFrame:sSFrame];
+    [nSprite addChild: buttonLabel];
+    buttonLabel.position = ccp([nSprite boundingBox].size.width/2,[nSprite boundingBox].size.height/2);
+
+    CCMenuItem* tMenuItem = [CCMenuItemSprite
+        itemFromNormalSprite:nSprite
+        selectedSprite:sSprite
+        target:self
+        selector:@selector(nullSelector)];
+    tMenuItem.position = ccp(mX, mY);
+
+    return tMenuItem;
+
+}
+
+
+-(void) addText:(NSString*)mText toButton:(CCMenuItem*)mButton {
+    CCLabelTTF* buttonLabel = [[CCLabelTTF labelWithString:mText fontName:@"Arial" fontSize:18.0] retain];
+    [mButton addChild:buttonLabel];
+    int w;
+//    buttonLabel.position = ccp(mButton.position.x, mButton.position.y);
+
+}
+
 
 -(void) nullSelector {}
 
@@ -92,6 +130,7 @@ return ticks/12;
 
 
 -(void) update:(ccTime)dt level:(int) currentLevel lives:(int)currentLives killed:(int)currentKilled score:(double)s {
+
 //    _killCount = currentKilled;
 //    [self updateKillCounter];
 }
