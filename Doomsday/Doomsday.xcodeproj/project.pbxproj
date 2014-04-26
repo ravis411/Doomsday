@@ -1349,6 +1349,11 @@
 			attributes = {
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = TeamDoomsday;
+				TargetAttributes = {
+					497A4FBE18E11B8500B19D54 = {
+						DevelopmentTeam = 2A5EXJAQ3E;
+					};
+				};
 			};
 			buildConfigurationList = 497A4FBA18E11B8500B19D54 /* Build configuration list for PBXProject "Doomsday" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -1642,7 +1647,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Michael Sheehan (G2XTYK3Y54)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1660,7 +1666,7 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "9F33B3EA-944B-40A1-9ECB-DA0AC2F047C2";
+				PROVISIONING_PROFILE = "";
 				USER_HEADER_SEARCH_PATHS = "\"Doomsday/libs\"";
 				WRAPPER_EXTENSION = app;
 			};
@@ -1670,7 +1676,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Michael Sheehan (G2XTYK3Y54)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Doomsday/Prefix.pch;
@@ -1687,7 +1694,7 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "9F33B3EA-944B-40A1-9ECB-DA0AC2F047C2";
+				PROVISIONING_PROFILE = "";
 				USER_HEADER_SEARCH_PATHS = "\"Doomsday/libs\"";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;

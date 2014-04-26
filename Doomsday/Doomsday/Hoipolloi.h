@@ -13,14 +13,19 @@
 
     int _movementSpeed;
     int _stamina;
+    int _maxStamina;
     int _health;
+    BOOL _movingRight;
 }
 
 @property int movementSpeed;
 @property int health;
 @property int stamina;
+@property int maxStamina;
+@property BOOL movingRight;
 
 -(id)init;
 -(float) getSpeed;
-
+-(void)decreaseStamina;
+-(void)resetStamina;
 @end

@@ -87,7 +87,7 @@
         groundEdge.Set(b2Vec2(-8000/PTM_RATIO,groundLevel/PTM_RATIO), b2Vec2(8000/PTM_RATIO, groundLevel/PTM_RATIO));
         _groundBody->CreateFixture(&boxShapeDef);
 
-        groundEdge.Set(b2Vec2((size.width+815)/PTM_RATIO, 0),b2Vec2((size.width+815)/PTM_RATIO, size.height/PTM_RATIO));
+        groundEdge.Set(b2Vec2((size.width+805)/PTM_RATIO, 0),b2Vec2((size.width+805)/PTM_RATIO, size.height/PTM_RATIO));
         _groundBody->CreateFixture(&boxShapeDef);
         
         groundEdge.Set(b2Vec2(-805/PTM_RATIO,0), b2Vec2(-805/PTM_RATIO,size.height/PTM_RATIO));
@@ -172,16 +172,36 @@
         
         b2Body *pody = (b2Body*)[pBody pointerValue];
         
-               
-        if(pody->GetPosition().x < pos.x){
-            pody->SetLinearVelocity(left);
-        }else{
+        if(pody->GetPosition().x/PTM_RATIO <= ((pos.x/PTM_RATIO)+0.10f) && pody->GetPosition().x >= (pos.x)){
             pody->SetLinearVelocity(right);
+            [(id)pody->GetUserData() setMovingRight:YES];
+        }else  if(pody->GetPosition().x/PTM_RATIO >= ((pos.x/PTM_RATIO)-0.10f) && pody->GetPosition().x <= (pos.x)){
+            pody->SetLinearVelocity(left);
+            [(id)pody->GetUserData() setMovingRight:NO];
+        }
+        else{
+            if([(id)pody->GetUserData() stamina] <= 0){
+                NSUInteger r = arc4random_uniform(2);
+                if(r==0){
+                    pody->SetLinearVelocity(right);
+                    [(id)pody->GetUserData() setMovingRight:YES];
+                }
+                else{
+                    pody->SetLinearVelocity(left);
+                    [(id)pody->GetUserData() setMovingRight:NO];
+                }
+                [(id)pody->GetUserData() resetStamina];
+            }
+            else{
+                if([(id)pody->GetUserData() movingRight]){
+                    pody->SetLinearVelocity(right);
+                }else{
+                    pody->SetLinearVelocity(left);
+                }
+                [(id)pody->GetUserData() decreaseStamina];
+            }
         }
     }
-    
-    
-
     
  /*
     //Update children
@@ -190,8 +210,6 @@
             //[((Hoipolloi *)hp) update:dt body:];
         }
     }*/
-   
-
 
     if((_shipBody->GetPosition().x*PTM_RATIO>1330.00f && _movingRight == YES) || (_shipBody->GetPosition().x*PTM_RATIO<-765.00f && _movingLeft == YES)){
         //Stop the ship
@@ -275,9 +293,6 @@
                     else{
                         pody->SetAngularVelocity(-100);
                     }
-                   //pody->SetAngularVelocity(50);
-//                    [deletePeople addObject:pBody];
-
                     _enemiesKilled++;
                     CCSprite* dead = [CCSprite spriteWithFile:@"deadhoipolloi.png"];
                     dead.position = CGPointMake(size.width/2, size.height/2);
@@ -287,7 +302,6 @@
                     pody->SetUserData(dead);
                     [deletedPeople addObject:pBody];
                     NSLog(@"\nEnemies Killed: %d\n\n", _enemiesKilled);
-                    
                     
                 }
             }
@@ -346,6 +360,7 @@
         if(polloi != NULL && polloi == b){
             _world->DestroyBody(b);
             [self removeChild:(CCSprite*)b->GetUserData()];
+//            [(CCSprite*)b->GetUserData() release];
         }
     }
 }
@@ -453,7 +468,7 @@
 -(void)spawnRandomPerson{
     NSInteger x =( arc4random() % (int)(size.width - 0+1)) + 0;
     
-    Hoipolloi* _humanSprite = [CCSprite spriteWithFile:@"hoipolloi.png"];
+    Hoipolloi* _humanSprite = [[[Hoipolloi alloc]init]autorelease];
     _humanSprite.position = CGPointMake(x, size.height/4);
     [_humanSprite setScale:0.3];
     [self addChild:_humanSprite];
@@ -470,15 +485,7 @@
     
     b2FixtureDef hoipolloiShapeDef;
     b2PolygonShape polygon;
-    //    b2CircleShape circle;
-    //    circle.m_radius = 20.0/PTM_RATIO;
     int num = 4;
-    //    b2Vec2 vertices[] = {
-    //        b2Vec2(-50.0f / PTM_RATIO, -50.0f / PTM_RATIO),
-    //        b2Vec2(-100.0f / PTM_RATIO, -100.0f / PTM_RATIO),
-    //        b2Vec2(100.0f / PTM_RATIO, 100.0f / PTM_RATIO),
-    //        b2Vec2(50.0f / PTM_RATIO, 50.0f / PTM_RATIO)
-    //    };
     
     b2Vec2 vertices[4];
     
@@ -502,7 +509,7 @@
 
 
 - (void)spawnPerson {
-    Hoipolloi* _humanSprite = [CCSprite spriteWithFile:@"hoipolloi.png"];
+    Hoipolloi* _humanSprite = [[[Hoipolloi alloc]init]autorelease];
     _humanSprite.position = CGPointMake(size.width/2, GROUNDBOTTOM + 20);
     [_humanSprite setScale:0.3];
     [self addChild:_humanSprite];
@@ -520,15 +527,7 @@
     
     b2FixtureDef hoipolloiShapeDef;
     b2PolygonShape polygon;
-//    b2CircleShape circle;
-//    circle.m_radius = 20.0/PTM_RATIO;
     int num = 4;
-//    b2Vec2 vertices[] = {
-//        b2Vec2(-50.0f / PTM_RATIO, -50.0f / PTM_RATIO),
-//        b2Vec2(-100.0f / PTM_RATIO, -100.0f / PTM_RATIO),
-//        b2Vec2(100.0f / PTM_RATIO, 100.0f / PTM_RATIO),
-//        b2Vec2(50.0f / PTM_RATIO, 50.0f / PTM_RATIO)
-//    };
     
     b2Vec2 vertices[4];
     
@@ -555,18 +554,14 @@
     float xPoint = point.x-283.00f;
     if(_shipBody->GetPosition().x*PTM_RATIO>1120.00f){
         xPoint+=((_shipBody->GetPosition().x*PTM_RATIO)-1120.00)*-1;
-//        laserBodyDef.position.Set(((_shipBody->GetPosition().x*PTM_RATIO)+(xPoint/2))/PTM_RATIO, ((_shipBody->GetPosition().y*PTM_RATIO)-50)/PTM_RATIO);
     }
     else if(_shipBody->GetPosition().x*PTM_RATIO<-520.00f){
         xPoint+=((_shipBody->GetPosition().x*PTM_RATIO)+520.00)*-1;
-//        laserBodyDef.position.Set(((_shipBody->GetPosition().x*PTM_RATIO)+(xPoint*2))/PTM_RATIO, ((_shipBody->GetPosition().y*PTM_RATIO)-50)/PTM_RATIO);
-        
     }
     
     
     float yPoint = (_shipBody->GetPosition().y*PTM_RATIO)- point.y;
     float answer = atanf(xPoint/yPoint)*55;
-//    NSLog(@"x: %f y:%f angle:%f",xPoint,yPoint,answer);
     
     CCSprite* _laserSprite = [CCSprite spriteWithFile:@"laser.png"];
     [_laserSprite setScale:0.3f];
@@ -577,18 +572,9 @@
     [self addChild:_laserSprite];
     
     b2BodyDef laserBodyDef;
-//    if(_shipBody->GetPosition().x*PTM_RATIO>1120.00f){
-//        xPoint+=((_shipBody->GetPosition().x*PTM_RATIO)-1120.00)*-1;
-//        laserBodyDef.position.Set(((_shipBody->GetPosition().x*PTM_RATIO)+(xPoint/2))/PTM_RATIO, ((_shipBody->GetPosition().y*PTM_RATIO)-50)/PTM_RATIO);
-//    }
-//    else if(_shipBody->GetPosition().x*PTM_RATIO<-520.00f){
-//        xPoint+=(_shipBody->GetPosition().x*PTM_RATIO)+520.00;
-//        laserBodyDef.position.Set(((_shipBody->GetPosition().x*PTM_RATIO)+(xPoint*2))/PTM_RATIO, ((_shipBody->GetPosition().y*PTM_RATIO)-50)/PTM_RATIO);
-//
-//    }
-//    else
-        laserBodyDef.position.Set(((_shipBody->GetPosition().x*PTM_RATIO)+(xPoint/2))/PTM_RATIO, ((_shipBody->GetPosition().y*PTM_RATIO)-50)/PTM_RATIO);
-      NSLog(@"x: %f y:%f angle:%f",xPoint,yPoint,answer);
+
+    laserBodyDef.position.Set(((_shipBody->GetPosition().x*PTM_RATIO)+(xPoint/2))/PTM_RATIO, ((_shipBody->GetPosition().y*PTM_RATIO)-50)/PTM_RATIO);
+    NSLog(@"x: %f y:%f angle:%f",xPoint,yPoint,answer);
     laserBodyDef.type = b2_dynamicBody;
     laserBodyDef.userData = _laserSprite;
     laserBodyDef.fixedRotation = true;
@@ -611,13 +597,10 @@
     laserShapeDef.filter.categoryBits = 2;
     _laserBody->CreateFixture(&laserShapeDef);
     _laserBody->SetTransform(_laserBody->GetPosition(), CC_DEGREES_TO_RADIANS(answer));
-    
-//    b2Vec2 vectorForce =  b2Rot(answer).GetXAxis();
-//    vectorForce = 50*vectorForce;
-//    _laserBody->ApplyForceToCenter(vectorForce);
+ 
     
     b2Vec2 force = b2Vec2(xPoint, -1*yPoint);
-    force *= 3.5;  // Use this if your game engine uses an explicit time step
+    force *= 7.5;  // Use this if your game engine uses an explicit time step
     b2Vec2 p = _laserBody->GetWorldPoint(b2Vec2(0.0f, 0.0f));
     _laserBody->ApplyForce(force, p);
     

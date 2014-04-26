@@ -14,12 +14,16 @@
 @synthesize movementSpeed = _movementSpeed;
 @synthesize health = _health;
 @synthesize stamina = _stamina;
+@synthesize movingRight = _movingRight;
 
 - (id)init
 {
     self = [super initWithFile:@"hoipolloi.png"];
     if (self) {
         //_movementSpeed = 500;
+        _maxStamina = 200;
+        _stamina = 0;
+        _movingRight = YES;
     }
     return self;
 }
@@ -32,6 +36,18 @@
     return s;
 
 }
+
+-(void)decreaseStamina{
+    _stamina--;
+}
+
+
+
+-(void)resetStamina{
+    _stamina = _maxStamina;
+}
+
+
 
 
 @end
