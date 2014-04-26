@@ -367,37 +367,33 @@
 
 
 -(void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
-    UITouch *touch = [touches anyObject];
-    CGPoint location = [touch locationInView:[touch view]];
-    location = [[CCDirector sharedDirector] convertToGL:location];
-    NSLog(@"ship position: %f",_shipBody->GetPosition().x*PTM_RATIO);
-//    if(!shipCooldownMode)
-//        [self singleBombFire];
-    
-    if (location.x <= ARROWBUTTONWIDTH && ( location.y <= GROUNDBOTTOM || location.y >= GROUNDTOP ) ) {//touch left
-        //[self schedule:@selector(moveScreenLeft)];
-            b2Vec2 v = b2Vec2((-300)/PTM_RATIO,0);
-            _shipBody->SetLinearVelocity(v);
-            _movingLeft = YES;
-        if(_shipBody->GetPosition().x*PTM_RATIO>1086.00f){
-            _movingLeft = NO;
-            intentToMoveLeft = YES;
-        }
-    }
-    else if (location.x >= size.width - ARROWBUTTONWIDTH && (location.y <= GROUNDBOTTOM || location.y >= GROUNDTOP) ){//touch right
-        //[self schedule:@selector(moveScreenRight)];
-        
-        b2Vec2 v = b2Vec2((300)/PTM_RATIO,0);
-        _shipBody->SetLinearVelocity(v);
-        _movingRight = YES;
-        if(_shipBody->GetPosition().x*PTM_RATIO<-520.00f){
-            _movingRight = NO;
-            intentToMoveRight = YES;
-        }
 
-    }
-    else{
-        
+    for( UITouch *touch in touches)
+    {
+        CGPoint location = [touch locationInView:[touch view]];
+        location = [[CCDirector sharedDirector] convertToGL:location];
+        NSLog(@"ship position: %f",_shipBody->GetPosition().x*PTM_RATIO);
+
+        if (location.x <= ARROWBUTTONWIDTH && ( location.y <= GROUNDBOTTOM || location.y >= GROUNDTOP ) ) {//touch left
+            //[self schedule:@selector(moveScreenLeft)];
+                b2Vec2 v = b2Vec2((-300)/PTM_RATIO,0);
+                _shipBody->SetLinearVelocity(v);
+                _movingLeft = YES;
+            if(_shipBody->GetPosition().x*PTM_RATIO>1086.00f){
+                _movingLeft = NO;
+                intentToMoveLeft = YES;
+            }
+        }
+        else if(location.x >= size.width - ARROWBUTTONWIDTH && (location.y <= GROUNDBOTTOM || location.y >= GROUNDTOP) ){//touch right
+            b2Vec2 v = b2Vec2((300)/PTM_RATIO,0);
+            _shipBody->SetLinearVelocity(v);
+            _movingRight = YES;
+            if(_shipBody->GetPosition().x*PTM_RATIO<-520.00f){
+                _movingRight = NO;
+                intentToMoveRight = YES;
+            }
+        }
+        else{
             switch(_weaponMode) {
                 case WEAPON_GADGET1:
                     if(!shipBombCooldownMode)
@@ -411,22 +407,33 @@
                         [self singleLazerFire:location];
                      break;
              }
-        
+        }
     }
 }
 
 -(void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
-   //Stop the ship
-    _shipBody->SetLinearVelocity(b2Vec2((0)/PTM_RATIO,0));
-    if (_movingLeft == YES) {
-        _movingLeft = NO;
+    for( UITouch *touch in touches)
+    {
+        CGPoint location = [touch locationInView:[touch view]];
+        location = [[CCDirector sharedDirector] convertToGL:location];
+        if ((location.x <= ARROWBUTTONWIDTH && ( location.y <= GROUNDBOTTOM || location.y >= GROUNDTOP ) ) || (location.x >= size.width - ARROWBUTTONWIDTH && (location.y <= GROUNDBOTTOM || location.y >= GROUNDTOP) )) {//touch left
+        
+            //Stop the ship
+            _shipBody->SetLinearVelocity(b2Vec2((0)/PTM_RATIO,0));
+            if (_movingLeft == YES) {
+                _movingLeft = NO;
+            }
+            
+            if (_movingRight == YES) {
+                _movingRight = NO;
+            }
+            intentToMoveLeft = NO;
+            intentToMoveRight = NO;
+
+        
+        }
     }
-    
-    if (_movingRight == YES) {
-        _movingRight = NO;
-    }
-    intentToMoveLeft = NO;
-    intentToMoveRight = NO;
+
 }
 
 -(void)explodeAndRemoveBomb:(b2Body*)b{
@@ -600,7 +607,7 @@
  
     
     b2Vec2 force = b2Vec2(xPoint, -1*yPoint);
-    force *= 7.5;  // Use this if your game engine uses an explicit time step
+    force *= 10.5;  // Use this if your game engine uses an explicit time step
     b2Vec2 p = _laserBody->GetWorldPoint(b2Vec2(0.0f, 0.0f));
     _laserBody->ApplyForce(force, p);
     
