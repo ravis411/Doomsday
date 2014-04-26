@@ -192,7 +192,7 @@ enum {
     //background elements
     
     CCSprite* cosmos = [CCSprite spriteWithFile:@"cosmos.png"];
-    cosmos.position = ccp(size.width/2,size.height/2);
+    cosmos.position = ccp(size.width/2, size.height/2);
     
     CCSprite* titleFace = [CCSprite spriteWithSpriteFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"titletypeface.png"]];
     titleFace.position = ccp( size.width/2, size.height-50);
@@ -202,6 +202,7 @@ enum {
     
 //    CCMenuItem* testButton = [uiLayer addButtonWithText:@"TEST" ShapeID:3 x:size.width/2 y:size.height/2];
 //    
+    
     
     
     [self addChild: cosmos z:-4];

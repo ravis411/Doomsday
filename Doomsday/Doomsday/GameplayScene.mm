@@ -105,7 +105,7 @@
                                  target:self selector:@selector(gadgetButtonLTapped:)];
     [uiLayer setMenuItem:gadgetButtonL buttonID:4 x:(size.width/2 - 50) y:30];
     
-    CCMenu *gadgetButtons = [CCMenu menuWithItems: laserButton, gadgetButtonL, pause, nil]; //gadget button R is currently inactive
+    CCMenu *gadgetButtons = [CCMenu menuWithItems: laserButton, gadgetButtonL, gadgetButtonR, pause, nil]; //gadget button R is currently inactive
     gadgetButtons.position = CGPointZero;
     [uiLayer addChild:gadgetButtons];
     
