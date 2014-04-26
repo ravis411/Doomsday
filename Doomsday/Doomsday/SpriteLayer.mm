@@ -29,6 +29,7 @@
         bombArray = [[NSMutableArray alloc]init];
         hoipolloiArray = [[NSMutableArray alloc]init];
         buildingsArray = [[NSMutableArray alloc] init];
+        debrisArray = [[NSMutableArray alloc] init];
         explosionArray = [[NSMutableArray alloc]init];
         laserArray = [[NSMutableArray alloc]init];
         deletedBombs = [[NSMutableArray alloc]init];
@@ -780,18 +781,20 @@
 -(void) spawnDebrisAtPosition:(CGPoint)cgp {
     NSLog(@"Spawning debris");
     Debris* d = [[Debris alloc] makeInWorld:_world atPosition:cgp];
+    [debrisArray addObject:[NSValue valueWithPointer:[d body]]];
+    [self addChild:d];
     
 }
 
 -(void) spawnDebrisRectAt:(float)mX width:(int)w height:(int)h {
-    float dim = 40;
+    float dim = 60;
     float tX = mX;
-    float tY = groundLevel + dim;
+    float tY = groundLevel + dim + 1;
     CGPoint tCGP;
     
     for (int jj = 0; jj < h; jj++) {
         for(int ii = 0; ii < w; ii++) {
-            tCGP = ccp(tX + (ii * dim), tY + (jj * dim));
+            tCGP = ccp(tX + 1 + (ii * dim), tY + 1 + (jj * dim));
             [self spawnDebrisAtPosition:tCGP];
         }
     }
@@ -805,6 +808,7 @@
     [hoipolloiArray release];
     [explosionArray release];
     [buildingsArray release];
+    [debrisArray release];
     [laserArray release];
     [deletedBombs release];
     [deletedLaser release];

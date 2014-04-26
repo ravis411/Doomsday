@@ -30,6 +30,7 @@
     NSMutableArray *explosionArray;
     NSMutableArray *hoipolloiArray;
     NSMutableArray *buildingsArray;
+    NSMutableArray *debrisArray;
     NSMutableArray *deletedBombs;
     NSMutableArray *deletedLaser;
     NSMutableArray *deletedPeople;

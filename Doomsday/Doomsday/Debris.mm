@@ -18,18 +18,17 @@
 -(id) makeInWorld:(b2World*)world atPosition:(CGPoint)point {
     NSLog(@"making debris...");
     if (self = [super initWithFile:@"building_block.png"]) {
-        NSLog(@"...rescaling sprite...");
+        
         [self setScale:0.3];
         
         //SETTING UP PHYSICS
-        NSLog(@"...defining the body...");
         _bodyDef.type = b2_dynamicBody;
         _bodyDef.position.Set(point.x/PTM_RATIO, point.y/PTM_RATIO);
         _bodyDef.userData = self; //This may pose problems later
         _bodyDef.fixedRotation = false;
-        NSLog(@"...adding to the world...");
+      
         _body = world->CreateBody(&_bodyDef);
-        NSLog(@"...defining the shape...");
+      
         b2PolygonShape polygon;
         int num = 4;
         b2Vec2 vertices[4];
@@ -41,20 +40,18 @@
         vertices[3].Set(-1 * dev, dev);
         
         
-        NSLog(@"...setting polygon...");
         polygon.Set(vertices, num);
-        NSLog(@"...setting fixtureDef...");
         _fixtureDef.shape = &polygon;
         _fixtureDef.density = 1.5f;
         _fixtureDef.friction = 1.0f;
         _fixtureDef.restitution = 0.00f;
         _fixtureDef.filter.categoryBits = 1;
         _fixtureDef.filter.maskBits = 3;
-        NSLog(@"...adding fixture to body from fixture definition...");
+//        _fixtureDef.filter.groupIndex = 4;
+        
         _body->CreateFixture(&_fixtureDef);
         
     }
-    NSLog(@"...done!");
     return self;
     
 }
