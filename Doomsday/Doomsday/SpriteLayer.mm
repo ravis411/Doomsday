@@ -125,7 +125,7 @@
 //        [self schedule:@selector(tick:)];
         //[self schedule:@selector(kick) interval:10.0];
         
-        for(NSInteger i = 1; i < 20; i++ ){
+        for(NSInteger i = 1; i < 30; i++ ){
             [self spawnRandomPerson];
         }
         
