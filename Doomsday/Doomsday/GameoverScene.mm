@@ -66,7 +66,7 @@
 -(void) returnToMain{
     NSLog(@"Return to main");
 //    CCScene* mMS = [HelloWorldLayer scene];
-    [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.0 scene: [HelloWorldLayer node]]];
+    [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.0 scene: [HelloWorldLayer scene]]];
 }
 
 @end

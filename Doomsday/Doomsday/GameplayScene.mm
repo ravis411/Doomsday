@@ -24,7 +24,7 @@
 //        _ship = [Ship sharedModel];
         
         weaponMode = WEAPON_BASIC;
-        _quota = 3;
+        _quota = 60;
         [self buildUI];
         [self setTimer:1600];
         
@@ -129,6 +129,7 @@
 
 - (void)pauseTapped:(id)sender {
 //    [_label setString:@"PAUSE"];
+    //    [HelloWorldLayer alloc];
     [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.0 scene: [HelloWorldLayer scene]]];
 //    if (!_paused){
 //        [self pauseGame];

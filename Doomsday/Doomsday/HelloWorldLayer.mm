@@ -32,7 +32,8 @@ enum {
 
 @implementation HelloWorldLayer
 
-UILayer *uiLayer;
+@synthesize uiL = uiLayer;
+
 +(CCScene *) scene
 {
 	// 'scene' is an autorelease object.
@@ -42,8 +43,12 @@ UILayer *uiLayer;
 	HelloWorldLayer *layer = [HelloWorldLayer node];
 	// add layer as a child to scene
 	[scene addChild: layer];
-    if (!uiLayer) {uiLayer = [UILayer node];};
-    [scene addChild: uiLayer];
+    if (!layer.uiL) {
+        layer.uiL = [UILayer node];
+    };
+    [layer createMenu];
+    [scene addChild: layer.uiL];
+    
 	
 	// return the scene
 	return scene;
@@ -111,21 +116,22 @@ UILayer *uiLayer;
 #endif
 		[self addChild:parent z:0 tag:kTagParentNode];
         
-		
-		[self createMenu];
 		[self scheduleUpdate];
 	}
 	return self;
 }
 
+
 -(void) dealloc
 {
 	delete world;
 	world = NULL;
-	
+	    
 	delete m_debugDraw;
 	m_debugDraw = NULL;
 	
+    
+    
 	[super dealloc];
 }	
 
