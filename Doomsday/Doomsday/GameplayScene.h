@@ -14,6 +14,7 @@
 #import "PlayerWeapon.h"
 #include "CCTouchDelegateProtocol.h"
 #import "GameoverScene.h"
+#import "SimpleAudioEngine.h"
 //#import "GameOverLayer.h"
 
 

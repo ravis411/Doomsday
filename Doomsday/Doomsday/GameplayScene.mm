@@ -5,12 +5,15 @@
 //  Created by Kyle on 3/30/14.
 //  Copyright (c) 2014 TeamDoomsday. All rights reserved.
 //
+// Background track "The Ballad of Jack Noir" is available at http://homestuck.bandcamp.com/album/midnight-crew-drawing-dead-2
+//
+
 
 #import "GameplayScene.h"
 
 
 @implementation GameplayScene
-
+bool musicPlaying = false;
 -(id) init
 {
     
@@ -22,6 +25,11 @@
         pauseLayer = [UILayer node];
         background = [CCParallaxNode node];
         _paused = false;
+        
+        if (!musicPlaying) {
+            [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"The Ballad of Jack Noir.mp3" loop:YES];
+            musicPlaying = TRUE;
+        }
         
         [self addChild:pauseLayer];
 //        _ship = [Ship sharedModel];
