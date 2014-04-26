@@ -132,7 +132,13 @@
         _contactListener = new MyContactListener();
         _world->SetContactListener(_contactListener);
         
-        [self spawnBuildingWithHeight:1 atPosition:(size.width/2)];
+        
+//        [self spawnBuildingWithHeight:1 atPosition:(size.width/2)];
+        
+        //testing
+//        [self spawnDebrisAtPosition:ccp(size.width/2, size.height/2)];
+        CGPoint center = ccp(size.width/2, size.height/2);
+        [self spawnDebrisRectAt:center.x width:2 height:3];
         
     }
     return self;
@@ -775,9 +781,30 @@
     BuildingBlock *bb1, *bb2;
     bb1 = [BuildingBlock node];
     bb2 = [BuildingBlock node];
+//    b2SquareShape* bSqS;
     [bb2 setPosition:ccp(size.width/2, size.height/2 - 20)];
     [self addChild:bb1];
     [self addChild:bb2];
+}
+
+-(void) spawnDebrisAtPosition:(CGPoint)cgp {
+    NSLog(@"Spawning debris");
+    Debris* d = [[Debris alloc] makeInWorld:_world atPosition:cgp];
+    
+}
+
+-(void) spawnDebrisRectAt:(float)mX width:(int)w height:(int)h {
+    float dim = 40;
+    float tX = mX;
+    float tY = groundLevel + dim;
+    CGPoint tCGP;
+    
+    for (int jj = 0; jj < h; jj++) {
+        for(int ii = 0; ii < w; ii++) {
+            tCGP = ccp(tX + (ii * dim), tY + (jj * dim));
+            [self spawnDebrisAtPosition:tCGP];
+        }
+    }
 }
      
     

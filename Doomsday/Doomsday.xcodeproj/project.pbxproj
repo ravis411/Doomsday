@@ -28,6 +28,7 @@
 		3D90A91D19072C02006833A5 /* GameoverScene.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3D90A91C19072C02006833A5 /* GameoverScene.mm */; };
 		3D90A91F19074CA2006833A5 /* blank.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D90A91E19074CA2006833A5 /* blank.png */; };
 		3D90A925190B4A4E006833A5 /* MainMainScene.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3D90A924190B4A4E006833A5 /* MainMainScene.mm */; };
+		3D90A928190B921E006833A5 /* Debris.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3D90A927190B921D006833A5 /* Debris.mm */; };
 		3D97F9AE18E8E70A00FE374E /* GameplayScene.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3D97F9AD18E8E70A00FE374E /* GameplayScene.mm */; };
 		3D97F9B118E8E72000FE374E /* SpriteLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3D97F9AF18E8E72000FE374E /* SpriteLayer.mm */; };
 		3D97F9B218E8E72000FE374E /* UILayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3D97F9B018E8E72000FE374E /* UILayer.mm */; };
@@ -255,6 +256,8 @@
 		3D90A91E19074CA2006833A5 /* blank.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = blank.png; path = Resources/blank.png; sourceTree = "<group>"; };
 		3D90A923190B4A4E006833A5 /* MainMainScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMainScene.h; sourceTree = "<group>"; };
 		3D90A924190B4A4E006833A5 /* MainMainScene.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MainMainScene.mm; sourceTree = "<group>"; };
+		3D90A926190B921D006833A5 /* Debris.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Debris.h; sourceTree = "<group>"; };
+		3D90A927190B921D006833A5 /* Debris.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Debris.mm; sourceTree = "<group>"; };
 		3D97F9A418E8E45D00FE374E /* GameplayScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameplayScene.h; sourceTree = "<group>"; };
 		3D97F9A718E8E5D600FE374E /* SpriteLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpriteLayer.h; sourceTree = "<group>"; };
 		3D97F9AA18E8E5E200FE374E /* UILayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UILayer.h; sourceTree = "<group>"; };
@@ -730,6 +733,8 @@
 				3D2CF92B18FCA5460073BA17 /* BuildingBlock.mm */,
 				3D97F9A718E8E5D600FE374E /* SpriteLayer.h */,
 				3D97F9AF18E8E72000FE374E /* SpriteLayer.mm */,
+				3D90A926190B921D006833A5 /* Debris.h */,
+				3D90A927190B921D006833A5 /* Debris.mm */,
 				3D181E7018FA495700BD47A9 /* PlayerWeapon.h */,
 				3D97F9B318E8E78B00FE374E /* BackgroundLayer.h */,
 				3D97F9B418E8E78B00FE374E /* BackgroundLayer.mm */,
@@ -1592,6 +1597,7 @@
 				3D2CF92C18FCA5470073BA17 /* BuildingBlock.mm in Sources */,
 				3D90A91D19072C02006833A5 /* GameoverScene.mm in Sources */,
 				3D90A925190B4A4E006833A5 /* MainMainScene.mm in Sources */,
+				3D90A928190B921E006833A5 /* Debris.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

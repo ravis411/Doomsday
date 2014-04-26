@@ -13,6 +13,7 @@
 #import "BuildingBlock.h"
 #import "MyContactListener.h"
 #import "PlayerWeapon.h"
+#import "Debris.h"
 
 @interface SpriteLayer : CCLayer{
     b2World* _world;
@@ -54,5 +55,6 @@
 -(void) kick;
 -(NSMutableArray*) getHoipolloiArray;
 -(void) spawnBuilding:(int)height;
+-(void) spawnDebrisAtPosition:(CGPoint)cgp;
 
 @end
