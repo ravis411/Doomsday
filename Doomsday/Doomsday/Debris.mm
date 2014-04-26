@@ -32,7 +32,7 @@
         b2PolygonShape polygon;
         int num = 4;
         b2Vec2 vertices[4];
-        float dev = 20/PTM_RATIO;
+        float dev = 30/PTM_RATIO;
         
         vertices[0].Set(-1 * dev, -1 * dev);
         vertices[1].Set(dev, -1 * dev);
@@ -42,15 +42,15 @@
         
         polygon.Set(vertices, num);
         _fixtureDef.shape = &polygon;
-        _fixtureDef.density = 1.5f;
+        _fixtureDef.density = 5.5f;
         _fixtureDef.friction = 1.0f;
         _fixtureDef.restitution = 0.00f;
-        _fixtureDef.filter.categoryBits = 1;
-        _fixtureDef.filter.maskBits = 3;
+        _fixtureDef.filter.categoryBits = 3;
+        _fixtureDef.filter.maskBits = 2;
 //        _fixtureDef.filter.groupIndex = 4;
         
         _body->CreateFixture(&_fixtureDef);
-        
+                
     }
     return self;
     
