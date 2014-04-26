@@ -577,34 +577,18 @@
     [self addChild:_laserSprite];
     
     b2BodyDef laserBodyDef;
-    if(_shipBody->GetPosition().x*PTM_RATIO>1129.00f){
-        if(xPoint>0){
-            laserBodyDef.position.Set((_shipSprite.position.x+150)/PTM_RATIO, (_shipSprite.position.y-150)/PTM_RATIO);
-            if(_shipBody->GetPosition().x*PTM_RATIO>1275.00f){
-                answer = 0.01f;
-                laserBodyDef.position.Set((_shipSprite.position.x)/PTM_RATIO, (_shipSprite.position.y-150)/PTM_RATIO);
-            }
-        }
-        else{
-            laserBodyDef.position.Set((_shipSprite.position.x+xPoint)/PTM_RATIO, (_shipSprite.position.y-150)/PTM_RATIO);
-        }
-    }
-    else if(_shipBody->GetPosition().x*PTM_RATIO<-555.00f){
-        if(xPoint<0){
-
-            laserBodyDef.position.Set((_shipSprite.position.x-150)/PTM_RATIO, (_shipSprite.position.y-150)/PTM_RATIO);
-            if(_shipBody->GetPosition().x*PTM_RATIO<-715.00f){
-                answer = 0.01f;
-                laserBodyDef.position.Set((_shipSprite.position.x)/PTM_RATIO, (_shipSprite.position.y-150)/PTM_RATIO);
-            }
-        }
-        else{
-            laserBodyDef.position.Set((_shipSprite.position.x+xPoint)/PTM_RATIO, (_shipSprite.position.y-150)/PTM_RATIO);
-        }
-    }
-    else
-        laserBodyDef.position.Set((_shipSprite.position.x+xPoint)/PTM_RATIO, (_shipSprite.position.y-150)/PTM_RATIO);
-  
+//    if(_shipBody->GetPosition().x*PTM_RATIO>1120.00f){
+//        xPoint+=((_shipBody->GetPosition().x*PTM_RATIO)-1120.00)*-1;
+//        laserBodyDef.position.Set(((_shipBody->GetPosition().x*PTM_RATIO)+(xPoint/2))/PTM_RATIO, ((_shipBody->GetPosition().y*PTM_RATIO)-50)/PTM_RATIO);
+//    }
+//    else if(_shipBody->GetPosition().x*PTM_RATIO<-520.00f){
+//        xPoint+=(_shipBody->GetPosition().x*PTM_RATIO)+520.00;
+//        laserBodyDef.position.Set(((_shipBody->GetPosition().x*PTM_RATIO)+(xPoint*2))/PTM_RATIO, ((_shipBody->GetPosition().y*PTM_RATIO)-50)/PTM_RATIO);
+//
+//    }
+//    else
+        laserBodyDef.position.Set(((_shipBody->GetPosition().x*PTM_RATIO)+(xPoint/2))/PTM_RATIO, ((_shipBody->GetPosition().y*PTM_RATIO)-50)/PTM_RATIO);
+      NSLog(@"x: %f y:%f angle:%f",xPoint,yPoint,answer);
     laserBodyDef.type = b2_dynamicBody;
     laserBodyDef.userData = _laserSprite;
     laserBodyDef.fixedRotation = true;
@@ -633,7 +617,7 @@
 //    _laserBody->ApplyForceToCenter(vectorForce);
     
     b2Vec2 force = b2Vec2(xPoint, -1*yPoint);
-    force *= 2.5;  // Use this if your game engine uses an explicit time step
+    force *= 3.5;  // Use this if your game engine uses an explicit time step
     b2Vec2 p = _laserBody->GetWorldPoint(b2Vec2(0.0f, 0.0f));
     _laserBody->ApplyForce(force, p);
     

@@ -78,6 +78,7 @@
     
     NSString* placeHolderSprite = @"button_round_unlit.png";
     
+    //pause the game
     CCMenuItem *pause = [CCMenuItemFont itemWithString:@"||" target:self selector:@selector(pauseTapped:)];
     pause.position = ccp(size.width - 20, 20);
 
@@ -173,11 +174,13 @@
     [self freezeGame];
     CCLabelTTF* pauseLabel = [[CCLabelTTF labelWithString:@"PAUSE" fontName:@"Arial" fontSize:30] retain];
     pauseLabel.position = ccp(winSize.width/2, winSize.height/2);
+//    [spriteLayer setIsTouchEnabled:NO];
     [uiLayer addChild:pauseLabel];
 }
 
 -(void) resumeGame {
     CCLayerColor* clearLayer = [CCLayerColor layerWithColor:ccc4(69,69,69, 0)];
+//        [spriteLayer setIsTouchEnabled:NO];
     [uiLayer addChild: clearLayer];
 }
 
