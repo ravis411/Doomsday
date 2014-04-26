@@ -129,7 +129,7 @@
 
 - (void)pauseTapped:(id)sender {
 //    [_label setString:@"PAUSE"];
-    [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.0 scene: [HelloWorldLayer node]]];
+    [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.0 scene: [[HelloWorldLayer node] scene]]];
 //    if (!_paused){
 //        [self pauseGame];
 //    }
