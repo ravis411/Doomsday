@@ -14,6 +14,7 @@
 #import "MyContactListener.h"
 #import "PlayerWeapon.h"
 #import "SimpleAudioEngine.h"
+#import "Debris.h"
 
 @interface SpriteLayer : CCLayer{
     b2World* _world;
