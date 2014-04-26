@@ -221,6 +221,8 @@
 		497A520518E11B8800B19D54 /* GLES-Render.mm in Sources */ = {isa = PBXBuildFile; fileRef = 497A520418E11B8800B19D54 /* GLES-Render.mm */; };
 		497A520718E11B8800B19D54 /* blocks.png in Resources */ = {isa = PBXBuildFile; fileRef = 497A520618E11B8800B19D54 /* blocks.png */; };
 		49A93FB818EF8C1400C66169 /* explosion.png in Resources */ = {isa = PBXBuildFile; fileRef = 49A93FB718EF8C1400C66169 /* explosion.png */; };
+		49D0FB72190BB75C00771F5B /* laser.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 49D0FB71190BB75C00771F5B /* laser.mp3 */; };
+		49D0FB74190BBDA600771F5B /* explosion.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 49D0FB73190BBDA600771F5B /* explosion.mp3 */; };
 		49D35A5F18EA8AAA002D5E12 /* bomb.png in Resources */ = {isa = PBXBuildFile; fileRef = 49D35A5E18EA8AAA002D5E12 /* bomb.png */; };
 		49D7234218F095E20084685A /* MyContactListener.mm in Sources */ = {isa = PBXBuildFile; fileRef = 49D7234118F095E20084685A /* MyContactListener.mm */; };
 		49EC18A418E900CB00186109 /* rifle.png in Resources */ = {isa = PBXBuildFile; fileRef = 49EC18A318E900CB00186109 /* rifle.png */; };
@@ -649,6 +651,8 @@
 		497A520418E11B8800B19D54 /* GLES-Render.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = "GLES-Render.mm"; sourceTree = "<group>"; };
 		497A520618E11B8800B19D54 /* blocks.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = blocks.png; path = Resources/blocks.png; sourceTree = "<group>"; };
 		49A93FB718EF8C1400C66169 /* explosion.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = explosion.png; sourceTree = "<group>"; };
+		49D0FB71190BB75C00771F5B /* laser.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = laser.mp3; sourceTree = "<group>"; };
+		49D0FB73190BBDA600771F5B /* explosion.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = explosion.mp3; sourceTree = "<group>"; };
 		49D35A5E18EA8AAA002D5E12 /* bomb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bomb.png; sourceTree = "<group>"; };
 		49D7234018F095E20084685A /* MyContactListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyContactListener.h; sourceTree = "<group>"; };
 		49D7234118F095E20084685A /* MyContactListener.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MyContactListener.mm; sourceTree = "<group>"; };
@@ -683,6 +687,8 @@
 		497A4FB618E11B8500B19D54 = {
 			isa = PBXGroup;
 			children = (
+				49D0FB73190BBDA600771F5B /* explosion.mp3 */,
+				49D0FB71190BB75C00771F5B /* laser.mp3 */,
 				3D90A91919060591006833A5 /* eyecon_small.png */,
 				3D90A915190604A8006833A5 /* eyecon.png */,
 				497A4FD618E11B8500B19D54 /* Doomsday */,
@@ -1391,6 +1397,7 @@
 				49EC18A418E900CB00186109 /* rifle.png in Resources */,
 				497A4FE718E11B8500B19D54 /* Icon-Small@2x.png in Resources */,
 				49D35A5F18EA8AAA002D5E12 /* bomb.png in Resources */,
+				49D0FB72190BB75C00771F5B /* laser.mp3 in Resources */,
 				4937867918FA6D6600ECA5F8 /* laser.png in Resources */,
 				A2ADA11218EA737500B53109 /* rsz_ground.png in Resources */,
 				497A4FDF18E11B8500B19D54 /* Default-Landscape~ipad.png in Resources */,
@@ -1415,6 +1422,7 @@
 				3D3B5F6418FB9FFF00EFBD9E /* laserblast_end.png in Resources */,
 				3D3B5F6718FBA07F00EFBD9E /* ship_firing.png in Resources */,
 				3D3B5F6C18FBA4A700EFBD9E /* building_block.png in Resources */,
+				49D0FB74190BBDA600771F5B /* explosion.mp3 in Resources */,
 				3D90A9141906046D006833A5 /* eyecon.png in Resources */,
 				3D90A916190604A8006833A5 /* eyecon.png in Resources */,
 				3D90A9181906058D006833A5 /* eyecon_small.png in Resources */,

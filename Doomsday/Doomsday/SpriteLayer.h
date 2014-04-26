@@ -13,6 +13,7 @@
 #import "BuildingBlock.h"
 #import "MyContactListener.h"
 #import "PlayerWeapon.h"
+#import "SimpleAudioEngine.h"
 
 @interface SpriteLayer : CCLayer{
     b2World* _world;
@@ -39,6 +40,7 @@
     int _enemiesKilled;
     BOOL _gameOver;
     enum playerWeapon _weaponMode;
+    ALuint soundEffectID;
 
 }
 @property BOOL gameOver;

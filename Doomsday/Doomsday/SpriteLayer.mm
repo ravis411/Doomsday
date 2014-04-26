@@ -4,7 +4,9 @@
 //
 //  Created by Kyle on 3/30/14.
 //  Copyright (c) 2014 TeamDoomsday. All rights reserved.
-//
+// Laser sound effects from http://www.soundfx-free.com/
+// Explosion sound effects from http://www.mediacollege.com/
+
 
 #import "SpriteLayer.h"
 #import "GLES-Render.h"
@@ -616,6 +618,7 @@
     [laserArray addObject:[NSValue valueWithPointer:_laserBody]];
     shipLaserCooldownMode = YES;
     [self performSelector:@selector(laserWeaponReadyToFire) withObject:self afterDelay:1.0];
+    [[SimpleAudioEngine sharedEngine] playEffect:@"laser.mp3"];
 }
 
 
@@ -646,6 +649,7 @@
     [explosionArray addObject:[NSValue valueWithPointer:_explosionBody]];
     NSLog(@"BOOM explosion added to array");
     [self performSelector:@selector(removeSingleExplosion:) withObject:[NSValue valueWithPointer:_explosionBody] afterDelay:0.1];
+    [[SimpleAudioEngine sharedEngine] playEffect:@"explosion.mp3"];
 }
 -(void)createHugeExplosion:(CGPoint)point{
     CCSprite* _explosionSprite = [CCSprite spriteWithFile:@"explosion.png"];
@@ -677,7 +681,7 @@
     [explosionArray addObject:[NSValue valueWithPointer:_explosionBody]];
     NSLog(@"BOOM explosion added to array");
     [self performSelector:@selector(removeSingleExplosion:) withObject:[NSValue valueWithPointer:_explosionBody] afterDelay:0.1];
-
+    [[SimpleAudioEngine sharedEngine] playEffect:@"explosion.mp3"];
 }
 
 -(void)removeSingleExplosion:(id)b{
