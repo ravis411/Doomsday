@@ -16,6 +16,7 @@
     b2Fixture* _fixture;
     b2Body *_body;
     b2BodyDef _bodyDef;
+    int spriteVersion;
 }
 
 -(id) makeInWorld:(b2World*)world atPosition:(CGPoint)point;
