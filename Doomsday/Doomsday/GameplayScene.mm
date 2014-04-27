@@ -113,7 +113,7 @@ bool musicPlaying = false;
     
     _dash = [CCSprite spriteWithFile:@"dashboard.png"];
    
-    _dash.position = CGPointMake(size.width/2, 30);
+    _dash.position = CGPointMake(size.width/2, _dash.contentSize.height/2);
     [self addChild:_dash];
     
     //testinglabel

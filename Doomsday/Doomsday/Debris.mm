@@ -75,13 +75,26 @@
         _fixture->SetFilterData(f);
         NSString *frameName = [NSString stringWithFormat:@"buildingpiece-%d-off.png", spriteVersion];
         [self setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:frameName]];
-        [self scheduleOnce:@selector(removeMe) delay:0.2f];
+        [self scheduleOnce:@selector(removeMe) delay:2.0f];
     }
 }
 
 
 -(void)removeMe{
-    _removeMe = YES;
+    //If I'm underground go ahead and remove me.
+    if ((_body->GetPosition()).y < 60/PTM_RATIO ) {
+        _removeMe = YES;
+    }
+    //else if im moving don't remove me yet...
+    else if ( (_body->GetLinearVelocity()).y > 0.5f || (_body->GetAngularVelocity()) > 0.5f ) {
+        [self scheduleOnce:@selector(removeMe) delay:2.0f];
+        return;
+    }
+    else{
+        b2Filter f = _fixture->GetFilterData();
+        f.maskBits = 0b0000000000000000;
+        _fixture->SetFilterData(f);
+    }
 }
 
 -(b2Shape*) shape {
