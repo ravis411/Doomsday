@@ -30,8 +30,10 @@
     CCSpriteBatchNode *uiAtlasNode;
     CCSpriteBatchNode *spriteAtlasNode;
     UILayer *uiLayer;
+    UILayer *levelSelectLayer;
     CGSize size;
     CCScene *menuScene;
+    CCSprite* mishPane;
 }
 
 @property UILayer* uiL;
@@ -40,5 +42,6 @@
 +(CCScene *) scene;
 -(void) createMenu;
 -(void) newGame:(id)sender;
+-(void) levelSelect:(id)sender;
 
 @end
