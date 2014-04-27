@@ -23,9 +23,15 @@
 @synthesize weaponMode = _weaponMode;
 @synthesize gameOver = _gameOver;
 
++(id)nodeWithGameLevel:(int)level{
+//    return  [[[self alloc] initWithGameLevel:level] autorelease];
+    
+    return  [[[self alloc] initWithLevel:level] autorelease];
+}
 
--(id)init{
+-(id)initWithLevel:(int)level{
     if(self = [super init]){
+        missionLevel = level;
         [self setTouchEnabled:YES];
         _gameOver = NO;
         bombArray = [[NSMutableArray alloc]init];
@@ -150,12 +156,14 @@
 
 
 -(void)update:(ccTime)dt{
+  
+    
     if( (NSInteger)(dt*769) % 2 == 0){
         if((int)[hoipolloiArray count]<50)
             [self spawnPerson];
     }
-    
-    if(_enemiesKilled >60){
+
+    if(_enemiesKilled >10*missionLevel){
         _gameOver = YES;
     }
     
@@ -182,14 +190,7 @@
         
         b2Body *pody = (b2Body*)[pBody pointerValue];
         
-        if(pody->GetPosition().x/PTM_RATIO <= ((pos.x/PTM_RATIO)+0.10f) && pody->GetPosition().x >= (pos.x)){
-            pody->SetLinearVelocity(right);
-            [(id)pody->GetUserData() setMovingRight:YES];
-        }else  if(pody->GetPosition().x/PTM_RATIO >= ((pos.x/PTM_RATIO)-0.10f) && pody->GetPosition().x <= (pos.x)){
-            pody->SetLinearVelocity(left);
-            [(id)pody->GetUserData() setMovingRight:NO];
-        }
-        else{
+        
             if([(id)pody->GetUserData() stamina] <= 0){
                 NSUInteger r = arc4random_uniform(2);
                 if(r==0){
@@ -203,14 +204,21 @@
                 [(id)pody->GetUserData() resetStamina];
             }
             else{
-                if([(id)pody->GetUserData() movingRight]){
+                if(pody->GetPosition().x/PTM_RATIO <= ((pos.x/PTM_RATIO)+0.10f) && pody->GetPosition().x >= (pos.x)){
+                    pody->SetLinearVelocity(right);
+                    [(id)pody->GetUserData() setMovingRight:YES];
+                }else  if(pody->GetPosition().x/PTM_RATIO >= ((pos.x/PTM_RATIO)-0.10f) && pody->GetPosition().x <= (pos.x)){
+                    pody->SetLinearVelocity(left);
+                    [(id)pody->GetUserData() setMovingRight:NO];
+                }
+                else if([(id)pody->GetUserData() movingRight]){
                     pody->SetLinearVelocity(right);
                 }else{
                     pody->SetLinearVelocity(left);
                 }
                 [(id)pody->GetUserData() decreaseStamina];
             }
-        }
+        
     }
     
  /*
@@ -792,14 +800,15 @@
 }
 
 -(void) spawnDebrisRectAt:(float)mX width:(int)w height:(int)h {
-    float dim = 60;
+    float dimY = 60;
+    float dimX = 70;
     float tX = mX;
     float tY = groundLevel + 31 + 1;
     CGPoint tCGP;
     
     for (int jj = 0; jj < h; jj++) {
         for(int ii = 0; ii < w; ii++) {
-            tCGP = ccp(tX + 1 + (ii * dim), tY + 1 + (jj * dim));
+            tCGP = ccp(tX + 1 + (ii * dimX), tY  + (jj * dimY));
             [self spawnDebrisAtPosition:tCGP];
         }
     }

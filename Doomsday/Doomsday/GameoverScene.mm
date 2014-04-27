@@ -20,13 +20,15 @@ NSString *const TopScores = @"TopScores";
 
 @implementation GameoverScene
 
--(id) gameOverWithScore:(int)killcount outOf:(int)quota {
+-(id) gameOverWithScore:(int)killcount outOf:(int)quota currentLevel:(int)currentLevel {
     self  = [super init];
     if(self)
 	{
         
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        
+        killCount = killcount;
+        gameQuota = quota;
+        level = currentLevel;
         //Accessing plist
 //        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
 //        NSString *documentsDirectory = [paths objectAtIndex:0];
@@ -120,8 +122,7 @@ NSString *const TopScores = @"TopScores";
 
 -(void) retry {
     NSLog(@"New Game");
-    [[CCDirector sharedDirector]
-        replaceScene:[CCTransitionFade transitionWithDuration:0.0 scene:[GameplayScene node]]];
+    [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.0 scene:[GameplayScene nodeWithGameLevel:level]]];
 }
 -(void) returnToMain{
     NSLog(@"Return to main");

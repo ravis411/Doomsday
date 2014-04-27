@@ -16,10 +16,13 @@
 @interface GameoverScene : CCScene {
     UILayer* uiLayer;
     CGSize size;
+    int killCount;
+    int gameQuota;
+    int level;
 }
 
 
--(id) gameOverWithScore:(int)killcount outOf:(int)quota;
+-(id) gameOverWithScore:(int)killcount outOf:(int)quota currentLevel:(int)currentLevel;
 -(void) retry;
 -(void) returnToMain;
 

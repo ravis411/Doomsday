@@ -43,6 +43,7 @@
     BOOL _gameOver;
     enum playerWeapon _weaponMode;
     ALuint soundEffectID;
+    int missionLevel;
 
 }
 @property BOOL gameOver;
@@ -52,7 +53,7 @@
 @property enum playerWeapon weaponMode;
 
 //@property Hoipolloi* hoipolloiSprite;
-
++(id)nodeWithGameLevel:(int)level;
 -(void) moveScreenLeft;
 -(void) moveScreenRight;
 -(void) kick;

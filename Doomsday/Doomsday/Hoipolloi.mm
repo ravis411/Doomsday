@@ -21,7 +21,7 @@
     self = [super initWithFile:@"hoipolloi.png"];
     if (self) {
         //_movementSpeed = 500;
-        _maxStamina = 200;
+        _maxStamina = 100;
         _stamina = 0;
         _movingRight = YES;
     }

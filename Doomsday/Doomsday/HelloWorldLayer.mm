@@ -367,13 +367,10 @@ enum {
 	[[app navController] dismissModalViewControllerAnimated:YES];
 }
 
--(void) buildUI {
-   
 
-}
                         
 -(void) newGame:(id)sender  {
-    [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.0 scene:[GameplayScene node]]];
+    [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.0 scene:[GameplayScene nodeWithGameLevel:[sender tag]]]];
 }
 
 -(void) levelSelect:(id)sender {
@@ -385,6 +382,8 @@ enum {
     for (int ii = 1; ii<=buttonNum; ii++) {
         [levelButtons addObject:[uiLayer makeButtonWithText:[NSString stringWithFormat:@"%d",ii] ShapeID:1 x:0 y:0]];
         CCMenuItemSprite* ccMS = [levelButtons objectAtIndex:(ii-1)];
+        //decides level
+        ccMS.tag = ii;
         [ccMS setTarget:self selector:@selector(newGame:)];
         [ccMS setScale:0.8];
         if (ii > activeLevels) {
@@ -395,15 +394,15 @@ enum {
     
         
     CCMenu *mishMenu = [CCMenu menuWithArray:levelButtons];
-    mishMenu.position = ccp(size.width/2, size.height/2);
+    mishMenu.position = ccp(size.width/2-20, size.height/2);
     
     NSNumber* itemsPerRow = [NSNumber numberWithInt:3];
     [mishMenu alignItemsInColumns:itemsPerRow, itemsPerRow, itemsPerRow, nil];
 	
     mishPane = [CCSprite spriteWithFile:@"levelselectpanel-14.png"];
-    mishPane.position = mishMenu.position;
+    mishPane.position = ccp(size.width/2, size.height/2);
     
-    CCMenuItemSprite* closeButton = [uiLayer makeButtonWithText:@"x" ShapeID:3 x:50 y:size.height - 80];
+    CCMenuItemSprite* closeButton = [uiLayer makeButtonWithText:@"x" ShapeID:3 x:40 y:size.height - 70];
     CCMenu* closeMenu = [CCMenu menuWithItems:closeButton, nil];
     closeMenu.position = ccp(0, 0);
     [closeButton setTarget:self selector:@selector(removeMissionPane)];

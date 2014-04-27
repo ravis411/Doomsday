@@ -24,13 +24,20 @@ NSString *const TopScores = @"TopScores";
 
 @implementation GameplayScene
 bool musicPlaying = false;
--(id) init
+
++(id)nodeWithGameLevel:(int)level{
+    return  [[[self alloc] initWithLevel:level] autorelease];
+}
+
+-(id)initWithLevel:(int)level
 {
     
     if(self = [super init])
 	{
-        spriteLayer = [SpriteLayer node];
-        uiLayer = [UILayer node];
+        missionLevel = level;
+        
+        spriteLayer = [SpriteLayer nodeWithGameLevel:missionLevel];
+        uiLayer = [UILayer nodeWithGameLevel:missionLevel];
         bgLayer = [BackgroundLayer node];
         pauseLayer = [PauseLayer node];
         pauseLayer.gameplayScene = self;
@@ -56,12 +63,12 @@ bool musicPlaying = false;
 //        _ship = [Ship sharedModel];
         
         weaponMode = WEAPON_BASIC;
-        _quota = 60;
+        _quota = 10*missionLevel;
         
 //        [self addChild:pauseLayer];
         
         [self buildUI];
-        [self setTimer:200];
+        [self setTimer:400];
         
 //        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
 //        NSString *documentsDirectory = [paths objectAtIndex:0];
@@ -101,7 +108,7 @@ bool musicPlaying = false;
 }
 
 
--(void) buildUI {
+-(void) buildUI{
     CGSize size = [[CCDirector sharedDirector] winSize];
 
     CCSprite* _dash;
@@ -115,6 +122,8 @@ bool musicPlaying = false;
    
     _dash.position = CGPointMake(size.width/2, 30);
     [self addChild:_dash];
+    
+    [uiLayer displayMissionLevel];
     
     //testinglabel
     _label = [[CCLabelTTF labelWithString:@" " fontName:@"Arial" fontSize:18.0] retain];
@@ -235,6 +244,13 @@ bool musicPlaying = false;
 
 -(void) endGame {
     
+        if(_killCount>10*missionLevel){
+            NSLog(@"YOU WIN");
+            missionLevel++;
+        }
+        else{
+            NSLog(@"YOU LOSE........");
+        }
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSNumber *ns_KillCount = [NSNumber numberWithInt:_killCount];
@@ -276,7 +292,7 @@ bool musicPlaying = false;
 
     
     [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.0 scene:
-                                               [[GameoverScene alloc] gameOverWithScore:_killCount outOf:_quota]]];
+                                               [[GameoverScene alloc] gameOverWithScore:_killCount outOf:_quota currentLevel:missionLevel]]];
 }
 
 -(void)update:(ccTime)dt{
@@ -306,6 +322,14 @@ bool musicPlaying = false;
     [spriteLayer setWeaponMode:weaponMode];
     
      _killCount = [spriteLayer enemiesKilled];
+//    if([spriteLayer gameOver]){
+//        if(_killCount>10*missionLevel){
+//            NSLog(@"YOU WIN");
+//        }
+//        else{
+//            NSLog(@"You lose.....");
+//        }
+//    }
 //    if([spriteLayer gameOver]){
 //        CCLabelTTF* winMessage = [[CCLabelTTF labelWithString:@"WIN!" fontName:@"Arial" fontSize:30] retain];
 //        winMessage.position = ccp(winSize.width/2, winSize.height/2);
