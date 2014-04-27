@@ -33,6 +33,7 @@
     UILayer *levelSelectLayer;
     CGSize size;
     CCScene *menuScene;
+    CCSprite* mishPane;
 }
 
 @property UILayer* uiL;
