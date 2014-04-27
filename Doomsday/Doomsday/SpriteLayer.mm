@@ -41,7 +41,8 @@
         intentToMoveRight = NO;
         shipLaserCooldownMode = NO;
         shipBombCooldownMode = NO;
-        
+        [[SimpleAudioEngine sharedEngine] preloadEffect:@"laser.mp3"];
+        [[SimpleAudioEngine sharedEngine] preloadEffect:@"explosion.mp3"];
         _enemiesKilled = 0;
 
 //        CCLayerColor* color = [CCLayerColor layerWithColor:ccc4(255,0,255,255)];
