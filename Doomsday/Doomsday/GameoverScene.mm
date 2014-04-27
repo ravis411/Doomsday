@@ -8,12 +8,31 @@
 
 #import "GameoverScene.h"
 
+NSString *const LeaderboardPlist = @"leaderboard.plist";
+NSString *const TopScores = @"TopScores";
+
+@interface GameoverScene()
+
+@property (strong, nonatomic) NSString *filepath;
+@property (strong, nonatomic) NSMutableDictionary *plist;
+
+@end
+
 @implementation GameoverScene
 
 -(id) gameOverWithScore:(int)killcount outOf:(int)quota {
     self  = [super init];
     if(self)
 	{
+        
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        
+        //Accessing plist
+//        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+//        NSString *documentsDirectory = [paths objectAtIndex:0];
+//        _filepath = [documentsDirectory stringByAppendingPathComponent:LeaderboardPlist];
+//        _plist = [NSMutableDictionary dictionaryWithContentsOfFile:_filepath];
+        
         uiLayer = [UILayer node];
         [self addChild:uiLayer];
         size = [[CCDirector sharedDirector] winSize];
@@ -24,6 +43,46 @@
         if (killcount >= quota) {vicfail = @"victory";}
         CCSprite* vfMSG = [CCSprite spriteWithSpriteFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@_message.png", vicfail]]];
         vfMSG.position = ccp(size.width/2, size.height/2 + 96);
+        
+        NSMutableArray *topScores = [defaults objectForKey:TopScores];
+
+        for(NSNumber *score in topScores){
+            NSLog(@"AFTER userdefaults: \n\n%@\n\n",score);
+        }
+        
+        CCLabelTTF *topScoresLabel = [CCLabelTTF
+                                 labelWithString:@"Top Scores:"
+                                 fontName:@"Futura-Medium"
+                                 fontSize:20];
+        topScoresLabel.position = ccp(size.width/2, size.height/2+10);
+        [uiLayer addChild:topScoresLabel];
+
+        
+        CCLabelTTF *topscore1 = [CCLabelTTF
+                                 labelWithString:[NSString stringWithFormat:@"%@",[topScores objectAtIndex:0]]
+                             fontName:@"Futura-Medium"
+                             fontSize:20];
+        topscore1.position = ccp(size.width/2, size.height/2-15);
+        [uiLayer addChild:topscore1];
+
+        
+        if (topScores.count>1) {
+            CCLabelTTF *topscore2 = [CCLabelTTF
+                                     labelWithString:[NSString stringWithFormat:@"%@",[topScores objectAtIndex:1]]
+                                     fontName:@"Futura-Medium"
+                                     fontSize:20];
+            topscore2.position = ccp(size.width/2, size.height/2-35);
+            [uiLayer addChild:topscore2];
+        }
+        
+        if (topScores.count>2) {
+            CCLabelTTF *topscore3 = [CCLabelTTF
+                                     labelWithString:[NSString stringWithFormat:@"%@",[topScores objectAtIndex:2]]
+                                     fontName:@"Futura-Medium"
+                                     fontSize:20];
+            topscore3.position = ccp(size.width/2, size.height/2-55);
+            [uiLayer addChild:topscore3];
+        }
         
         CCLabelTTF *score = [CCLabelTTF
                              labelWithString:[NSString stringWithFormat:@"KILLS: %d/%d", killcount, quota]
@@ -43,15 +102,16 @@
         
         [uiLayer addChild: menu];
 	    
-        [menu alignItemsVertically];
-        [menu setPosition:ccp( size.width/2, size.height/2 - 50)];
+        [menu alignItemsHorizontally];
+        [menu setPosition:ccp( size.width/2, size.height/2 - 100)];
         
         
         [uiLayer addChild:vfMSG];
         [uiLayer addChild:score];
         
+        
   
-        [self scheduleUpdate];
+        //[self scheduleUpdate];//Why do we need to schedule update here?
 
     }
     

@@ -128,7 +128,7 @@
 //        [self schedule:@selector(tick:)];
         //[self schedule:@selector(kick) interval:10.0];
         
-        for(NSInteger i = 1; i < 20; i++ ){
+        for(NSInteger i = 1; i < 30; i++ ){
             [self spawnRandomPerson];
         }
         
@@ -794,7 +794,7 @@
 -(void) spawnDebrisRectAt:(float)mX width:(int)w height:(int)h {
     float dim = 60;
     float tX = mX;
-    float tY = groundLevel + dim + 1;
+    float tY = groundLevel + 31 + 1;
     CGPoint tCGP;
     
     for (int jj = 0; jj < h; jj++) {
