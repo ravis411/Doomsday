@@ -31,5 +31,6 @@
 -(void)decreaseStamina;
 -(void)resetStamina;
 -(bool) isGawping;
+-(void) gawpFor:(int)ticks;
 -(void) update:(ccTime)delta;
 @end
