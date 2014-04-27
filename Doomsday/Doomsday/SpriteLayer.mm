@@ -118,6 +118,7 @@
         shipShapeDef.density = 1.0f;
         shipShapeDef.friction = 0.2f;
         shipShapeDef.restitution = 0.6f;
+        shipShapeDef.filter.categoryBits = 0;//This makes the ship not collide with anything!
         _shipBody->CreateFixture(&shipShapeDef);
     
         _shipBody->SetGravityScale(0);

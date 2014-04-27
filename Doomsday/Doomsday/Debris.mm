@@ -46,8 +46,8 @@
         _fixtureDef.density = 5.5f;
         _fixtureDef.friction = 1.0f;
         _fixtureDef.restitution = 0.00f;
-        _fixtureDef.filter.categoryBits = 3;
-        _fixtureDef.filter.maskBits = 0x0002;
+        _fixtureDef.filter.categoryBits = 3;//0b0000000000000011;
+        _fixtureDef.filter.maskBits = 2;    //0b0000000000000010;//0x0002
 //        _fixtureDef.filter.groupIndex = 4;
         
         _fixture = _body->CreateFixture(&_fixtureDef);
@@ -60,8 +60,8 @@
 
 -(void)hitByExplosion{
     b2Filter f = _fixture->GetFilterData();
-    if(f.maskBits == 0x0002){
-        f.maskBits = 0x0013;
+    if(f.maskBits == 2){
+        f.maskBits = 0b0000000000000011;
         _fixture->SetFilterData(f);
     }
 }
