@@ -15,6 +15,8 @@
 
 @implementation Debris
 
+@synthesize shouldRemoveMe = _removeMe;
+
 -(id) makeInWorld:(b2World*)world atPosition:(CGPoint)point {
     NSLog(@"making debris...");
     float s =  arc4random_uniform(100);
@@ -28,6 +30,7 @@
         
         [self setScale:0.3];
         [self setPosition:ccp(point.x, point.y)];
+        _removeMe = NO;
         
         //SETTING UP PHYSICS
         _bodyDef.type = b2_dynamicBody;
@@ -70,9 +73,15 @@
     if(f.maskBits == 2){
         f.maskBits = 0b0000000000000011;
         _fixture->SetFilterData(f);
+        NSString *frameName = [NSString stringWithFormat:@"buildingpiece-%d-off.png", spriteVersion];
+        [self setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:frameName]];
+        [self scheduleOnce:@selector(removeMe) delay:0.2f];
     }
-    NSString *frameName = [NSString stringWithFormat:@"buildingpiece-%d-off.png", spriteVersion];
-    [self setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:frameName]];
+}
+
+
+-(void)removeMe{
+    _removeMe = YES;
 }
 
 -(b2Shape*) shape {
