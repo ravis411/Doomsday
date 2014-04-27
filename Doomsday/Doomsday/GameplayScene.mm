@@ -36,6 +36,7 @@ bool musicPlaying = false;
         pauseLayer.gameplayScene = self;
         background = [CCParallaxNode node];
         _paused = false;
+        _firstBlood = false;
         
         winSize = [[CCDirector sharedDirector] winSize];
 

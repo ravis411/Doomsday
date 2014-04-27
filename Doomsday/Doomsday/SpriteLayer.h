@@ -38,6 +38,7 @@
     MyContactListener *_contactListener;
     BOOL shipLaserCooldownMode;
     BOOL shipBombCooldownMode;
+    BOOL _firstBlood;
     float groundLevel;
     int _enemiesKilled;
     BOOL _gameOver;

@@ -21,6 +21,7 @@
 
 @interface GameplayScene : CCScene {
     int _timeRemaining;
+    bool _firstBlood;
     int _quota;
     int _killCount;
     Boolean _timerOn;
