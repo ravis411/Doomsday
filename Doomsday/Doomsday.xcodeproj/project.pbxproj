@@ -779,6 +779,13 @@
 		497A4FD718E11B8500B19D54 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				3DDF5826190CD23300DD19B5 /* buildingatlas.plist */,
+				3DDF5827190CD23300DD19B5 /* buildingatlas.png */,
+				3DDF5820190CC49D00DD19B5 /* buildingpiece-1.png */,
+				3DDF581E190CC49D00DD19B5 /* buildingpiece-2.png */,
+				3DDF581F190CC49D00DD19B5 /* buildingpiece-1-off.png */,
+				3DDF5821190CC49D00DD19B5 /* buildingpiece-2-off.png */,
+				3DDF581C190CB9BF00DD19B5 /* activeweaponbar.png */,
 				3DDF581A190C93C800DD19B5 /* levelselectpanel-14.png */,
 				3D90A91E19074CA2006833A5 /* blank.png */,
 				3D90A9171906058D006833A5 /* eyecon_small.png */,
@@ -1450,6 +1457,13 @@
 				3D90A91F19074CA2006833A5 /* blank.png in Resources */,
 				3DDF5819190C644200DD19B5 /* The Ballad of Jack Noir.mp3 in Resources */,
 				3DDF581B190C93C800DD19B5 /* levelselectpanel-14.png in Resources */,
+				3DDF581D190CB9BF00DD19B5 /* activeweaponbar.png in Resources */,
+				3DDF5822190CC49D00DD19B5 /* buildingpiece-2.png in Resources */,
+				3DDF5823190CC49D00DD19B5 /* buildingpiece-1-off.png in Resources */,
+				3DDF5824190CC49D00DD19B5 /* buildingpiece-1.png in Resources */,
+				3DDF5825190CC49D00DD19B5 /* buildingpiece-2-off.png in Resources */,
+				3DDF5828190CD23300DD19B5 /* buildingatlas.plist in Resources */,
+				3DDF5829190CD23300DD19B5 /* buildingatlas.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

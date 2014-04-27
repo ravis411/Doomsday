@@ -38,6 +38,7 @@
         hoipolloiArray = [[NSMutableArray alloc]init];
         buildingsArray = [[NSMutableArray alloc] init];
         debrisArray = [[NSMutableArray alloc] init];
+        deletedDebris = [[NSMutableArray alloc] init];
         explosionArray = [[NSMutableArray alloc]init];
         laserArray = [[NSMutableArray alloc]init];
         deletedBombs = [[NSMutableArray alloc]init];
@@ -125,6 +126,7 @@
         shipShapeDef.density = 1.0f;
         shipShapeDef.friction = 0.2f;
         shipShapeDef.restitution = 0.6f;
+        shipShapeDef.filter.categoryBits = 0;//This makes the ship not collide with anything!
         _shipBody->CreateFixture(&shipShapeDef);
     
         _shipBody->SetGravityScale(0);
@@ -322,8 +324,29 @@
                     NSLog(@"\nEnemies Killed: %d\n\n", _enemiesKilled);
                     
                 }
+            }//Collision detection for building debris should kill humans if it lands on them?
+            for (NSValue* ds in debrisArray) {
+                b2Body *dbody = (b2Body*)[ds pointerValue];
+                if((contact.fixtureA == dbody->GetFixtureList() && contact.fixtureB == pody->GetFixtureList()) || (contact.fixtureA == pody->GetFixtureList() && contact.fixtureB == dbody->GetFixtureList())) {
+                    if ( (dbody->GetPosition().y - (30/PTM_RATIO) ) > pody->GetPosition().y ) {
+                         NSLog(@"\nDebris landed on a person?...\n");
+                        _enemiesKilled++;
+                        CCSprite* dead = [CCSprite spriteWithFile:@"deadhoipolloi.png"];
+                        dead.position = CGPointMake(size.width/2, size.height/2);
+                        [dead setScale:0.3];
+                        [self addChild:dead];
+                        [self removeChild:(CCSprite*)pody->GetUserData()];
+                        pody->SetUserData(dead);
+                        [deletedPeople addObject:pBody];
+                        NSLog(@"\nEnemies Killed: %d\n\n", _enemiesKilled);
+
+                    }
+                   
+                }
             }
+            
         }
+        
         //Collision detection for bomb
         for(NSValue* bBody in bombArray){
             b2Body *body = (b2Body*)[bBody pointerValue];
@@ -332,6 +355,7 @@
                 [deletedBombs addObject:bBody];
             }
         }
+        
         for(NSValue* bBody in laserArray){
             b2Body *body = (b2Body*)[bBody pointerValue];
             if ((contact.fixtureA == body->GetFixtureList() || contact.fixtureB == body->GetFixtureList()) && (contact.fixtureA != _shipBody->GetFixtureList() && contact.fixtureB != _shipBody->GetFixtureList()) && (contact.fixtureA != _groundBody->GetFixtureList() && contact.fixtureB != _groundBody->GetFixtureList())){
@@ -343,6 +367,32 @@
             }
         }
         
+        //Collision detection for building debris and explosions
+        for (NSValue* d in debrisArray) {
+            b2Body *b = (b2Body*)[d pointerValue];
+            
+            for(NSValue* eBody in explosionArray){
+                b2Body *eX = (b2Body*)[eBody pointerValue];
+                
+                if ((contact.fixtureA == eX->GetFixtureList() && contact.fixtureB == b->GetFixtureList()) || (contact.fixtureA == b->GetFixtureList() && contact.fixtureB == eX->GetFixtureList())) {
+                    NSLog(@"Explosion hit building debris.");
+                    
+                    if (eX->GetPosition().x > b->GetPosition().x) {
+                        b->SetAngularVelocity(20);
+                    }
+                    else{
+                        b->SetAngularVelocity(-20);
+                    }
+                    [((Debris *)(b->GetUserData())) hitByExplosion];
+                }
+            }
+        
+            //Check if debris should be removed.
+            if ( ((Debris*)b->GetUserData()).shouldRemoveMe) {
+                [deletedDebris addObject:d];
+                ((Debris*)b->GetUserData()).shouldRemoveMe = NO;//dont want to add to deletedtwice
+            }
+        }
         
     }
 
@@ -363,11 +413,24 @@
         b2Body* nuke = (b2Body*)[bBody pointerValue];
         [self explodeAndRemoveLaser:nuke];
     }
+    for(NSValue* dBody in deletedDebris){
+        [debrisArray removeObject:dBody];
+        b2Body* nuke = (b2Body*)[dBody pointerValue];
+        NSLog(@"Destroy Debris");
+        for(b2Body *b = _world->GetBodyList();b;b = b->GetNext()){
+            if(nuke != NULL && nuke == b){
+                _world->DestroyBody(b);
+                [self removeChild:(CCSprite*)b->GetUserData()];
+                break;
+            }
+        }
+    }
  
     
     [deletedBombs removeAllObjects];
     [deletedPeople removeAllObjects];
     [deletedLaser removeAllObjects];
+    [deletedDebris removeAllObjects];
 }
 
 -(void)removeDeadBodies:(NSValue*)pBody{
@@ -823,6 +886,7 @@
     [explosionArray release];
     [buildingsArray release];
     [debrisArray release];
+    [deletedDebris release];
     [laserArray release];
     [deletedBombs release];
     [deletedLaser release];

@@ -110,25 +110,34 @@ bool musicPlaying = false;
 
 -(void) buildUI{
     CGSize size = [[CCDirector sharedDirector] winSize];
-
+//    [self laserButtonTapped:self];
     CCSprite* _dash;
-    CCLabelTTF *_scoreLabel = [[CCLabelTTF labelWithString:@"-/-" fontName:@"Arial" fontSize:24.0] retain];
+    CCLabelTTF *_scoreLabel = [[CCLabelTTF labelWithString:@"-/-" fontName:@"Futura-Medium" fontSize:24.0] retain];
     CCSprite* _killCounter;
-    CCLabelTTF* _timeLabel = [[CCLabelTTF labelWithString:@"000" fontName:@"Arial" fontSize:18] retain];
+    CCLabelTTF* _timeLabel = [[CCLabelTTF labelWithString:@"000" fontName:@"Futura-Medium" fontSize:18] retain];
     //CCSprite* pause = null;
     uiLayer.quota = _quota;
     
     _dash = [CCSprite spriteWithFile:@"dashboard.png"];
    
-    _dash.position = CGPointMake(size.width/2, 30);
+    _dash.position = CGPointMake(size.width/2, _dash.contentSize.height/2);
     [self addChild:_dash];
     
     [uiLayer displayMissionLevel];
     
     //testinglabel
-    _label = [[CCLabelTTF labelWithString:@" " fontName:@"Arial" fontSize:18.0] retain];
-    _label.position = ccp(size.width/3, size.height-(_label.contentSize.height/2));
-    [uiLayer addChild:_label];
+    _label = [[CCLabelTTF labelWithString:@" " fontName:@"Futura-Medium" fontSize:24.0] retain];
+    
+    
+    
+    CCSprite* weaponModePanel = [CCSprite spriteWithFile:@"activeweaponbar.png"];
+    [weaponModePanel setScale:0.4];
+    weaponModePanel.position = ccp(size.width/2 - 120, 24);
+    _label.position = ccp(weaponModePanel.contentSize.width/2, weaponModePanel.contentSize.height/2);
+
+    [weaponModePanel addChild:_label];
+    [_dash addChild:weaponModePanel];
+
     
     //killcounter
     [uiLayer addUIElement:_killCounter withFrame:@"killcounter.png" x:(size.width-115) y:(size.height-18)];
@@ -156,8 +165,7 @@ bool musicPlaying = false;
                                  target:self selector:@selector(gadgetButtonLTapped:)];
     [uiLayer setMenuItem:gadgetButtonL buttonID:4 x:(size.width/2 - 50) y:30];
     
-    
-    
+       
     CCMenu *gadgetButtons = [CCMenu menuWithItems: laserButton, gadgetButtonL, gadgetButtonR, pause, nil]; //gadget button R is currently inactive
     gadgetButtons.position = CGPointZero;
     [uiLayer addChild:gadgetButtons];
@@ -166,6 +174,9 @@ bool musicPlaying = false;
     
     //TIMER UI
     [uiLayer displayTimer];
+    
+    
+    
     
 }
 
@@ -178,7 +189,7 @@ bool musicPlaying = false;
 }
 - (void)gadgetButtonRTapped:(id)sender {
     weaponMode = WEAPON_GADGET2;
-    [_label setString:@"GADGET 2 (is not working yet)"];
+    [_label setString:@"GADGET 2"];
 }
 
 - (void)gadgetButtonLTapped:(id)sender {
@@ -197,10 +208,10 @@ bool musicPlaying = false;
             weaponLabelString = @"BOMB";
             break;
         case WEAPON_GADGET2:
-            weaponLabelString = @"GADGET 2 (not functional)";
+            weaponLabelString = @"GADGET 2";
             break;
     }
-    [_label setString:[NSString stringWithFormat:@"Active Weapon: %@", weaponLabelString]];
+    [_label setString:[NSString stringWithFormat:@"%@", weaponLabelString]];
     uiLayer.killed = [spriteLayer enemiesKilled];
     [uiLayer updateKillCounter];
     [uiLayer updateTimer:_timeRemaining];

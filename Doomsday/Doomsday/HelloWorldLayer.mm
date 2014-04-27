@@ -104,6 +104,30 @@ enum {
             [uiFrames addObject:frame];
         }
 
+        //Batching building blocks
+        int numberBuildingFrames = 0;
+        buildingAtlasNode = [CCSpriteBatchNode batchNodeWithFile:@"buildingatlas.png"];
+        [self addChild:buildingAtlasNode];
+        [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"buildingatlas.plist"];
+
+        NSMutableArray *buildingFrames = [NSMutableArray array];
+        NSMutableArray *buildingFilenames = [NSMutableArray array];
+        for (int ii = 1; ii <= 3; ii++) {
+            NSString *file = [NSString stringWithFormat:@"buildingpiece-%d-off.png", ii];
+            
+            [buildingFilenames addObject:file];
+            numberBuildingFrames++;
+            file = [NSString stringWithFormat:@"buildingpiece-%d.png", ii];
+            
+            [buildingFilenames addObject:file];
+            numberBuildingFrames++;
+
+        }
+        
+        for (int i = 0; i < numberBuildingFrames; i++) {
+            CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:buildingFilenames[i]];
+            [buildingFrames addObject:frame];
+        }
 
 		
 #if 1

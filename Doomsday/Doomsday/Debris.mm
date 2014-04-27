@@ -15,12 +15,22 @@
 
 @implementation Debris
 
+@synthesize shouldRemoveMe = _removeMe;
+
 -(id) makeInWorld:(b2World*)world atPosition:(CGPoint)point {
     NSLog(@"making debris...");
-    if (self = [super initWithFile:@"building_block.png"]) {
+    float s =  arc4random_uniform(100);
+    if (s < 20) {spriteVersion = 2;}
+    if (s > 80) {spriteVersion = 3;}
+    else {spriteVersion = 1;}
+    
+    NSString* frameName = [NSString stringWithFormat:@"buildingpiece-%d.png", spriteVersion];
+    
+    if (self = [super initWithSpriteFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:frameName]]) {
         
         [self setScale:0.3];
         [self setPosition:ccp(point.x, point.y)];
+        _removeMe = NO;
         
         //SETTING UP PHYSICS
         _bodyDef.type = b2_dynamicBody;
@@ -43,20 +53,49 @@
         
         polygon.Set(vertices, num);
         _fixtureDef.shape = &polygon;
-        _fixtureDef.density = 5.5f;
+        _fixtureDef.density = 10.5f;
         _fixtureDef.friction = 1.0f;
         _fixtureDef.restitution = 0.00f;
-        _fixtureDef.filter.categoryBits = 3;
-        _fixtureDef.filter.maskBits = 2;
+        _fixtureDef.filter.categoryBits = 3;//0b0000000000000011;
+        _fixtureDef.filter.maskBits = 2;    //0b0000000000000010;//0x0002
 //        _fixtureDef.filter.groupIndex = 4;
         
-        _body->CreateFixture(&_fixtureDef);
+        _fixture = _body->CreateFixture(&_fixtureDef);
                 
     }
     return self;
     
 }
 
+
+-(void)hitByExplosion{
+    b2Filter f = _fixture->GetFilterData();
+    if(f.maskBits == 2){
+        f.maskBits = 0b0000000000000011;
+        _fixture->SetFilterData(f);
+        NSString *frameName = [NSString stringWithFormat:@"buildingpiece-%d-off.png", spriteVersion];
+        [self setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:frameName]];
+        [self scheduleOnce:@selector(removeMe) delay:2.0f];
+    }
+}
+
+
+-(void)removeMe{
+    //If I'm underground go ahead and remove me.
+    if ((_body->GetPosition()).y < 60/PTM_RATIO ) {
+        _removeMe = YES;
+    }
+    //else if im moving don't remove me yet...
+    else if ( (_body->GetLinearVelocity()).y > 0.5f || (_body->GetAngularVelocity()) > 0.5f ) {
+        [self scheduleOnce:@selector(removeMe) delay:2.0f];
+        return;
+    }
+    else{
+        b2Filter f = _fixture->GetFilterData();
+        f.maskBits = 0b0000000000000000;
+        _fixture->SetFilterData(f);
+    }
+}
 
 -(b2Shape*) shape {
     return _shape;

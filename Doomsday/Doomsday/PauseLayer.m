@@ -56,12 +56,10 @@
 }
 
 -(void)endGame{
-    NSLog(@"\nENDING GAME\n");
     [_gameplayScene endGame];
 }
 
 -(void)resumeGame{
-    NSLog(@"\nResuming Game\n");
     [_gameplayScene pauseTapped:NULL];
 }
 
