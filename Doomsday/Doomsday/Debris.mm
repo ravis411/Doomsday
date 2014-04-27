@@ -20,6 +20,7 @@
     if (self = [super initWithFile:@"building_block.png"]) {
         
         [self setScale:0.3];
+        [self setPosition:ccp(point.x, point.y)];
         
         //SETTING UP PHYSICS
         _bodyDef.type = b2_dynamicBody;

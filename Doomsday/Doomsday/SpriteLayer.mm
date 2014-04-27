@@ -793,7 +793,7 @@
 -(void) spawnDebrisRectAt:(float)mX width:(int)w height:(int)h {
     float dim = 60;
     float tX = mX;
-    float tY = groundLevel + dim + 1;
+    float tY = groundLevel + 31 + 1;
     CGPoint tCGP;
     
     for (int jj = 0; jj < h; jj++) {
