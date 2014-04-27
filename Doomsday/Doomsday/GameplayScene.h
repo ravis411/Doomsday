@@ -15,6 +15,7 @@
 #include "CCTouchDelegateProtocol.h"
 #import "GameoverScene.h"
 #import "SimpleAudioEngine.h"
+#import "PauseLayer.h"
 //#import "GameOverLayer.h"
 
 
@@ -43,8 +44,7 @@
     //gameplay UI
     CCLabelTTF *_label;
     CGSize winSize;
-    UILayer *pauseLayer;
-
+    PauseLayer *pauseLayer;
     
 }
 
@@ -52,8 +52,9 @@
 -(void) laserButtonTapped:(id)sender;
 -(void) gadgetButtonRTapped:(id)sender;
 -(void) gadgetButtonLTapped:(id)sender;
--(void) freezeGame;
+-(void)pauseTapped:(id)sender;
 -(void) pauseGame;
+-(void) resumeGame;
 -(void) endGame;
 //-(void) moveScreenLeft;
 //-(void) moveScreenRight;

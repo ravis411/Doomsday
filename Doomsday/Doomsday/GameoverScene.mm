@@ -51,7 +51,7 @@
         [uiLayer addChild:score];
         
   
-        [self scheduleUpdate];
+        //[self scheduleUpdate];//Why do we need to schedule update here?
 
     }
     
