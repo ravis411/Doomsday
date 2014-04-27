@@ -27,6 +27,7 @@
 		3D90A91A19060591006833A5 /* eyecon_small.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D90A91919060591006833A5 /* eyecon_small.png */; };
 		3D90A91D19072C02006833A5 /* GameoverScene.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3D90A91C19072C02006833A5 /* GameoverScene.mm */; };
 		3D90A91F19074CA2006833A5 /* blank.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D90A91E19074CA2006833A5 /* blank.png */; };
+		3D90A925190B4A4E006833A5 /* MainMainScene.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3D90A924190B4A4E006833A5 /* MainMainScene.mm */; };
 		3D90A928190B921E006833A5 /* Debris.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3D90A927190B921D006833A5 /* Debris.mm */; };
 		3D97F9AE18E8E70A00FE374E /* GameplayScene.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3D97F9AD18E8E70A00FE374E /* GameplayScene.mm */; };
 		3D97F9B118E8E72000FE374E /* SpriteLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3D97F9AF18E8E72000FE374E /* SpriteLayer.mm */; };
@@ -39,6 +40,7 @@
 		3D97F9C518E8F15D00FE374E /* ship.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D97F9C018E8F15D00FE374E /* ship.png */; };
 		3DDF5819190C644200DD19B5 /* The Ballad of Jack Noir.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 3DDF5818190C644200DD19B5 /* The Ballad of Jack Noir.mp3 */; };
 		3F88DA9E190C99DB000E6271 /* PauseLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F88DA9D190C99DB000E6271 /* PauseLayer.m */; };
+		3DDF581B190C93C800DD19B5 /* levelselectpanel-14.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DDF581A190C93C800DD19B5 /* levelselectpanel-14.png */; };
 		4900CB9218FB6D6F0079CCF9 /* deadhoipolloi.png in Resources */ = {isa = PBXBuildFile; fileRef = 4900CB9118FB6D6F0079CCF9 /* deadhoipolloi.png */; };
 		4937867918FA6D6600ECA5F8 /* laser.png in Resources */ = {isa = PBXBuildFile; fileRef = 4937867818FA6D6600ECA5F8 /* laser.png */; };
 		497A4FC318E11B8500B19D54 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 497A4FC218E11B8500B19D54 /* QuartzCore.framework */; };
@@ -257,6 +259,8 @@
 		3D90A91B19072C02006833A5 /* GameoverScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameoverScene.h; sourceTree = "<group>"; };
 		3D90A91C19072C02006833A5 /* GameoverScene.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GameoverScene.mm; sourceTree = "<group>"; };
 		3D90A91E19074CA2006833A5 /* blank.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = blank.png; path = Resources/blank.png; sourceTree = "<group>"; };
+		3D90A923190B4A4E006833A5 /* MainMainScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMainScene.h; sourceTree = "<group>"; };
+		3D90A924190B4A4E006833A5 /* MainMainScene.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MainMainScene.mm; sourceTree = "<group>"; };
 		3D90A926190B921D006833A5 /* Debris.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Debris.h; sourceTree = "<group>"; };
 		3D90A927190B921D006833A5 /* Debris.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Debris.mm; sourceTree = "<group>"; };
 		3D97F9A418E8E45D00FE374E /* GameplayScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameplayScene.h; sourceTree = "<group>"; };
@@ -275,6 +279,7 @@
 		3DDF5818190C644200DD19B5 /* The Ballad of Jack Noir.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "The Ballad of Jack Noir.mp3"; sourceTree = "<group>"; };
 		3F88DA9C190C99DB000E6271 /* PauseLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PauseLayer.h; sourceTree = "<group>"; };
 		3F88DA9D190C99DB000E6271 /* PauseLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PauseLayer.m; sourceTree = "<group>"; };
+		3DDF581A190C93C800DD19B5 /* levelselectpanel-14.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "levelselectpanel-14.png"; path = "Resources/levelselectpanel-14.png"; sourceTree = "<group>"; };
 		4900CB9118FB6D6F0079CCF9 /* deadhoipolloi.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = deadhoipolloi.png; sourceTree = "<group>"; };
 		4937867818FA6D6600ECA5F8 /* laser.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = laser.png; sourceTree = "<group>"; };
 		497A4FBF18E11B8500B19D54 /* Doomsday.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Doomsday.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -753,6 +758,8 @@
 				497A51FB18E11B8800B19D54 /* AppDelegate.mm */,
 				497A51FD18E11B8800B19D54 /* HelloWorldLayer.h */,
 				497A51FE18E11B8800B19D54 /* HelloWorldLayer.mm */,
+				3D90A923190B4A4E006833A5 /* MainMainScene.h */,
+				3D90A924190B4A4E006833A5 /* MainMainScene.mm */,
 				497A520018E11B8800B19D54 /* IntroLayer.h */,
 				497A520118E11B8800B19D54 /* IntroLayer.mm */,
 				497A520318E11B8800B19D54 /* GLES-Render.h */,
@@ -769,6 +776,7 @@
 		497A4FD718E11B8500B19D54 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				3DDF581A190C93C800DD19B5 /* levelselectpanel-14.png */,
 				3D90A91E19074CA2006833A5 /* blank.png */,
 				3D90A9171906058D006833A5 /* eyecon_small.png */,
 				3D90A9131906046D006833A5 /* eyecon.png */,
@@ -1437,6 +1445,7 @@
 				3D90A91A19060591006833A5 /* eyecon_small.png in Resources */,
 				3D90A91F19074CA2006833A5 /* blank.png in Resources */,
 				3DDF5819190C644200DD19B5 /* The Ballad of Jack Noir.mp3 in Resources */,
+				3DDF581B190C93C800DD19B5 /* levelselectpanel-14.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1614,6 +1623,7 @@
 				3D97F9B518E8E78B00FE374E /* BackgroundLayer.mm in Sources */,
 				3D2CF92C18FCA5470073BA17 /* BuildingBlock.mm in Sources */,
 				3D90A91D19072C02006833A5 /* GameoverScene.mm in Sources */,
+				3D90A925190B4A4E006833A5 /* MainMainScene.mm in Sources */,
 				3D90A928190B921E006833A5 /* Debris.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1665,8 +1675,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Michael Sheehan (G2XTYK3Y54)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Michael Sheehan (G2XTYK3Y54)";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1684,7 +1695,8 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "9F33B3EA-944B-40A1-9ECB-DA0AC2F047C2";
+				PROVISIONING_PROFILE = "D6CB0C95-2DC4-4D69-A4DE-606FFFD57751";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "D6CB0C95-2DC4-4D69-A4DE-606FFFD57751";
 				USER_HEADER_SEARCH_PATHS = "\"Doomsday/libs\"";
 				WRAPPER_EXTENSION = app;
 			};
@@ -1694,8 +1706,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Michael Sheehan (G2XTYK3Y54)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Michael Sheehan (G2XTYK3Y54)";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Doomsday/Prefix.pch;
@@ -1712,7 +1725,8 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "9F33B3EA-944B-40A1-9ECB-DA0AC2F047C2";
+				PROVISIONING_PROFILE = "D6CB0C95-2DC4-4D69-A4DE-606FFFD57751";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "D6CB0C95-2DC4-4D69-A4DE-606FFFD57751";
 				USER_HEADER_SEARCH_PATHS = "\"Doomsday/libs\"";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
