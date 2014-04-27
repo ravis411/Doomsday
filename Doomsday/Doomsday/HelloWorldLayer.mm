@@ -89,6 +89,7 @@ enum {
                 numberUIFrames++;
             }
         }
+        
         [uiFilenames addObject:@"cosmos.png"];
         [uiFilenames addObject:@"dash_mainmenu.png"];
         [uiFilenames addObject:@"dashboard.png"];
@@ -115,6 +116,8 @@ enum {
 		CCNode *parent = [CCNode node];
 #endif
 		[self addChild:parent z:0 tag:kTagParentNode];
+        
+        
         
 		[self scheduleUpdate];
 	}
@@ -176,16 +179,14 @@ enum {
 //		[leaderboardViewController release];
 //	}];
     
-    
-    CCSprite* menuButtonSprite0 = [CCSprite spriteWithSpriteFrameName:@"button1_0.png"];
-    CCSprite* menuButtonSprite1 = [CCSprite spriteWithSpriteFrameName:@"button1_1.png"];
-//    CCMenuItemSprite * itemNewGame = [CCMenuItemSprite itemWithNormalSprite:menuButtonSprite0 selectedSprite:menuButtonSprite1 target:self selector:@selector(newGame:)];
-    
+     
     CCMenuItemSprite* itemNewGame = [uiLayer makeButtonWithText:@"KILL THEM ALL" ShapeID:1 x:500 y:500];
     [itemNewGame setTarget:self selector:@selector(newGame:)];
-//    [uiLayer addChild:itemNewGame];
     
-	CCMenu *menu = [CCMenu menuWithItems: itemNewGame, nil];
+    CCMenuItemSprite* itemLevelSelect = [uiLayer makeButtonWithText:@"MISSIONS" ShapeID:1 x:0 y:0];
+    [itemLevelSelect setTarget:self selector: @selector(levelSelect:)];
+    
+	CCMenu *menu = [CCMenu menuWithItems: itemNewGame, itemLevelSelect, nil];
 	[menu alignItemsVertically];
 	[menu setPosition:ccp( size.width/2, size.height/2)];
 	    
@@ -373,6 +374,34 @@ enum {
                         
 -(void) newGame:(id)sender  {
     [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.0 scene:[GameplayScene node]]];
+}
+
+-(void) levelSelect:(id)sender {
+    int buttonNum = 9;
+    int activeLevels = 4;
+    NSMutableArray *levelButtons = [[NSMutableArray alloc] init];
+    
+    for (int ii = 1; ii<=buttonNum; ii++) {
+        [levelButtons addObject:[uiLayer makeButtonWithText:[NSString stringWithFormat:@"%d",ii] ShapeID:1 x:0 y:0]];
+        CCMenuItemSprite* ccMS = [levelButtons objectAtIndex:(ii-1)];
+        [ccMS setScale:0.8];
+        if (ii > activeLevels) {
+            [ccMS setVisible:NO];
+        }
+        
+    }
+    
+    CCMenu *menu = [CCMenu menuWithArray:levelButtons];
+    [menu setPosition:ccp(size.width/2, size.height/2)];
+    
+    NSNumber* itemsPerRow = [NSNumber numberWithInt:3];
+    [menu alignItemsInColumns:itemsPerRow, itemsPerRow, itemsPerRow, nil];
+	
+    CCSprite* pane = [CCSprite spriteWithFile:@"levelselectpanel-14.png"];
+    pane.position = menu.position;
+    
+    [uiLayer addChild:pane];
+    [uiLayer addChild:menu];
 }
 
 @end
