@@ -17,7 +17,11 @@
 
 -(id) makeInWorld:(b2World*)world atPosition:(CGPoint)point {
     NSLog(@"making debris...");
-    if (self = [super initWithFile:@"building_block.png"]) {
+    float s =  arc4random_uniform(100);
+    if (s < 20) {spriteVersion = 2;}
+    else {spriteVersion = 1;}
+    
+    if (self = [super initWithFile:[NSString stringWithFormat:@"buildingpiece-%d.png", spriteVersion]]) {
         
         [self setScale:0.3];
         [self setPosition:ccp(point.x, point.y)];
@@ -64,6 +68,8 @@
         f.maskBits = 0x0013;
         _fixture->SetFilterData(f);
     }
+[self setTexture:[
+                  [CCSprite spriteWithFile:[NSString stringWithFormat:@"buildingpiece-%d-off.png", spriteVersion]] texture]];
 }
 
 -(b2Shape*) shape {
