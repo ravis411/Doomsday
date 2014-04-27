@@ -9,6 +9,16 @@
 #import "GameplayScene.h"
 
 
+NSString *const LeaderboardPlist = @"leaderboard.plist";
+NSString *const TopScores = @"TopScores";
+
+@interface GameplayScene()
+
+@property (strong, nonatomic) NSString *filepath;
+@property (strong,nonatomic) NSMutableDictionary *plist;
+
+@end
+
 @implementation GameplayScene
 
 -(id) init
@@ -32,8 +42,21 @@
 //        [self addChild:pauseLayer];
         
         [self buildUI];
-        [self setTimer:1600];
+        [self setTimer:100];
         
+//        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+//        NSString *documentsDirectory = [paths objectAtIndex:0];
+//        _filepath = [documentsDirectory stringByAppendingPathComponent:LeaderboardPlist];
+//        _plist = [NSMutableDictionary dictionaryWithContentsOfFile:_filepath];
+        
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        
+        if ([defaults objectForKey:TopScores]){
+            m_topScores = [defaults objectForKey:TopScores];
+        }
+        else{
+            m_topScores = [[NSMutableArray alloc] init];
+        }
     }
     
     winSize = [[CCDirector sharedDirector] winSize];
@@ -190,6 +213,40 @@
 }
 
 -(void) endGame {
+    
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSNumber *ns_KillCount = [NSNumber numberWithInt:_killCount];
+    
+    m_topScores = [defaults objectForKey:TopScores];
+    
+    m_topScores = [NSMutableArray arrayWithArray:m_topScores];
+    
+    if (m_topScores.count < 3) {
+        [m_topScores addObject:ns_KillCount];
+    }
+    else{
+        if ([m_topScores objectAtIndex:2]< ns_KillCount) {
+            [m_topScores removeObjectAtIndex:2];
+            [m_topScores addObject:ns_KillCount];
+        }
+    }
+    
+    
+    NSSortDescriptor *highestToLowest = [NSSortDescriptor sortDescriptorWithKey:@"self" ascending:NO];
+    [m_topScores sortUsingDescriptors:[NSArray arrayWithObject:highestToLowest]];
+    
+    NSMutableArray *mutableTopScoresCopy = [NSMutableArray arrayWithArray:m_topScores];
+    
+    [defaults setObject:mutableTopScoresCopy forKey:TopScores];
+    [defaults synchronize];
+    
+//    for( NSString *score in [defaults objectForKey:TopScores]){
+//        NSLog(@"\n\n\n%@\n\n\n",score);
+//    }
+    
+
+    
     [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.0 scene:
                                                [[GameoverScene alloc] gameOverWithScore:_killCount outOf:_quota]]];
 }
@@ -240,6 +297,20 @@
     }
 
 }
+
+//-(void) save{
+//    NSString *strKillCount = [NSString stringWithFormat:@"%d",_killCount];
+//    
+//    
+//    
+//    m_topScores = [_plist objectForKey:TopScores];
+//    [m_topScores addObject:strKillCount];
+//    
+//    
+//    
+//    [self.plist setObject:m_topScores forKey:TopScores];
+//    [self.plist writeToFile:self.filepath atomically:YES];
+//}
 
 
 

@@ -228,6 +228,7 @@
 		49D7234218F095E20084685A /* MyContactListener.mm in Sources */ = {isa = PBXBuildFile; fileRef = 49D7234118F095E20084685A /* MyContactListener.mm */; };
 		49EC18A418E900CB00186109 /* rifle.png in Resources */ = {isa = PBXBuildFile; fileRef = 49EC18A318E900CB00186109 /* rifle.png */; };
 		49EC18AA18E9400E00186109 /* Hoipolloi.mm in Sources */ = {isa = PBXBuildFile; fileRef = 49EC18A918E9400E00186109 /* Hoipolloi.mm */; };
+		A2AADC63190C6BEB002EBA9F /* leaderboard.plist in Resources */ = {isa = PBXBuildFile; fileRef = A2AADC62190C6BEB002EBA9F /* leaderboard.plist */; };
 		A2ADA11118EA737500B53109 /* rsz_background.png in Resources */ = {isa = PBXBuildFile; fileRef = A2ADA10F18EA737500B53109 /* rsz_background.png */; };
 		A2ADA11218EA737500B53109 /* rsz_ground.png in Resources */ = {isa = PBXBuildFile; fileRef = A2ADA11018EA737500B53109 /* rsz_ground.png */; };
 /* End PBXBuildFile section */
@@ -662,6 +663,7 @@
 		49EC18A318E900CB00186109 /* rifle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = rifle.png; path = Resources/rifle.png; sourceTree = "<group>"; };
 		49EC18A818E9400E00186109 /* Hoipolloi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Hoipolloi.h; sourceTree = "<group>"; };
 		49EC18A918E9400E00186109 /* Hoipolloi.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Hoipolloi.mm; sourceTree = "<group>"; };
+		A2AADC62190C6BEB002EBA9F /* leaderboard.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = leaderboard.plist; sourceTree = "<group>"; };
 		A2ADA10F18EA737500B53109 /* rsz_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = rsz_background.png; path = Resources/rsz_background.png; sourceTree = "<group>"; };
 		A2ADA11018EA737500B53109 /* rsz_ground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = rsz_ground.png; path = Resources/rsz_ground.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -690,6 +692,7 @@
 		497A4FB618E11B8500B19D54 = {
 			isa = PBXGroup;
 			children = (
+				A2AADC62190C6BEB002EBA9F /* leaderboard.plist */,
 				49D0FB73190BBDA600771F5B /* explosion.mp3 */,
 				49D0FB71190BB75C00771F5B /* laser.mp3 */,
 				3D90A91919060591006833A5 /* eyecon_small.png */,
@@ -1422,6 +1425,7 @@
 				3D268F2918F36E7B00E35F33 /* button_carrotl_lit.png in Resources */,
 				3D268F2B18F3704500E35F33 /* killcounter.png in Resources */,
 				3D268F2D18F39ED800E35F33 /* gui_atlas.png in Resources */,
+				A2AADC63190C6BEB002EBA9F /* leaderboard.plist in Resources */,
 				3D268F2F18F39EE300E35F33 /* gui_atlas.plist in Resources */,
 				3D15CB1018F7665900A5510B /* cosmos.png in Resources */,
 				3D3B5F6418FB9FFF00EFBD9E /* laserblast_end.png in Resources */,

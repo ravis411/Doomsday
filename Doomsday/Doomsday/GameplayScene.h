@@ -43,6 +43,7 @@
     CCLabelTTF *_label;
     CGSize winSize;
     UILayer *pauseLayer;
+    NSMutableArray *m_topScores;
 
     
 }
@@ -54,6 +55,7 @@
 -(void) freezeGame;
 -(void) pauseGame;
 -(void) endGame;
+-(void) save;
 //-(void) moveScreenLeft;
 //-(void) moveScreenRight;
 //@property int level;
