@@ -47,16 +47,24 @@
         _fixtureDef.friction = 1.0f;
         _fixtureDef.restitution = 0.00f;
         _fixtureDef.filter.categoryBits = 3;
-        _fixtureDef.filter.maskBits = 2;
+        _fixtureDef.filter.maskBits = 0x0002;
 //        _fixtureDef.filter.groupIndex = 4;
         
-        _body->CreateFixture(&_fixtureDef);
+        _fixture = _body->CreateFixture(&_fixtureDef);
                 
     }
     return self;
     
 }
 
+
+-(void)hitByExplosion{
+    b2Filter f = _fixture->GetFilterData();
+    if(f.maskBits == 0x0002){
+        f.maskBits = 0x0013;
+        _fixture->SetFilterData(f);
+    }
+}
 
 -(b2Shape*) shape {
     return _shape;

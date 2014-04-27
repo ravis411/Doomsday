@@ -22,5 +22,6 @@
 -(b2Shape*) shape;
 -(b2FixtureDef) fixtureDef;
 -(b2Body*) body;
+-(void) hitByExplosion;
 
 @end

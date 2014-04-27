@@ -334,6 +334,25 @@
             }
         }
         
+        //Collision detection for building debris
+        for (NSValue* d in debrisArray) {
+            b2Body *b = (b2Body*)[d pointerValue];
+            for(NSValue* eBody in explosionArray){
+                b2Body *eX = (b2Body*)[eBody pointerValue];
+                
+                if ((contact.fixtureA == eX->GetFixtureList() && contact.fixtureB == b->GetFixtureList()) || (contact.fixtureA == b->GetFixtureList() && contact.fixtureB == eX->GetFixtureList())) {
+                    NSLog(@"Explosion hit building debris.");
+                    
+                    if (eX->GetPosition().x > b->GetPosition().x) {
+                        b->SetAngularVelocity(100);
+                    }
+                    else{
+                        b->SetAngularVelocity(-100);
+                    }
+                    [((Debris *)(b->GetUserData())) hitByExplosion];
+                }
+            }
+        }
         
     }
 
