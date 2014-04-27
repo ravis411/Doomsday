@@ -365,10 +365,10 @@
                     NSLog(@"Explosion hit building debris.");
                     
                     if (eX->GetPosition().x > b->GetPosition().x) {
-                        b->SetAngularVelocity(100);
+                        b->SetAngularVelocity(20);
                     }
                     else{
-                        b->SetAngularVelocity(-100);
+                        b->SetAngularVelocity(-20);
                     }
                     [((Debris *)(b->GetUserData())) hitByExplosion];
                 }

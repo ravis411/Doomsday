@@ -50,7 +50,7 @@
         
         polygon.Set(vertices, num);
         _fixtureDef.shape = &polygon;
-        _fixtureDef.density = 5.5f;
+        _fixtureDef.density = 10.5f;
         _fixtureDef.friction = 1.0f;
         _fixtureDef.restitution = 0.00f;
         _fixtureDef.filter.categoryBits = 3;//0b0000000000000011;
