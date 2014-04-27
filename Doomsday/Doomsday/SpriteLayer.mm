@@ -188,20 +188,19 @@
     for(Hoipolloi* pBody in hoipolloiArray){
         
 //        Hoipolloi hp = [pBody pointerValue];
+        b2Body *pody = (b2Body*)[pBody pointerValue];
         
         float s = 50 + arc4random_uniform(40);
         s += ((1 - (int)(arc4random_uniform(2))) * 120);
         if (!_firstBlood) {
             s = s/3;
-//            int g = hp.gawp;
-//            if (g > 0) {s = 0;}
-//            float doesStop = arc4random_uniform(100);
-//            if (doesStop > 80) {pBody.gawping += 10;}
+            int g = [(id)pody->GetUserData() gawp];
+            if (g > 0) {s = 0;}
+            float doesStop = arc4random_uniform(100);
+            if (doesStop > 98) {[(id)pody->GetUserData() gawpFor:60];}
         }
         left = b2Vec2((-1 * s)/PTM_RATIO,0);
         right = b2Vec2((s)/PTM_RATIO,0);
-        
-        b2Body *pody = (b2Body*)[pBody pointerValue];
         
         
             if([(id)pody->GetUserData() stamina] <= 0){

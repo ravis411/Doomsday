@@ -54,6 +54,10 @@
     return (_gawping > 0);
 }
 
+-(void) gawpFor:(int)ticks{
+    _gawping += ticks;
+}
+
 -(void) update:(ccTime)delta {
     _gawping--;
 }
