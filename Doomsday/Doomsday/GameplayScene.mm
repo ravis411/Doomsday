@@ -122,12 +122,12 @@ bool musicPlaying = false;
     
     
     CCSprite* weaponModePanel = [CCSprite spriteWithFile:@"activeweaponbar.png"];
-    [weaponModePanel setScale:0.5];
-    weaponModePanel.position = ccp(size.width/2, 64);
+    [weaponModePanel setScale:0.4];
+    weaponModePanel.position = ccp(size.width/2 - 120, 24);
     _label.position = ccp(weaponModePanel.contentSize.width/2, weaponModePanel.contentSize.height/2);
 
     [weaponModePanel addChild:_label];
-    [uiLayer addChild:weaponModePanel];
+    [_dash addChild:weaponModePanel];
 
     
     //killcounter
