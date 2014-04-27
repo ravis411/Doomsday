@@ -41,6 +41,10 @@
 		3DDF5819190C644200DD19B5 /* The Ballad of Jack Noir.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 3DDF5818190C644200DD19B5 /* The Ballad of Jack Noir.mp3 */; };
 		3DDF581B190C93C800DD19B5 /* levelselectpanel-14.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DDF581A190C93C800DD19B5 /* levelselectpanel-14.png */; };
 		3DDF581D190CB9BF00DD19B5 /* activeweaponbar.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DDF581C190CB9BF00DD19B5 /* activeweaponbar.png */; };
+		3DDF5822190CC49D00DD19B5 /* buildingpiece2.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DDF581E190CC49D00DD19B5 /* buildingpiece2.png */; };
+		3DDF5823190CC49D00DD19B5 /* buildingpiece-2-off.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DDF581F190CC49D00DD19B5 /* buildingpiece-2-off.png */; };
+		3DDF5824190CC49D00DD19B5 /* buildingpiece-1.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DDF5820190CC49D00DD19B5 /* buildingpiece-1.png */; };
+		3DDF5825190CC49D00DD19B5 /* buildingpiece-1-off.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DDF5821190CC49D00DD19B5 /* buildingpiece-1-off.png */; };
 		3F88DA9E190C99DB000E6271 /* PauseLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F88DA9D190C99DB000E6271 /* PauseLayer.m */; };
 		4900CB9218FB6D6F0079CCF9 /* deadhoipolloi.png in Resources */ = {isa = PBXBuildFile; fileRef = 4900CB9118FB6D6F0079CCF9 /* deadhoipolloi.png */; };
 		4937867918FA6D6600ECA5F8 /* laser.png in Resources */ = {isa = PBXBuildFile; fileRef = 4937867818FA6D6600ECA5F8 /* laser.png */; };
@@ -281,6 +285,10 @@
 		3DDF5818190C644200DD19B5 /* The Ballad of Jack Noir.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "The Ballad of Jack Noir.mp3"; sourceTree = "<group>"; };
 		3DDF581A190C93C800DD19B5 /* levelselectpanel-14.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "levelselectpanel-14.png"; path = "Resources/levelselectpanel-14.png"; sourceTree = "<group>"; };
 		3DDF581C190CB9BF00DD19B5 /* activeweaponbar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = activeweaponbar.png; path = Resources/activeweaponbar.png; sourceTree = "<group>"; };
+		3DDF581E190CC49D00DD19B5 /* buildingpiece2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = buildingpiece2.png; path = Resources/buildingpieces/buildingpiece2.png; sourceTree = "<group>"; };
+		3DDF581F190CC49D00DD19B5 /* buildingpiece-2-off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "buildingpiece-2-off.png"; path = "Resources/buildingpieces/buildingpiece-2-off.png"; sourceTree = "<group>"; };
+		3DDF5820190CC49D00DD19B5 /* buildingpiece-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "buildingpiece-1.png"; path = "Resources/buildingpieces/buildingpiece-1.png"; sourceTree = "<group>"; };
+		3DDF5821190CC49D00DD19B5 /* buildingpiece-1-off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "buildingpiece-1-off.png"; path = "Resources/buildingpieces/buildingpiece-1-off.png"; sourceTree = "<group>"; };
 		3F88DA9C190C99DB000E6271 /* PauseLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PauseLayer.h; sourceTree = "<group>"; };
 		3F88DA9D190C99DB000E6271 /* PauseLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PauseLayer.m; sourceTree = "<group>"; };
 		4900CB9118FB6D6F0079CCF9 /* deadhoipolloi.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = deadhoipolloi.png; sourceTree = "<group>"; };
@@ -781,6 +789,10 @@
 		497A4FD718E11B8500B19D54 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				3DDF581E190CC49D00DD19B5 /* buildingpiece2.png */,
+				3DDF581F190CC49D00DD19B5 /* buildingpiece-2-off.png */,
+				3DDF5820190CC49D00DD19B5 /* buildingpiece-1.png */,
+				3DDF5821190CC49D00DD19B5 /* buildingpiece-1-off.png */,
 				3DDF581C190CB9BF00DD19B5 /* activeweaponbar.png */,
 				3DDF581A190C93C800DD19B5 /* levelselectpanel-14.png */,
 				3D90A91E19074CA2006833A5 /* blank.png */,
@@ -1454,6 +1466,10 @@
 				3DDF5819190C644200DD19B5 /* The Ballad of Jack Noir.mp3 in Resources */,
 				3DDF581B190C93C800DD19B5 /* levelselectpanel-14.png in Resources */,
 				3DDF581D190CB9BF00DD19B5 /* activeweaponbar.png in Resources */,
+				3DDF5822190CC49D00DD19B5 /* buildingpiece2.png in Resources */,
+				3DDF5823190CC49D00DD19B5 /* buildingpiece-2-off.png in Resources */,
+				3DDF5824190CC49D00DD19B5 /* buildingpiece-1.png in Resources */,
+				3DDF5825190CC49D00DD19B5 /* buildingpiece-1-off.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
