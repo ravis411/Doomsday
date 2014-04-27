@@ -50,7 +50,7 @@ bool musicPlaying = false;
 //        [self addChild:pauseLayer];
         
         [self buildUI];
-        [self setTimer:100];
+        [self setTimer:200];
         
 //        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
 //        NSString *documentsDirectory = [paths objectAtIndex:0];
@@ -234,9 +234,13 @@ bool musicPlaying = false;
         [m_topScores addObject:ns_KillCount];
     }
     else{
-        if ([m_topScores objectAtIndex:2]< ns_KillCount) {
+        
+        
+        if ([[m_topScores objectAtIndex:2] doubleValue] < [ns_KillCount doubleValue]) {
+            NSLog(@"\n\n\nObject at index 2: %@ \n Current Kill Count: %@", [m_topScores objectAtIndex:2], ns_KillCount);
             [m_topScores removeObjectAtIndex:2];
             [m_topScores addObject:ns_KillCount];
+            
         }
     }
     
@@ -246,6 +250,9 @@ bool musicPlaying = false;
     
     NSMutableArray *mutableTopScoresCopy = [NSMutableArray arrayWithArray:m_topScores];
     
+    for(NSNumber *score in mutableTopScoresCopy){
+        NSLog(@"Before userdefaults: \n\n%@\n\n",score);
+    }
     [defaults setObject:mutableTopScoresCopy forKey:TopScores];
     [defaults synchronize];
     

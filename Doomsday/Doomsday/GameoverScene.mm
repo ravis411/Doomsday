@@ -46,6 +46,10 @@ NSString *const TopScores = @"TopScores";
         
         NSMutableArray *topScores = [defaults objectForKey:TopScores];
 
+        for(NSNumber *score in topScores){
+            NSLog(@"AFTER userdefaults: \n\n%@\n\n",score);
+        }
+        
         CCLabelTTF *topScoresLabel = [CCLabelTTF
                                  labelWithString:@"Top Scores:"
                                  fontName:@"Futura-Medium"
