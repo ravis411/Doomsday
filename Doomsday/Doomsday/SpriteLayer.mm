@@ -314,7 +314,27 @@
                     NSLog(@"\nEnemies Killed: %d\n\n", _enemiesKilled);
                     
                 }
+            }//Collision detection for building debris should kill humans if it lands on them?
+            for (NSValue* ds in debrisArray) {
+                b2Body *dbody = (b2Body*)[ds pointerValue];
+                if((contact.fixtureA == dbody->GetFixtureList() && contact.fixtureB == pody->GetFixtureList()) || (contact.fixtureA == pody->GetFixtureList() && contact.fixtureB == dbody->GetFixtureList())) {
+                    if ( (dbody->GetLinearVelocity()).y <= -0.01 && (dbody->GetPosition().y - 30/PTM_RATIO )> pody->GetPosition().y ) {
+                         NSLog(@"\nDebris landed on a person?...\n");
+                        _enemiesKilled++;
+                        CCSprite* dead = [CCSprite spriteWithFile:@"deadhoipolloi.png"];
+                        dead.position = CGPointMake(size.width/2, size.height/2);
+                        [dead setScale:0.3];
+                        [self addChild:dead];
+                        [self removeChild:(CCSprite*)pody->GetUserData()];
+                        pody->SetUserData(dead);
+                        [deletedPeople addObject:pBody];
+                        NSLog(@"\nEnemies Killed: %d\n\n", _enemiesKilled);
+
+                    }
+                   
+                }
             }
+            
         }
         //Collision detection for bomb
         for(NSValue* bBody in bombArray){
