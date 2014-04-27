@@ -24,6 +24,7 @@
     bool _firstBlood;
     int _quota;
     int _killCount;
+    int missionLevel;
     Boolean _timerOn;
     Boolean _paused;
     enum playerWeapon weaponMode;
@@ -31,6 +32,7 @@
     UILayer *uiLayer;
     BackgroundLayer *bgLayer;
     CCParallaxNode *background;
+    
 //    Ship *_ship;
 //    int m_Level;
 //    int m_Lives;
@@ -48,8 +50,9 @@
     PauseLayer *pauseLayer;
     NSMutableArray *m_topScores;
 }
++(id)nodeWithGameLevel:(int)level;
 
--(void) buildUI;
+
 -(void) laserButtonTapped:(id)sender;
 -(void) gadgetButtonRTapped:(id)sender;
 -(void) gadgetButtonLTapped:(id)sender;
@@ -58,6 +61,7 @@
 -(void) resumeGame;
 -(void) endGame;
 -(void) save;
+-(void) buildUI;
 //-(void) moveScreenLeft;
 //-(void) moveScreenRight;
 //@property int level;

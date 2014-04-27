@@ -17,7 +17,10 @@
     b2Body *_body;
     b2BodyDef _bodyDef;
     int spriteVersion;
+    BOOL _removeMe;
 }
+
+@property BOOL shouldRemoveMe;
 
 -(id) makeInWorld:(b2World*)world atPosition:(CGPoint)point;
 -(b2Shape*) shape;

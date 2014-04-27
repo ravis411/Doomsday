@@ -205,14 +205,18 @@ enum {
     
      
     CCMenuItemSprite* itemNewGame = [uiLayer makeButtonWithText:@"KILL THEM ALL" ShapeID:1 x:500 y:500];
+    itemNewGame.tag = 1;
     [itemNewGame setTarget:self selector:@selector(newGame:)];
     
     CCMenuItemSprite* itemLevelSelect = [uiLayer makeButtonWithText:@"MISSIONS" ShapeID:1 x:0 y:0];
     [itemLevelSelect setTarget:self selector: @selector(levelSelect:)];
     
-	CCMenu *menu = [CCMenu menuWithItems: itemNewGame, itemLevelSelect, nil];
+    CCMenuItemSprite* itemSettings = [uiLayer makeButtonWithText:@"SETTINGS" ShapeID:1 x:0 y:0];
+    [itemSettings setTarget:self selector: @selector(settings)];
+    
+	CCMenu *menu = [CCMenu menuWithItems: itemNewGame, itemLevelSelect,itemSettings, nil];
 	[menu alignItemsVertically];
-	[menu setPosition:ccp( size.width/2, size.height/2)];
+	[menu setPosition:ccp( size.width/2, size.height/2-30)];
 	    
     //background elements
     
@@ -391,13 +395,47 @@ enum {
 	[[app navController] dismissModalViewControllerAnimated:YES];
 }
 
--(void) buildUI {
-   
 
-}
                         
 -(void) newGame:(id)sender  {
-    [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.0 scene:[GameplayScene node]]];
+    [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.2 scene:[GameplayScene nodeWithGameLevel:[sender tag]]]];
+}
+-(void)settings{
+    NSLog(@"choses settings");
+    
+    NSMutableArray *settingButtons = [[NSMutableArray alloc] init];
+    
+  
+        [settingButtons addObject:[uiLayer makeButtonWithText:[NSString stringWithFormat:@"Sound: ON"] ShapeID:1 x:0 y:0]];
+        [settingButtons addObject:[uiLayer makeButtonWithText:[NSString stringWithFormat:@"Music: ON"] ShapeID:1 x:0 y:0]];
+    for(int i=0;i<[settingButtons count];i++){
+        CCMenuItemSprite* ccMS = [settingButtons objectAtIndex:(i)];
+        [ccMS setScale:0.8];
+    }
+    
+        
+  
+    
+    CCLabelTTF *settingsTitle = [[CCLabelTTF labelWithString:@"Settings" fontName:@"Arial" fontSize:30.0] retain];
+    settingsTitle.position = ccp(size.width/2-20,size.height-70);
+    
+    CCMenu *settingsMenu = [CCMenu menuWithArray:settingButtons];
+    settingsMenu.position = ccp(size.width/2-20, size.height/2-20);
+    
+    [settingsMenu alignItemsVertically];
+	
+    settingPane = [CCSprite spriteWithFile:@"levelselectpanel-14.png"];
+    settingPane.position = ccp(size.width/2, size.height/2);
+    
+    CCMenuItemSprite* closeButton = [uiLayer makeButtonWithText:@"x" ShapeID:3 x:40 y:size.height - 70];
+    CCMenu* closeMenu = [CCMenu menuWithItems:closeButton, nil];
+    closeMenu.position = ccp(0, 0);
+    [closeButton setTarget:self selector:@selector(removeSettingPane)];
+    
+    [settingPane addChild:settingsMenu];
+    [settingPane addChild:closeMenu];
+    [settingPane addChild:settingsTitle];
+    [uiLayer addChild:settingPane ];
 }
 
 -(void) levelSelect:(id)sender {
@@ -409,37 +447,46 @@ enum {
     for (int ii = 1; ii<=buttonNum; ii++) {
         [levelButtons addObject:[uiLayer makeButtonWithText:[NSString stringWithFormat:@"%d",ii] ShapeID:1 x:0 y:0]];
         CCMenuItemSprite* ccMS = [levelButtons objectAtIndex:(ii-1)];
+        //decides level
+        ccMS.tag = ii;
         [ccMS setTarget:self selector:@selector(newGame:)];
         [ccMS setScale:0.8];
-        if (ii > activeLevels) {
-            [ccMS setVisible:NO];
-        }
+//        if (ii > activeLevels) {
+//            [ccMS setVisible:NO];
+//        }
         
     }
     
-        
+    CCLabelTTF *missionTitle = [[CCLabelTTF labelWithString:@"Choose Your Mission" fontName:@"Arial" fontSize:30.0] retain];
+    missionTitle.position = ccp(size.width/2-20,size.height-70);
+    
     CCMenu *mishMenu = [CCMenu menuWithArray:levelButtons];
-    mishMenu.position = ccp(size.width/2, size.height/2);
+    mishMenu.position = ccp(size.width/2-20, size.height/2-20);
     
     NSNumber* itemsPerRow = [NSNumber numberWithInt:3];
     [mishMenu alignItemsInColumns:itemsPerRow, itemsPerRow, itemsPerRow, nil];
 	
     mishPane = [CCSprite spriteWithFile:@"levelselectpanel-14.png"];
-    mishPane.position = mishMenu.position;
+    mishPane.position = ccp(size.width/2, size.height/2);
     
-    CCMenuItemSprite* closeButton = [uiLayer makeButtonWithText:@"x" ShapeID:3 x:50 y:size.height - 80];
+    CCMenuItemSprite* closeButton = [uiLayer makeButtonWithText:@"x" ShapeID:3 x:40 y:size.height - 70];
     CCMenu* closeMenu = [CCMenu menuWithItems:closeButton, nil];
     closeMenu.position = ccp(0, 0);
     [closeButton setTarget:self selector:@selector(removeMissionPane)];
     
     [mishPane addChild:mishMenu];
     [mishPane addChild:closeMenu];
+    [mishPane addChild:missionTitle];
     [uiLayer addChild:mishPane ];
     
 }
 
 -(void) removeMissionPane {
     [uiLayer removeChild:mishPane];
+}
+
+-(void) removeSettingPane {
+    [uiLayer removeChild:settingPane];
 }
 
 @end

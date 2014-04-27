@@ -32,6 +32,7 @@
     NSMutableArray *hoipolloiArray;
     NSMutableArray *buildingsArray;
     NSMutableArray *debrisArray;
+    NSMutableArray *deletedDebris;
     NSMutableArray *deletedBombs;
     NSMutableArray *deletedLaser;
     NSMutableArray *deletedPeople;
@@ -44,6 +45,7 @@
     BOOL _gameOver;
     enum playerWeapon _weaponMode;
     ALuint soundEffectID;
+    int missionLevel;
 
 }
 @property BOOL gameOver;
@@ -53,7 +55,7 @@
 @property enum playerWeapon weaponMode;
 
 //@property Hoipolloi* hoipolloiSprite;
-
++(id)nodeWithGameLevel:(int)level;
 -(void) moveScreenLeft;
 -(void) moveScreenRight;
 -(void) kick;
