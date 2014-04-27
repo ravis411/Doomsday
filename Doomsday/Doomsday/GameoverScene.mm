@@ -96,11 +96,20 @@ NSString *const TopScores = @"TopScores";
         CCMenuItemSprite* restartButton = [uiLayer makeButtonWithText:@"TRY AGAIN" ShapeID:1 x:0 y:0];
         [restartButton setTarget:self selector:@selector(retry)];
         
+        
         CCMenuItemSprite* returnButton = [uiLayer makeButtonWithText:@"MAIN MENU" ShapeID:1 x:0 y:0];
         [returnButton setTarget:self selector:@selector(returnToMain)];
+        CCMenu *menu;
+        if(killcount>=quota){
+            CCMenuItemSprite* continueButton = [uiLayer makeButtonWithText:@"CONTINUE" ShapeID:1 x:0 y:0];
+            [continueButton setTarget:self selector:@selector(continueMission)];
+             menu = [CCMenu menuWithItems: restartButton,continueButton, returnButton, nil];
+        }
+        else{
+             menu = [CCMenu menuWithItems: restartButton, returnButton, nil];
+        }
         
         
-        CCMenu *menu = [CCMenu menuWithItems: restartButton, returnButton, nil];
         
         [uiLayer addChild: menu];
 	    
@@ -119,9 +128,14 @@ NSString *const TopScores = @"TopScores";
     
     return self;
 }
+-(void)continueMission{
+    NSLog(@"Continue Game");
+    level++;
+    [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.0 scene:[GameplayScene nodeWithGameLevel:level]]];
+}
 
 -(void) retry {
-    NSLog(@"New Game");
+    NSLog(@"Restart Game");
     [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.0 scene:[GameplayScene nodeWithGameLevel:level]]];
 }
 -(void) returnToMain{

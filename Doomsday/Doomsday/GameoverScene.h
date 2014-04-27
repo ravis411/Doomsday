@@ -23,6 +23,7 @@
 
 
 -(id) gameOverWithScore:(int)killcount outOf:(int)quota currentLevel:(int)currentLevel;
+-(void) continueMission;
 -(void) retry;
 -(void) returnToMain;
 

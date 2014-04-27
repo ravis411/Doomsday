@@ -138,7 +138,7 @@ bool musicPlaying = false;
     
     //pause the game
     CCMenuItem *pause = [CCMenuItemFont itemWithString:@"||" target:self selector:@selector(pauseTapped:)];
-    pause.position = ccp(size.width - 20, 20);
+    pause.position = ccp(20, size.height- 20);
 
     
     CCMenuItem *laserButton = [CCMenuItemImage
@@ -246,7 +246,6 @@ bool musicPlaying = false;
     
         if(_killCount>10*missionLevel){
             NSLog(@"YOU WIN");
-            missionLevel++;
         }
         else{
             NSLog(@"YOU LOSE........");

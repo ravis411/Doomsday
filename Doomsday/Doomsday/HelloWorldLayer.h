@@ -34,6 +34,7 @@
     CGSize size;
     CCScene *menuScene;
     CCSprite* mishPane;
+    CCSprite* settingPane;
 }
 
 @property UILayer* uiL;
