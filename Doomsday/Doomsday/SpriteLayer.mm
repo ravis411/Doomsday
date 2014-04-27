@@ -318,7 +318,7 @@
             for (NSValue* ds in debrisArray) {
                 b2Body *dbody = (b2Body*)[ds pointerValue];
                 if((contact.fixtureA == dbody->GetFixtureList() && contact.fixtureB == pody->GetFixtureList()) || (contact.fixtureA == pody->GetFixtureList() && contact.fixtureB == dbody->GetFixtureList())) {
-                    if ( (dbody->GetLinearVelocity()).y <= -0.01 && (dbody->GetPosition().y - 30/PTM_RATIO )> pody->GetPosition().y ) {
+                    if ( (dbody->GetPosition().y - (30/PTM_RATIO) ) > pody->GetPosition().y ) {
                          NSLog(@"\nDebris landed on a person?...\n");
                         _enemiesKilled++;
                         CCSprite* dead = [CCSprite spriteWithFile:@"deadhoipolloi.png"];
