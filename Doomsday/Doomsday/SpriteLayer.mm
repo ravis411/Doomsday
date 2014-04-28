@@ -136,7 +136,7 @@
         b2FixtureDef shipShapeDef;
         shipShapeDef.shape = &circle;
 //        shipShapeDef.density = 1.0f;
-        shipShapeDef.density = 10.0f;
+        shipShapeDef.density = 200.0f;
         shipShapeDef.friction = 0.2f;
         shipShapeDef.restitution = 0.1f;
         shipShapeDef.filter.categoryBits = 0x001;//This makes the ship not collide with anything!
@@ -975,11 +975,11 @@
 //        _shipBody->SetLinearDamping(2);
 //    }
     if(pos.y > center.y){
-        _shipBody->ApplyForce(b2Vec2(0, -10*(pos.y-center.y)), center);
+        _shipBody->ApplyForce(b2Vec2(0, -1000*(pos.y-center.y)), center);
 //        _shipBody->SetLinearDamping(2);
     }
     if(pos.y < center.y){
-        _shipBody->ApplyForce(b2Vec2(0, 10*(center.y-pos.y)), center);
+        _shipBody->ApplyForce(b2Vec2(0, 1000*(center.y-pos.y)), center);
 //        _shipBody->SetLinearDamping(2);
     }
     
