@@ -190,8 +190,14 @@
   
     
     if( (NSInteger)(dt*769) % 2 == 0){
-        if((int)[hoipolloiArray count]<50)
-            [self spawnPerson];
+        if((int)[hoipolloiArray count]<50){
+            if (missionLevel > 4) {
+                [self spawnPerson];
+                [self spawnRandomPerson];
+            } else {
+                [self spawnRandomPerson];
+            }
+        }
     }
 
     if(_enemiesKilled >10*missionLevel){
