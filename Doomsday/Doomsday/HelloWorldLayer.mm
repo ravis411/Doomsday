@@ -534,7 +534,8 @@ enum {
 }
 
 -(void) showInstructions {
-    [self addChild:[InstructionsLayer node] z:50];//Or maybe just make it visible instead of adding it?
+    InstructionsLayer * instructions = [InstructionsLayer node];
+    [uiLayer addChild:instructions];
 }
 
 -(void) removeMissionPane {
