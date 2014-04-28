@@ -56,7 +56,7 @@
 }
 
 -(void)endGame{
-    [_gameplayScene endGame];
+    [_gameplayScene endGameFromPause];
 }
 
 -(void)resumeGame{

@@ -267,6 +267,11 @@ bool musicPlaying = false;
     [pauseLayer setVisible:NO];
 }
 
+-(void)endGameFromPause{
+    _levelOverBecausePlayerDied = YES;
+    [self endGame:missionLevel timer:NO];
+}
+
 -(void) endGame: (int)level timer:(BOOL)done{
     if (_levelOverBecausePlayerDied == YES || done == YES) {
         

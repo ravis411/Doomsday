@@ -65,6 +65,7 @@
 -(void) pauseGame;
 -(void) resumeGame;
 -(void) endGame;
+-(void) endGameFromPause;
 -(void) save;
 -(void) buildUI;
 +(void) turnOffMusic;
