@@ -282,6 +282,7 @@ bool musicPlaying = false;
         else{
             NSLog(@"YOU LOSE........");
         }
+    }
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSNumber *ns_KillCount = [NSNumber numberWithInt:_killCount];
@@ -325,8 +326,7 @@ bool musicPlaying = false;
     
     
     [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:1.0 scene:
-                                               [[GameoverScene alloc] gameOverWithScore:_killCount outOf:_quota currentLevel:missionLevel sound:soundOn music:musicOn]]];
-    }
+                                               [[[GameoverScene alloc] gameOverWithScore:_killCount outOf:_quota currentLevel:missionLevel sound:soundOn music:musicOn]autorelease]]];
 }
 
 -(void)update:(ccTime)dt{
