@@ -430,7 +430,7 @@
             b2Body *pody = (b2Body*)[pBody pointerValue];
             if ((contact.fixtureA == _shipBody->GetFixtureList() && contact.fixtureB == pody->GetFixtureList()) || (contact.fixtureA == pody->GetFixtureList() && contact.fixtureB == _shipBody->GetFixtureList())) {
                 NSLog(@"\nEnemy Bullet hit the ship\n");
-                playerHealth = playerHealth - 20;
+                playerHealth = playerHealth - 25;
                 [deletedEnemyWeapon addObject:pBody];
             }
         }
