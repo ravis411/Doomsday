@@ -51,6 +51,8 @@
     ALuint soundEffectID;
     int missionLevel;
     BOOL enemyWeaponCooldownMode;
+    int playerHealth;
+    BOOL _playerDead;
     
 
 }
@@ -59,6 +61,7 @@
 @property BOOL movingRight;
 @property int enemiesKilled;
 @property enum playerWeapon weaponMode;
+@property BOOL playerDead;
 
 //@property Hoipolloi* hoipolloiSprite;
 +(id)nodeWithGameLevel:(int)level;

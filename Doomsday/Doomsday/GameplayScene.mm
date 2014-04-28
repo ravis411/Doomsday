@@ -358,6 +358,10 @@ bool musicPlaying = false;
 //            [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.0 scene: [HelloWorldLayer node]]];
         }
     }
+    
+    if ([spriteLayer playerDead] == YES) {
+        [self endGame];
+    }
 
 }
 

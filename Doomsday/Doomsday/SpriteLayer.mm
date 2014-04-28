@@ -22,6 +22,7 @@
 @synthesize enemiesKilled = _enemiesKilled;
 @synthesize weaponMode = _weaponMode;
 @synthesize gameOver = _gameOver;
+@synthesize playerDead = _playerDead;
 
 +(id)nodeWithGameLevel:(int)level{
 //    return  [[[self alloc] initWithGameLevel:level] autorelease];
@@ -55,6 +56,10 @@
         [[SimpleAudioEngine sharedEngine] preloadEffect:@"laser.mp3"];
         [[SimpleAudioEngine sharedEngine] preloadEffect:@"explosion.mp3"];
         enemyWeaponCooldownMode = NO;
+        _playerDead = NO;
+        
+        //Initialize Player Health to 100
+        playerHealth = 100;
         
         _enemiesKilled = 0;
 
@@ -179,6 +184,10 @@
 
     if(_enemiesKilled >10*missionLevel){
         _gameOver = YES;
+    }
+    
+    if(playerHealth <= 0){
+        _playerDead = YES;
     }
     
     //Makes sure ship stays in place in the center
@@ -409,7 +418,7 @@
             b2Body *pody = (b2Body*)[pBody pointerValue];
             if ((contact.fixtureA == _shipBody->GetFixtureList() && contact.fixtureB == pody->GetFixtureList()) || (contact.fixtureA == pody->GetFixtureList() && contact.fixtureB == _shipBody->GetFixtureList())) {
                 NSLog(@"\nEnemy Bullet hit the ship\n");
-                
+                playerHealth = playerHealth - 20;
                 [deletedEnemyWeapon addObject:pBody];
             }
         }
