@@ -1029,7 +1029,7 @@
 
     
     //b2Vec2 force = b2Vec2(xPoint, yPoint);
-    b2Vec2 force = b2Vec2(_shipBody->GetPosition().x*PTM_RATIO, _shipBody->GetPosition().y*PTM_RATIO);
+    b2Vec2 force = b2Vec2((_shipBody->GetPosition().x*PTM_RATIO)-(xPoint/4)/PTM_RATIO, _shipBody->GetPosition().y*PTM_RATIO);
     //force *= 5.5;  // Use this if your game engine uses an explicit time step
     b2Vec2 p = _bulletBody->GetWorldPoint(b2Vec2(0.0f, 0.0f));
     _bulletBody->ApplyForce(force, p);
