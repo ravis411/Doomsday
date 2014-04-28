@@ -395,7 +395,30 @@ enum {
 	[[app navController] dismissModalViewControllerAnimated:YES];
 }
 
+-(void)toggleSound:(id)sender {
+    if([sender tag]==1){//YES
+        [sender setTag:2];
+        NSLog(@"Sound: OFF");
+//        [sender setString:@"Sound: OFF"];
+        
+    }else{//NO
+        [sender setTag:1];
+                NSLog(@"Sound: ON");
+//        [sender setString:@"Sound: ON"];
+    }
+}
 
+-(void)toggleMusic:(id)sender {
+    if([sender tag]==1){//YES
+        [sender setTag:2];
+                NSLog(@"Music: OFF");
+//        [sender setString:@"Music: OFF"];
+    }else{//NO
+        [sender setTag:1];
+                        NSLog(@"Music: ON");
+//        [sender setString:@"Music: ON"];
+    }
+}
                         
 -(void) newGame:(id)sender  {
     [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.2 scene:[GameplayScene nodeWithGameLevel:[sender tag]]]];
@@ -406,15 +429,17 @@ enum {
     NSMutableArray *settingButtons = [[NSMutableArray alloc] init];
     
   
-        [settingButtons addObject:[uiLayer makeButtonWithText:[NSString stringWithFormat:@"Sound: ON"] ShapeID:1 x:0 y:0]];
-        [settingButtons addObject:[uiLayer makeButtonWithText:[NSString stringWithFormat:@"Music: ON"] ShapeID:1 x:0 y:0]];
-    for(int i=0;i<[settingButtons count];i++){
-        CCMenuItemSprite* ccMS = [settingButtons objectAtIndex:(i)];
-        [ccMS setScale:0.8];
-    }
-    
-        
-  
+    CCMenuItemSprite* ccSound =[uiLayer makeButtonWithText:[NSString stringWithFormat:@"Sound: ON"] ShapeID:1 x:0 y:0];
+    ccSound.tag = 1;
+    [ccSound setTarget:self selector:@selector(toggleSound:)];
+    [ccSound setScale:0.8];
+    CCMenuItemSprite* ccMusic =[uiLayer makeButtonWithText:[NSString stringWithFormat:@"Music: ON"] ShapeID:1 x:0 y:0];
+    ccMusic.tag = 1;
+    [ccMusic setTarget:self selector:@selector(toggleMusic:)];
+    [ccMusic setScale:0.8];
+ 
+    [settingButtons addObject:ccSound];
+    [settingButtons addObject:ccMusic];
     
     CCLabelTTF *settingsTitle = [[CCLabelTTF labelWithString:@"Settings" fontName:@"Arial" fontSize:30.0] retain];
     settingsTitle.position = ccp(size.width/2-20,size.height-70);
