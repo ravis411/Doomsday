@@ -664,17 +664,7 @@
 
 
 //returns the array of Hoipolloi
--(NSMutableArray*)getHoipolloiArray{
-    NSMutableArray *arry = [[NSMutableArray alloc]init];
-    
-    for(NSValue* pBody in hoipolloiArray){
-        
-        b2Body *pody = (b2Body*)[pBody pointerValue];
-        
-        [arry addObject:(CCSprite*)pody->GetUserData()];
-    }
-    return arry;
-}
+
 
 
 -(void)spawnRandomPerson{
@@ -1035,7 +1025,7 @@
 
 -(void) spawnDebrisAtPosition:(CGPoint)cgp {
     NSLog(@"Spawning debris");
-    Debris* d = [[Debris alloc] makeInWorld:_world atPosition:cgp];
+    Debris* d = [[[Debris alloc] makeInWorld:_world atPosition:cgp]autorelease] ;
     
     [debrisArray addObject:[NSValue valueWithPointer:[d body]]];
     [self addChild:d];
@@ -1147,6 +1137,10 @@
     [deletedBombs release];
     [deletedLaser release];
     [deletedPeople release];
+    [enemyGunBodyArray release];
+    [enemyWeaponArray release];
+    [deletedEnemyWeapon release];
+    
     delete _world;
     _shipBody = NULL;
     _world = NULL;

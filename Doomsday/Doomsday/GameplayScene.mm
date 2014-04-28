@@ -322,7 +322,7 @@ bool musicPlaying = false;
 //        NSLog(@"\n\n\n%@\n\n\n",score);
 //    }
     
-
+    
     
     [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:1.0 scene:
                                                [[GameoverScene alloc] gameOverWithScore:_killCount outOf:_quota currentLevel:missionLevel sound:soundOn music:musicOn]]];
