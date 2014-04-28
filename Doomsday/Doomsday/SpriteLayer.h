@@ -15,6 +15,7 @@
 #import "PlayerWeapon.h"
 #import "SimpleAudioEngine.h"
 #import "Debris.h"
+#import "EnemyGunBody.h"
 
 @interface SpriteLayer : CCLayer{
     b2World* _world;
@@ -28,13 +29,16 @@
     BOOL intentToMoveLeft;
     NSMutableArray *bombArray;
     NSMutableArray *laserArray;
+    NSMutableArray *enemyWeaponArray;
     NSMutableArray *explosionArray;
     NSMutableArray *hoipolloiArray;
     NSMutableArray *buildingsArray;
     NSMutableArray *debrisArray;
     NSMutableArray *deletedBombs;
     NSMutableArray *deletedLaser;
+    NSMutableArray *deletedEnemyWeapon;
     NSMutableArray *deletedPeople;
+    NSMutableArray *enemyGunBodyArray;
     MyContactListener *_contactListener;
     BOOL shipLaserCooldownMode;
     BOOL shipBombCooldownMode;
@@ -43,6 +47,7 @@
     BOOL _gameOver;
     enum playerWeapon _weaponMode;
     ALuint soundEffectID;
+    BOOL enemyWeaponCooldownMode;
 
 }
 @property BOOL gameOver;
