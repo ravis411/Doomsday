@@ -135,10 +135,12 @@
         
         b2FixtureDef shipShapeDef;
         shipShapeDef.shape = &circle;
-        shipShapeDef.density = 1.0f;
+//        shipShapeDef.density = 1.0f;
+        shipShapeDef.density = 10.0f;
         shipShapeDef.friction = 0.2f;
-        shipShapeDef.restitution = 0.6f;
-        //shipShapeDef.filter.categoryBits = 0;//This makes the ship not collide with anything!
+        shipShapeDef.restitution = 0.1f;
+        shipShapeDef.filter.categoryBits = 0x001;//This makes the ship not collide with anything!
+        //shipShapeDef.filter.maskBits = 0x002;
         _shipBody->CreateFixture(&shipShapeDef);
     
         _shipBody->SetGravityScale(0);
