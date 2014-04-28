@@ -145,11 +145,12 @@
         shipShapeDef.density = 200.0f;
         shipShapeDef.friction = 0.2f;
         shipShapeDef.restitution = 0.1f;
-        shipShapeDef.filter.categoryBits = 0x001;//This makes the ship not collide with anything!
-        //shipShapeDef.filter.maskBits = 0x002;
+        shipShapeDef.filter.categoryBits = 4;//This makes the ship not collide with anything!
+        shipShapeDef.filter.maskBits = 8;
         _shipBody->CreateFixture(&shipShapeDef);
     
         _shipBody->SetGravityScale(0);
+        _shipBody->SetLinearVelocity(b2Vec2(0.0f,0.5f));
         
 
         
@@ -161,9 +162,10 @@
         for(NSInteger i = 1; i < 30; i++ ){
             [self spawnRandomPerson];
         }
-        
+        if(missionLevel>7){
         for(NSInteger i = 1; i < 3; i++ ){
             [self spawnRandomEnemyWeaponBody];
+        }
         }
         
         _contactListener = new MyContactListener();
@@ -174,8 +176,10 @@
         
         //testing
 //        [self spawnDebrisAtPosition:ccp(size.width/2, size.height/2)];
+        if(missionLevel>4){
         CGPoint center = ccp(size.width/2, size.height/2);
         [self spawnDebrisRectAt:center.x width:2 height:3];
+        }
         
     }
     return self;
@@ -341,15 +345,15 @@
 	// This is only for debug purposes
 	// It is recommend to disable it
 	//
-	[super draw];
-	
-	ccGLEnableVertexAttribs( kCCVertexAttribFlag_Position );
-	
-	kmGLPushMatrix();
-	
-	_world->DrawDebugData();
-	
-	kmGLPopMatrix();
+//	[super draw];
+//	
+//	ccGLEnableVertexAttribs( kCCVertexAttribFlag_Position );
+//	
+//	kmGLPushMatrix();
+//	
+//	_world->DrawDebugData();
+//	
+//	kmGLPopMatrix();
 }
 
 -(void)collisionDetection{
@@ -614,8 +618,8 @@
 
 -(void)explodeAndRemoveBomb:(b2Body*)b{
     NSLog(@"explode!");
+    [self createHugeExplosion:CGPointMake(b->GetPosition().x*PTM_RATIO, (b->GetPosition().y*PTM_RATIO)-10)];
     
-    [self createSingleExplosion:CGPointMake(b->GetPosition().x*PTM_RATIO, (b->GetPosition().y*PTM_RATIO)-10)];
         NSLog(@"Destroy b");
     if(b!=NULL){
     _world->DestroyBody(b);
@@ -625,7 +629,7 @@
 -(void)explodeAndRemoveLaser:(b2Body*)b{
     NSLog(@"explode!");
     
-    [self createHugeExplosion:CGPointMake(b->GetPosition().x*PTM_RATIO, (b->GetPosition().y*PTM_RATIO)-10)];
+    [self createSingleExplosion:CGPointMake(b->GetPosition().x*PTM_RATIO, (b->GetPosition().y*PTM_RATIO)-10)];
     NSLog(@"Destroy b");
     if(b!=NULL){
     _world->DestroyBody(b);
@@ -716,7 +720,8 @@
     tankBodyDef.type = b2_dynamicBody;
     tankBodyDef.position.Set((x)/PTM_RATIO, (size.height/4)/PTM_RATIO);
     tankBodyDef.userData = _tankSprite;
-    tankBodyDef.fixedRotation = false;
+    tankBodyDef.fixedRotation = true;
+    
     _tankBody = _world->CreateBody(&tankBodyDef);
     
     
@@ -735,7 +740,7 @@
     tankShapeDef.shape = &polygon;
     tankShapeDef.density = 2.0f;
     tankShapeDef.friction = 0.01f;
-    tankShapeDef.restitution = 0.2f;
+    tankShapeDef.restitution = 0.7f;
     tankShapeDef.filter.categoryBits = 1;
     tankShapeDef.filter.maskBits = 2;
     _tankBody->CreateFixture(&tankShapeDef);
@@ -845,7 +850,7 @@
 //    _laserBody->SetFixedRotation(YES);
     [laserArray addObject:[NSValue valueWithPointer:_laserBody]];
     shipLaserCooldownMode = YES;
-    [self performSelector:@selector(laserWeaponReadyToFire) withObject:self afterDelay:1.0];
+    [self performSelector:@selector(laserWeaponReadyToFire) withObject:self afterDelay:0.5];
     if(soundOn){
     [[SimpleAudioEngine sharedEngine] playEffect:@"laser.mp3"];
     }
@@ -961,12 +966,14 @@
     bombShapeDef.density = 2.5f;
     bombShapeDef.friction = 0.8f;
     bombShapeDef.restitution = 0.2f;
+    bombShapeDef.restitution = 0.2f;
+    bombShapeDef.filter.categoryBits = 2;
     _bombBody->CreateFixture(&bombShapeDef);
     [bombArray addObject:[NSValue valueWithPointer:_bombBody]];
+    shipBombCooldownMode = YES;
+//    _bombBody->SetLinearVelocity(b2Vec2((0)/PTM_RATIO,100));
     
-    _bombBody->SetLinearVelocity(b2Vec2((0)/PTM_RATIO,100));
-    
-    [self performSelector:@selector(bombWeaponReadyToFire) withObject:self afterDelay:0.5];
+    [self performSelector:@selector(bombWeaponReadyToFire) withObject:self afterDelay:1.0];
 }
 
 -(void)laserWeaponReadyToFire{
@@ -1014,6 +1021,7 @@
 -(void) spawnDebrisAtPosition:(CGPoint)cgp {
     NSLog(@"Spawning debris");
     Debris* d = [[Debris alloc] makeInWorld:_world atPosition:cgp];
+    
     [debrisArray addObject:[NSValue valueWithPointer:[d body]]];
     [self addChild:d];
     
@@ -1074,6 +1082,8 @@
     bulletShapeDef.density = 2.5f;
     bulletShapeDef.friction = 0.8f;
     bulletShapeDef.restitution = 0.2f;
+    bulletShapeDef.filter.categoryBits = 0x000;
+    bulletShapeDef.filter.maskBits = 0x001;
     _bulletBody->CreateFixture(&bulletShapeDef);
 
     
