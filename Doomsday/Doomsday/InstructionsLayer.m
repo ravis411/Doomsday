@@ -19,5 +19,8 @@
     return self;
 }
 
+-(void)removeMe{
+    [self removeFromParentAndCleanup:YES];
+}
 
 @end
