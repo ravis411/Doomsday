@@ -159,7 +159,7 @@
 //        [self schedule:@selector(tick:)];
         //[self schedule:@selector(kick) interval:10.0];
         
-        for(NSInteger i = 1; i < 30; i++ ){
+        for(NSInteger i = 1; i < 10+missionLevel; i++ ){
             [self spawnRandomPerson];
         }
         if(missionLevel>7){
@@ -177,8 +177,16 @@
         //testing
 //        [self spawnDebrisAtPosition:ccp(size.width/2, size.height/2)];
         if(missionLevel>4){
-        CGPoint center = ccp(size.width/2, size.height/2);
-        [self spawnDebrisRectAt:center.x width:2 height:3];
+                CGPoint center = ccp(size.width/2, size.height/2);
+                [self spawnDebrisRectAt:center.x width:2 height:3];
+        }
+        if(missionLevel>8){
+            CGPoint center = ccp(size.width+300, size.height/2);
+            [self spawnDebrisRectAt:center.x width:2 height:3];
+        }
+        if(missionLevel>12){
+            CGPoint center = ccp(-300, size.height/2);
+            [self spawnDebrisRectAt:center.x width:2 height:3];
         }
         
     }
@@ -190,7 +198,7 @@
   
     
     if( (NSInteger)(dt*769) % 2 == 0){
-        if((int)[hoipolloiArray count]<50)
+        if((int)[hoipolloiArray count]<20+missionLevel)
             [self spawnPerson];
     }
 
@@ -282,10 +290,11 @@
                 [(id)pody->GetUserData() resetStamina];
             }
             else{
-                if(pody->GetPosition().x/PTM_RATIO <= ((pos.x/PTM_RATIO)+0.10f) && pody->GetPosition().x >= (pos.x)){
+                
+                if(pody->GetPosition().x/PTM_RATIO <= ((pos.x/PTM_RATIO)+0.15f) && pody->GetPosition().x >= (pos.x)){
                     pody->SetLinearVelocity(right);
                     [(id)pody->GetUserData() setMovingRight:YES];
-                }else  if(pody->GetPosition().x/PTM_RATIO >= ((pos.x/PTM_RATIO)-0.10f) && pody->GetPosition().x <= (pos.x)){
+                }else  if(pody->GetPosition().x/PTM_RATIO >= ((pos.x/PTM_RATIO)-0.15f) && pody->GetPosition().x <= (pos.x)){
                     pody->SetLinearVelocity(left);
                     [(id)pody->GetUserData() setMovingRight:NO];
                 }
@@ -760,7 +769,10 @@
     //Creating Hoipolloi Box2D Body
     b2BodyDef hoipolloiBodyDef;
     hoipolloiBodyDef.type = b2_dynamicBody;
-    hoipolloiBodyDef.position.Set((size.width/2+10)/PTM_RATIO, (GROUNDBOTTOM + 20)/PTM_RATIO);
+//    NSUInteger r = arc4random_uniform(2);
+    int rndValue = -600 + (arc4random() % (int)(size.width +1000));
+//    hoipolloiBodyDef.position.Set((size.width/2+10)/PTM_RATIO, (GROUNDBOTTOM + 20)/PTM_RATIO);
+    hoipolloiBodyDef.position.Set(rndValue/PTM_RATIO, (GROUNDBOTTOM + 20)/PTM_RATIO);
     hoipolloiBodyDef.userData = _humanSprite;
     hoipolloiBodyDef.fixedRotation = false;
     
@@ -1082,8 +1094,8 @@
     bulletShapeDef.density = 2.5f;
     bulletShapeDef.friction = 0.8f;
     bulletShapeDef.restitution = 0.2f;
-    bulletShapeDef.filter.categoryBits = 0x000;
-    bulletShapeDef.filter.maskBits = 0x001;
+    bulletShapeDef.filter.categoryBits = 8;
+    bulletShapeDef.filter.maskBits = 4;
     _bulletBody->CreateFixture(&bulletShapeDef);
 
     
