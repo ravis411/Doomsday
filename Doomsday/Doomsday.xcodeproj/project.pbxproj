@@ -1776,8 +1776,8 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				CODE_SIGN_ENTITLEMENTS = "";
-				CODE_SIGN_IDENTITY = "iPhone Developer: Michael Sheehan (G2XTYK3Y54)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Michael Sheehan (G2XTYK3Y54)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Andrew Han (B8NS8KYH6S)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Andrew Han (B8NS8KYH6S)";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1795,8 +1795,8 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "D6CB0C95-2DC4-4D69-A4DE-606FFFD57751";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "D6CB0C95-2DC4-4D69-A4DE-606FFFD57751";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				USER_HEADER_SEARCH_PATHS = "\"Doomsday/libs\"";
 				WRAPPER_EXTENSION = app;
 			};
@@ -1807,8 +1807,8 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				CODE_SIGN_ENTITLEMENTS = "";
-				CODE_SIGN_IDENTITY = "iPhone Developer: Michael Sheehan (G2XTYK3Y54)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Michael Sheehan (G2XTYK3Y54)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Andrew Han (B8NS8KYH6S)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Andrew Han (B8NS8KYH6S)";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Doomsday/Prefix.pch;
@@ -1825,8 +1825,8 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "D6CB0C95-2DC4-4D69-A4DE-606FFFD57751";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "D6CB0C95-2DC4-4D69-A4DE-606FFFD57751";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				USER_HEADER_SEARCH_PATHS = "\"Doomsday/libs\"";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
