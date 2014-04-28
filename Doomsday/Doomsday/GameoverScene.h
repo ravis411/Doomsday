@@ -21,6 +21,7 @@
     int level;
     BOOL soundOn;
     BOOL musicOn;
+    NSString *TopScores;
 }
 
 

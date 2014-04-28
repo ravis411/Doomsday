@@ -13,7 +13,7 @@
 
 
 NSString *const LeaderboardPlist = @"leaderboard.plist";
-NSString *const TopScores = @"TopScores";
+//NSString *const TopScores = @"TopScores";
 
 @interface GameplayScene()
 
@@ -46,6 +46,11 @@ bool musicPlaying = false;
         background = [CCParallaxNode node];
         _paused = false;
         _firstBlood = false;
+        _levelOverBecausePlayerDied = NO;
+        
+        TopScores = [NSString stringWithFormat:@"TopScores%d",level];
+        //NSLog(@"\n\n%@\n\n",TopScores);
+
         
         winSize = [[CCDirector sharedDirector] winSize];
 
@@ -81,11 +86,16 @@ bool musicPlaying = false;
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         
         if ([defaults objectForKey:TopScores]){
+            NSLog(@"\n\nTOP SCORES LIST EXISTS: %@\n\n",TopScores);
             m_topScores = [defaults objectForKey:TopScores];
         }
         else{
+            //NSLog(@"\n\n%@\n\n",TopScores);
             m_topScores = [[NSMutableArray alloc] init];
+            [defaults setObject:m_topScores forKey:TopScores];
         }
+        
+        [defaults synchronize];
     
     
     
@@ -257,7 +267,9 @@ bool musicPlaying = false;
     [pauseLayer setVisible:NO];
 }
 
--(void) endGame {
+-(void) endGame: (int)level timer:(BOOL)done{
+    if (_levelOverBecausePlayerDied == YES || done == YES) {
+        
     
         if(_killCount>10*missionLevel){
             NSLog(@"YOU WIN");
@@ -269,6 +281,8 @@ bool musicPlaying = false;
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSNumber *ns_KillCount = [NSNumber numberWithInt:_killCount];
     
+    TopScores = [NSString stringWithFormat:@"TopScores%d",level];
+    NSLog(@"\n\n%@\n\n",TopScores);
     m_topScores = [defaults objectForKey:TopScores];
     
     m_topScores = [NSMutableArray arrayWithArray:m_topScores];
@@ -307,10 +321,19 @@ bool musicPlaying = false;
     
     [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:1.0 scene:
                                                [[GameoverScene alloc] gameOverWithScore:_killCount outOf:_quota currentLevel:missionLevel sound:soundOn music:musicOn]]];
+    }
 }
 
 -(void)update:(ccTime)dt{
     
+    if (_levelOverBecausePlayerDied==NO){
+        if ([spriteLayer playerDead] == YES) {
+            _levelOverBecausePlayerDied = YES;
+            [spriteLayer setPlayerDead:NO];
+            [self endGame:missionLevel timer:NO];
+            return;
+        }
+    }
     //Paused so don't update anything.
     if (_paused) {
         return;
@@ -357,14 +380,12 @@ bool musicPlaying = false;
         if (_timeRemaining < 0) {
             //user fails level
             _timerOn = false;
-            [self endGame];
+            [self endGame:missionLevel timer:YES];
 //            [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.0 scene: [HelloWorldLayer node]]];
         }
     }
     
-    if ([spriteLayer playerDead] == YES) {
-        [self endGame];
-    }
+    
 
 }
 

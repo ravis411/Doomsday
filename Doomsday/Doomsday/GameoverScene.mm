@@ -8,8 +8,7 @@
 
 #import "GameoverScene.h"
 
-NSString *const LeaderboardPlist = @"leaderboard.plist";
-NSString *const TopScores = @"TopScores";
+//NSString *const TopScores = @"TopScores";
 
 @interface GameoverScene()
 
@@ -30,6 +29,7 @@ NSString *const TopScores = @"TopScores";
         killCount = killcount;
         gameQuota = quota;
         level = currentLevel;
+        TopScores = [NSString stringWithFormat:@"TopScores%d",level];
         //Accessing plist
 //        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
 //        NSString *documentsDirectory = [paths objectAtIndex:0];

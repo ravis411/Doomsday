@@ -34,6 +34,9 @@
     CCParallaxNode *background;
     BOOL soundOn;
     BOOL musicOn;
+    NSString *TopScores;
+    BOOL _levelOverBecausePlayerDied;
+    
     
 //    Ship *_ship;
 //    int m_Level;
