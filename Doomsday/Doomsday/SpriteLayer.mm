@@ -223,6 +223,13 @@
 
     }
     
+    for(NSValue* pBody in enemyWeaponArray){
+        b2Body *pody = (b2Body*)[pBody pointerValue];
+        if(pody->GetPosition().y/PTM_RATIO >= ((_shipBody->GetPosition().y/PTM_RATIO))) {
+            [deletedEnemyWeapon addObject:pBody];
+        }
+    }
+    
     for(Hoipolloi* pBody in hoipolloiArray){
         
 //        Hoipolloi hp = [pBody pointerValue];
