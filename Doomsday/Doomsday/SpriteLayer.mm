@@ -24,16 +24,20 @@
 @synthesize gameOver = _gameOver;
 @synthesize playerDead = _playerDead;
 
-+(id)nodeWithGameLevel:(int)level{
++(id)nodeWithGameLevel:(int)level sound:(BOOL)s music:(BOOL)m{
 //    return  [[[self alloc] initWithGameLevel:level] autorelease];
     
-    return  [[[self alloc] initWithLevel:level] autorelease];
+    return  [[[self alloc] initWithLevel:level sound:s music:m] autorelease];
 }
 
--(id)initWithLevel:(int)level{
+-(id)initWithLevel:(int)level sound:(BOOL)s music:(BOOL)m{
     if(self = [super init]){
         missionLevel = level;
         [self setTouchEnabled:YES];
+        NSLog(@"sprite sound: %hhd",s);
+        NSLog(@"sprite music: %hhd",m);
+        soundOn = s;
+        musicOn = m;
         _gameOver = NO;
         _firstBlood = NO;
         bombArray = [[NSMutableArray alloc]init];
@@ -53,8 +57,10 @@
         intentToMoveRight = NO;
         shipLaserCooldownMode = NO;
         shipBombCooldownMode = NO;
-        [[SimpleAudioEngine sharedEngine] preloadEffect:@"laser.mp3"];
-        [[SimpleAudioEngine sharedEngine] preloadEffect:@"explosion.mp3"];
+        if(soundOn){
+            [[SimpleAudioEngine sharedEngine] preloadEffect:@"laser.mp3"];
+            [[SimpleAudioEngine sharedEngine] preloadEffect:@"explosion.mp3"];
+        }
         enemyWeaponCooldownMode = NO;
         _playerDead = NO;
         
@@ -840,7 +846,9 @@
     [laserArray addObject:[NSValue valueWithPointer:_laserBody]];
     shipLaserCooldownMode = YES;
     [self performSelector:@selector(laserWeaponReadyToFire) withObject:self afterDelay:1.0];
+    if(soundOn){
     [[SimpleAudioEngine sharedEngine] playEffect:@"laser.mp3"];
+    }
 }
 
 
@@ -871,7 +879,9 @@
     [explosionArray addObject:[NSValue valueWithPointer:_explosionBody]];
     NSLog(@"BOOM explosion added to array");
     [self performSelector:@selector(removeSingleExplosion:) withObject:[NSValue valueWithPointer:_explosionBody] afterDelay:0.1];
+    if(soundOn){
     [[SimpleAudioEngine sharedEngine] playEffect:@"explosion.mp3"];
+    }
 }
 -(void)createHugeExplosion:(CGPoint)point{
     CCSprite* _explosionSprite = [CCSprite spriteWithFile:@"explosion.png"];
@@ -903,7 +913,10 @@
     [explosionArray addObject:[NSValue valueWithPointer:_explosionBody]];
     NSLog(@"BOOM explosion added to array");
     [self performSelector:@selector(removeSingleExplosion:) withObject:[NSValue valueWithPointer:_explosionBody] afterDelay:0.1];
-    [[SimpleAudioEngine sharedEngine] playEffect:@"explosion.mp3"];
+    if(soundOn){
+        [[SimpleAudioEngine sharedEngine] playEffect:@"explosion.mp3"];
+    }
+    
 }
 
 -(void)removeSingleExplosion:(id)b{

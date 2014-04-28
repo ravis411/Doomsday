@@ -53,7 +53,8 @@
     BOOL enemyWeaponCooldownMode;
     int playerHealth;
     BOOL _playerDead;
-    
+    BOOL musicOn;
+    BOOL soundOn;
 
 }
 @property BOOL gameOver;
@@ -64,7 +65,7 @@
 @property BOOL playerDead;
 
 //@property Hoipolloi* hoipolloiSprite;
-+(id)nodeWithGameLevel:(int)level;
++(id)nodeWithGameLevel:(int)level sound:(BOOL)s music:(BOOL)m;
 -(void) moveScreenLeft;
 -(void) moveScreenRight;
 -(void) kick;

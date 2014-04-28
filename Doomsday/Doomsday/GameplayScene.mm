@@ -25,18 +25,20 @@ NSString *const TopScores = @"TopScores";
 @implementation GameplayScene
 bool musicPlaying = false;
 
-+(id)nodeWithGameLevel:(int)level{
-    return  [[[self alloc] initWithLevel:level] autorelease];
++(id)nodeWithGameLevel:(int)level sound:(BOOL)s music:(BOOL)m{
+
+    return  [[[self alloc] initWithLevel:level sound:s music:m] autorelease];
 }
 
--(id)initWithLevel:(int)level
+-(id)initWithLevel:(int)level sound:(BOOL)s music:(BOOL)m
 {
     
     if(self = [super init])
 	{
         missionLevel = level;
-        
-        spriteLayer = [SpriteLayer nodeWithGameLevel:missionLevel];
+        soundOn = s;
+        musicOn = m;
+        spriteLayer = [SpriteLayer nodeWithGameLevel:missionLevel sound:s music:m];
         uiLayer = [UILayer nodeWithGameLevel:missionLevel];
         bgLayer = [BackgroundLayer node];
         pauseLayer = [PauseLayer node];
@@ -48,7 +50,7 @@ bool musicPlaying = false;
         winSize = [[CCDirector sharedDirector] winSize];
 
         
-        if (!musicPlaying) {
+        if (!musicPlaying && musicOn) {
             [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"The Ballad of Jack Noir.mp3" loop:YES];
             musicPlaying = TRUE;
         }
@@ -147,8 +149,9 @@ bool musicPlaying = false;
     NSString* placeHolderSprite = @"button_round_unlit.png";
     
     //pause the game
-    CCMenuItem *pause = [CCMenuItemFont itemWithString:@"||" target:self selector:@selector(pauseTapped:)];
-    pause.position = ccp(20, size.height- 20);
+    CCMenuItem *pause = [CCMenuItemFont itemWithString:@" || " target:self selector:@selector(pauseTapped:)];
+    [pause setScale:2.0];
+    pause.position = ccp(30, size.height- 30);
 
     
     CCMenuItem *laserButton = [CCMenuItemImage
@@ -303,7 +306,7 @@ bool musicPlaying = false;
 
     
     [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.0 scene:
-                                               [[GameoverScene alloc] gameOverWithScore:_killCount outOf:_quota currentLevel:missionLevel]]];
+                                               [[GameoverScene alloc] gameOverWithScore:_killCount outOf:_quota currentLevel:missionLevel sound:soundOn music:musicOn]]];
 }
 
 -(void)update:(ccTime)dt{
@@ -363,6 +366,11 @@ bool musicPlaying = false;
         [self endGame];
     }
 
+}
+
++(void)turnOffMusic{
+    musicPlaying = NO;
+    [[SimpleAudioEngine sharedEngine] stopBackgroundMusic];
 }
 
 //-(void) save{

@@ -19,10 +19,12 @@
     int killCount;
     int gameQuota;
     int level;
+    BOOL soundOn;
+    BOOL musicOn;
 }
 
 
--(id) gameOverWithScore:(int)killcount outOf:(int)quota currentLevel:(int)currentLevel;
+-(id) gameOverWithScore:(int)killcount outOf:(int)quota currentLevel:(int)currentLevel sound:(BOOL)s music:(BOOL)m;
 -(void) continueMission;
 -(void) retry;
 -(void) returnToMain;

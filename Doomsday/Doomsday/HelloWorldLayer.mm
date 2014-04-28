@@ -34,13 +34,13 @@ enum {
 
 @synthesize uiL = uiLayer;
 
-+(CCScene *) scene
++(CCScene *) scene:(BOOL)s music:(BOOL)m
 {
 	// 'scene' is an autorelease object.
 	CCScene *scene = [CCScene node];
-	
+
 	// 'layer' is an autorelease object.
-	HelloWorldLayer *layer = [HelloWorldLayer node];
+	HelloWorldLayer *layer = [HelloWorldLayer nodeWithSound:s music:m];
 	// add layer as a child to scene
 	[scene addChild: layer];
     if (!layer.uiL) {
@@ -54,8 +54,13 @@ enum {
 	return scene;
 }
 
++(id)nodeWithSound:(BOOL)s music:(BOOL)m{
+    
+    return  [[[self alloc] initWithSound:s music:m] autorelease];
+}
 
--(id) init
+
+-(id) initWithSound:(BOOL)so music:(BOOL)m
 {
 	if( (self=[super init])) {
 		
@@ -72,7 +77,10 @@ enum {
 		// init physics
 		[self initPhysics];
 		//batching sprites
-        
+        NSLog(@"sound: %hhd",so);
+        NSLog(@"music: %hhd",m);
+        soundOn = so;
+        musicOn = m;
         
         //batching the GUI elements
         uiAtlasNode = [CCSpriteBatchNode batchNodeWithFile:@"gui_atlas.png"];
@@ -396,50 +404,63 @@ enum {
 }
 
 -(void)toggleSound:(id)sender {
-    if([sender tag]==1){//YES
-        [sender setTag:2];
-        NSLog(@"Sound: OFF");
-//        [sender setString:@"Sound: OFF"];
-        
-    }else{//NO
-        [sender setTag:1];
-                NSLog(@"Sound: ON");
-//        [sender setString:@"Sound: ON"];
+    if(soundOn){//off to on
+        NSLog(@"sound off");
+        soundOn = NO;
+    }else{
+        NSLog(@"sound on");
+        soundOn = YES;
     }
 }
 
 -(void)toggleMusic:(id)sender {
-    if([sender tag]==1){//YES
-        [sender setTag:2];
-                NSLog(@"Music: OFF");
-//        [sender setString:@"Music: OFF"];
-    }else{//NO
-        [sender setTag:1];
-                        NSLog(@"Music: ON");
-//        [sender setString:@"Music: ON"];
+    if(musicOn){//off to on
+        NSLog(@"music off");
+        musicOn = NO;
+    }else{
+        NSLog(@"music on");
+        musicOn = YES;
     }
 }
                         
 -(void) newGame:(id)sender  {
-    [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.2 scene:[GameplayScene nodeWithGameLevel:[sender tag]]]];
+    [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.2 scene:[GameplayScene nodeWithGameLevel:[sender tag] sound:soundOn music:musicOn]]];
 }
 -(void)settings{
     NSLog(@"choses settings");
     
     NSMutableArray *settingButtons = [[NSMutableArray alloc] init];
     
-  
-    CCMenuItemSprite* ccSound =[uiLayer makeButtonWithText:[NSString stringWithFormat:@"Sound: ON"] ShapeID:1 x:0 y:0];
-    ccSound.tag = 1;
-    [ccSound setTarget:self selector:@selector(toggleSound:)];
-    [ccSound setScale:0.8];
-    CCMenuItemSprite* ccMusic =[uiLayer makeButtonWithText:[NSString stringWithFormat:@"Music: ON"] ShapeID:1 x:0 y:0];
-    ccMusic.tag = 1;
-    [ccMusic setTarget:self selector:@selector(toggleMusic:)];
-    [ccMusic setScale:0.8];
- 
-    [settingButtons addObject:ccSound];
-    [settingButtons addObject:ccMusic];
+    CCMenuItem *soundOnItem = [uiLayer makeButtonWithText:[NSString stringWithFormat:@"Sound: ON"] ShapeID:1 x:0 y:0];
+    CCMenuItem *soundOffItem = [uiLayer makeButtonWithText:[NSString stringWithFormat:@"Sound: OFF"] ShapeID:1 x:0 y:0];
+    CCMenuItemToggle *soundToggleItem;
+    if(soundOn){
+    soundToggleItem = [CCMenuItemToggle itemWithTarget:self
+                                              selector:@selector(toggleSound:)
+                                                 items:soundOnItem, soundOffItem, nil];
+    }else{
+        soundToggleItem = [CCMenuItemToggle itemWithTarget:self
+                                                  selector:@selector(toggleSound:)
+                                                     items:soundOffItem, soundOnItem, nil];
+    }
+    
+    CCMenuItem *musicOnItem = [uiLayer makeButtonWithText:[NSString stringWithFormat:@"Music: ON"] ShapeID:1 x:0 y:0];
+    CCMenuItem *musicOffItem = [uiLayer makeButtonWithText:[NSString stringWithFormat:@"Music: OFF"] ShapeID:1 x:0 y:0];
+    CCMenuItemToggle *musicToggleItem;
+    if(musicOn){
+        musicToggleItem = [CCMenuItemToggle itemWithTarget:self
+                                                  selector:@selector(toggleMusic:)
+                                                     items:musicOnItem, musicOffItem, nil];
+    }else{
+        musicToggleItem = [CCMenuItemToggle itemWithTarget:self
+                                                  selector:@selector(toggleMusic:)
+                                                     items:musicOffItem, musicOnItem, nil];
+    }
+
+
+    [settingButtons addObject:soundToggleItem];
+    [settingButtons addObject:musicToggleItem];
+    
     
     CCLabelTTF *settingsTitle = [[CCLabelTTF labelWithString:@"Settings" fontName:@"Arial" fontSize:30.0] retain];
     settingsTitle.position = ccp(size.width/2-20,size.height-70);
@@ -449,7 +470,7 @@ enum {
     
     [settingsMenu alignItemsVertically];
 	
-    settingPane = [CCSprite spriteWithFile:@"levelselectpanel.png"];
+    settingPane = [CCSprite spriteWithFile:@"levelselectpanel-14.png"];
     settingPane.position = ccp(size.width/2, size.height/2);
     
     CCMenuItemSprite* closeButton = [uiLayer makeButtonWithText:@"x" ShapeID:3 x:40 y:size.height - 70];
@@ -512,6 +533,14 @@ enum {
 
 -(void) removeSettingPane {
     [uiLayer removeChild:settingPane];
+}
+
+-(void)setSound:(BOOL)s{
+    soundOn = s;
+}
+
+-(void)setMusic:(BOOL)m{
+    musicOn = m;
 }
 
 @end

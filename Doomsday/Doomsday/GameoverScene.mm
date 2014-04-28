@@ -20,11 +20,12 @@ NSString *const TopScores = @"TopScores";
 
 @implementation GameoverScene
 
--(id) gameOverWithScore:(int)killcount outOf:(int)quota currentLevel:(int)currentLevel {
+-(id) gameOverWithScore:(int)killcount outOf:(int)quota currentLevel:(int)currentLevel sound:(BOOL)s music:(BOOL)m{
     self  = [super init];
     if(self)
 	{
-        
+        soundOn = s;
+        musicOn = m;
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         killCount = killcount;
         gameQuota = quota;
@@ -131,17 +132,21 @@ NSString *const TopScores = @"TopScores";
 -(void)continueMission{
     NSLog(@"Continue Game");
     level++;
-    [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.0 scene:[GameplayScene nodeWithGameLevel:level]]];
+    [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.0 scene:[GameplayScene nodeWithGameLevel:level sound:soundOn music:musicOn]]];
 }
 
 -(void) retry {
     NSLog(@"Restart Game");
-    [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.0 scene:[GameplayScene nodeWithGameLevel:level]]];
+    [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.0 scene:[GameplayScene nodeWithGameLevel:level sound:soundOn music:musicOn]]];
 }
 -(void) returnToMain{
     NSLog(@"Return to main");
 //    CCScene* mMS = [HelloWorldLayer scene];
-    [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.0 scene: [HelloWorldLayer scene]]];
+    
+    [GameplayScene turnOffMusic];
+    NSLog(@"sound: %hhd",soundOn);
+    NSLog(@"music: %hhd",musicOn);
+    [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.0 scene: [HelloWorldLayer scene:soundOn music:musicOn]]];
 }
 
 @end

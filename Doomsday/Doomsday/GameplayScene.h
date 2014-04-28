@@ -32,6 +32,8 @@
     UILayer *uiLayer;
     BackgroundLayer *bgLayer;
     CCParallaxNode *background;
+    BOOL soundOn;
+    BOOL musicOn;
     
 //    Ship *_ship;
 //    int m_Level;
@@ -50,7 +52,7 @@
     PauseLayer *pauseLayer;
     NSMutableArray *m_topScores;
 }
-+(id)nodeWithGameLevel:(int)level;
++(id)nodeWithGameLevel:(int)level sound:(BOOL)s music:(BOOL)m;
 
 
 -(void) laserButtonTapped:(id)sender;
@@ -62,6 +64,7 @@
 -(void) endGame;
 -(void) save;
 -(void) buildUI;
++(void) turnOffMusic;
 //-(void) moveScreenLeft;
 //-(void) moveScreenRight;
 //@property int level;
