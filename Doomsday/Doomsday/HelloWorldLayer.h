@@ -36,14 +36,21 @@
     CCScene *menuScene;
     CCSprite* mishPane;
     CCSprite* settingPane;
+    CCMenuItemSprite* ccMusic;
+    CCMenuItemSprite* ccSound;
+    BOOL soundOn;
+    BOOL musicOn;
 }
 
 @property UILayer* uiL;
 
 // returns a CCScene that contains the HelloWorldLayer as the only child
-+(CCScene *) scene;
++(CCScene *) scene:(BOOL)s music:(BOOL)m;
++(id)nodeWithSound:(BOOL)s music:(BOOL)m;
 -(void) createMenu;
 -(void) newGame:(id)sender;
 -(void) levelSelect:(id)sender;
+-(void) setSound:(BOOL)s;
+-(void) setMusic:(BOOL)m;
 
 @end
