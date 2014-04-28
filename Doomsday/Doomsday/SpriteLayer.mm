@@ -198,8 +198,14 @@
   
     
     if( (NSInteger)(dt*769) % 2 == 0){
-        if((int)[hoipolloiArray count]<20+missionLevel)
-            [self spawnPerson];
+        if((int)[hoipolloiArray count]<20+missionLevel){
+            if (missionLevel > 4) {
+                [self spawnPerson];
+                [self spawnRandomPerson];
+            } else {
+                [self spawnRandomPerson];
+            }
+        }
     }
 
     if(_enemiesKilled >10*missionLevel){
@@ -769,10 +775,7 @@
     //Creating Hoipolloi Box2D Body
     b2BodyDef hoipolloiBodyDef;
     hoipolloiBodyDef.type = b2_dynamicBody;
-//    NSUInteger r = arc4random_uniform(2);
-    int rndValue = -600 + (arc4random() % (int)(size.width +1000));
-//    hoipolloiBodyDef.position.Set((size.width/2+10)/PTM_RATIO, (GROUNDBOTTOM + 20)/PTM_RATIO);
-    hoipolloiBodyDef.position.Set(rndValue/PTM_RATIO, (GROUNDBOTTOM + 20)/PTM_RATIO);
+    hoipolloiBodyDef.position.Set((size.width/2+10)/PTM_RATIO, (GROUNDBOTTOM + 20)/PTM_RATIO);
     hoipolloiBodyDef.userData = _humanSprite;
     hoipolloiBodyDef.fixedRotation = false;
     
