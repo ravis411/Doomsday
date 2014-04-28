@@ -14,9 +14,15 @@
 @synthesize killed = _killCount;
 @synthesize timeLeft = _remainingTime;
 
-- (id)init
-{
 
+
++(id)nodeWithGameLevel:(int)level{
+    return  [[[self alloc] initWithLevel:level] autorelease];
+}
+
+-(id)initWithLevel:(int)level
+{
+    missionLevel = level;
 
     if (self = [super init]) {
         size = [[CCDirector sharedDirector] winSize];
@@ -26,6 +32,15 @@
     }
 return self;
 }
+
+-(void)displayMissionLevel{
+_missionLabel = [[CCLabelTTF labelWithString:[NSString stringWithFormat:@"Mission %i", missionLevel] fontName:@"Helvetica" fontSize:48.0] retain];
+    _missionLabel.position = ccp(size.width/2,size.height/2);
+    [_missionLabel runAction:[CCSequence actions:[CCFadeIn actionWithDuration:1.0f], [CCFadeOut actionWithDuration:1.0f], nil]];
+    [_missionLabel setOpacity:0];
+    [self addChild:_missionLabel];
+}
+
 
 -(void) displayScoreLabel {
     
@@ -125,6 +140,7 @@ return ticks/12;
 
 -(void) dealloc {
 [super dealloc];
+
 }
 
 

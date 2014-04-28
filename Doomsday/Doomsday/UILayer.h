@@ -27,23 +27,27 @@
 //    CCLabelTTF *_label;
     CCLabelTTF *_scoreLabel;
     CCLabelTTF *_timeLabel;
+    CCLabelTTF *_missionLabel;
 //    CCSprite* _killCounter;
     int _quota;
     int _killCount;
     int _remainingTime;
     enum playerWeapon _displayWeapon;
+    int missionLevel;
 }
 
 @property int quota;
 @property int killed;
 @property int timeLeft;
 
--(void) showGameOverLabel;
--(void) pauseTapped;
+//-(void) showGameOverLabel;
+//-(void) pauseTapped;
++(id)nodeWithGameLevel:(int)level;
 -(void) updateKillCounter;
 -(void) updateTimer:(int)newTime;
 -(void) displayScoreLabel;
 -(void) displayTimer;
+-(void) displayMissionLevel;
 -(void) addUIElement:(CCSprite*)element withFrame:(NSString*)elemFile x:(int)mX y:(int)mY;
 -(void) setMenuItem:(CCMenuItem*)element buttonID:(int)bID x:(int)mX y:(int)mY;
 -(CCMenuItem*) buildButtonWithShapeID:(int)sID x:(int)mX y:(int)mY;

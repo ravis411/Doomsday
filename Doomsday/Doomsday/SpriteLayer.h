@@ -34,6 +34,7 @@
     NSMutableArray *hoipolloiArray;
     NSMutableArray *buildingsArray;
     NSMutableArray *debrisArray;
+    NSMutableArray *deletedDebris;
     NSMutableArray *deletedBombs;
     NSMutableArray *deletedLaser;
     NSMutableArray *deletedEnemyWeapon;
@@ -42,6 +43,7 @@
     MyContactListener *_contactListener;
     BOOL shipLaserCooldownMode;
     BOOL shipBombCooldownMode;
+    BOOL _firstBlood;
     float groundLevel;
     int _enemiesKilled;
     BOOL _gameOver;
@@ -57,7 +59,7 @@
 @property enum playerWeapon weaponMode;
 
 //@property Hoipolloi* hoipolloiSprite;
-
++(id)nodeWithGameLevel:(int)level;
 -(void) moveScreenLeft;
 -(void) moveScreenRight;
 -(void) kick;

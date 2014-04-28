@@ -24,28 +24,47 @@ NSString *const TopScores = @"TopScores";
 
 @implementation GameplayScene
 bool musicPlaying = false;
--(id) init
+
++(id)nodeWithGameLevel:(int)level{
+    return  [[[self alloc] initWithLevel:level] autorelease];
+}
+
+-(id)initWithLevel:(int)level
 {
     
     if(self = [super init])
 	{
-        spriteLayer = [SpriteLayer node];
-        uiLayer = [UILayer node];
+        missionLevel = level;
+        
+        spriteLayer = [SpriteLayer nodeWithGameLevel:missionLevel];
+        uiLayer = [UILayer nodeWithGameLevel:missionLevel];
         bgLayer = [BackgroundLayer node];
-        pauseLayer = [UILayer node];
+        pauseLayer = [PauseLayer node];
+        pauseLayer.gameplayScene = self;
         background = [CCParallaxNode node];
         _paused = false;
+        _firstBlood = false;
+        
+        winSize = [[CCDirector sharedDirector] winSize];
+
         
         if (!musicPlaying) {
             [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"The Ballad of Jack Noir.mp3" loop:YES];
             musicPlaying = TRUE;
         }
         
-        [self addChild:pauseLayer];
+        
+        //Set up pause layer
+        [pauseLayer setVisible:NO];
+        [self addChild:pauseLayer z:40];
+        
+        
+        
+        
 //        _ship = [Ship sharedModel];
         
         weaponMode = WEAPON_BASIC;
-        _quota = 60;
+        _quota = 10*missionLevel;
         
 //        [self addChild:pauseLayer];
         
@@ -65,10 +84,10 @@ bool musicPlaying = false;
         else{
             m_topScores = [[NSMutableArray alloc] init];
         }
-    }
     
-    winSize = [[CCDirector sharedDirector] winSize];
     
+    
+        
     CGPoint backgroundLayerSpeed = ccp(0.05, 0.05);
     CGPoint spriteLayerSpeed = ccp(0.1, 0.1);
     
@@ -84,31 +103,42 @@ bool musicPlaying = false;
     
     [self scheduleUpdate];
     
-   
+    }
     return self;
     
 }
 
 
--(void) buildUI {
+-(void) buildUI{
     CGSize size = [[CCDirector sharedDirector] winSize];
-
+//    [self laserButtonTapped:self];
     CCSprite* _dash;
-    CCLabelTTF *_scoreLabel = [[CCLabelTTF labelWithString:@"-/-" fontName:@"Arial" fontSize:24.0] retain];
+    CCLabelTTF *_scoreLabel = [[CCLabelTTF labelWithString:@"-/-" fontName:@"Futura-Medium" fontSize:24.0] retain];
     CCSprite* _killCounter;
-    CCLabelTTF* _timeLabel = [[CCLabelTTF labelWithString:@"000" fontName:@"Arial" fontSize:18] retain];
+    CCLabelTTF* _timeLabel = [[CCLabelTTF labelWithString:@"000" fontName:@"Futura-Medium" fontSize:18] retain];
     //CCSprite* pause = null;
     uiLayer.quota = _quota;
     
     _dash = [CCSprite spriteWithFile:@"dashboard.png"];
    
-    _dash.position = CGPointMake(size.width/2, 30);
+    _dash.position = CGPointMake(size.width/2, _dash.contentSize.height/2);
     [self addChild:_dash];
     
+    [uiLayer displayMissionLevel];
+    
     //testinglabel
-    _label = [[CCLabelTTF labelWithString:@" " fontName:@"Arial" fontSize:18.0] retain];
-    _label.position = ccp(size.width/3, size.height-(_label.contentSize.height/2));
-    [uiLayer addChild:_label];
+    _label = [[CCLabelTTF labelWithString:@" " fontName:@"Futura-Medium" fontSize:24.0] retain];
+    
+    
+    
+    CCSprite* weaponModePanel = [CCSprite spriteWithFile:@"activeweaponbar.png"];
+    [weaponModePanel setScale:0.4];
+    weaponModePanel.position = ccp(size.width/2 - 120, 24);
+    _label.position = ccp(weaponModePanel.contentSize.width/2, weaponModePanel.contentSize.height/2);
+
+    [weaponModePanel addChild:_label];
+    [_dash addChild:weaponModePanel];
+
     
     //killcounter
     [uiLayer addUIElement:_killCounter withFrame:@"killcounter.png" x:(size.width-115) y:(size.height-18)];
@@ -118,7 +148,7 @@ bool musicPlaying = false;
     
     //pause the game
     CCMenuItem *pause = [CCMenuItemFont itemWithString:@"||" target:self selector:@selector(pauseTapped:)];
-    pause.position = ccp(size.width - 20, 20);
+    pause.position = ccp(20, size.height- 20);
 
     
     CCMenuItem *laserButton = [CCMenuItemImage
@@ -136,6 +166,7 @@ bool musicPlaying = false;
                                  target:self selector:@selector(gadgetButtonLTapped:)];
     [uiLayer setMenuItem:gadgetButtonL buttonID:4 x:(size.width/2 - 50) y:30];
     
+       
     CCMenu *gadgetButtons = [CCMenu menuWithItems: laserButton, gadgetButtonL, gadgetButtonR, pause, nil]; //gadget button R is currently inactive
     gadgetButtons.position = CGPointZero;
     [uiLayer addChild:gadgetButtons];
@@ -145,23 +176,26 @@ bool musicPlaying = false;
     //TIMER UI
     [uiLayer displayTimer];
     
+    
+    
+    
 }
 
 //Button actions
 
 -(void)laserButtonTapped:(id)sender {
     weaponMode = WEAPON_BASIC;
-     [_label setString:@"LASER MODE (is not working yet)"];
+     [_label setString:@"LASER MODE"];
     
 }
 - (void)gadgetButtonRTapped:(id)sender {
     weaponMode = WEAPON_GADGET2;
-    [_label setString:@"GADGET 2 (is not working yet)"];
+    [_label setString:@"GADGET 2"];
 }
 
 - (void)gadgetButtonLTapped:(id)sender {
     weaponMode = WEAPON_GADGET1;
-    [_label setString:@"GADGET 1 (is already sort of active)"];
+    [_label setString:@"GADGET 1"];
 
 }
 
@@ -175,10 +209,10 @@ bool musicPlaying = false;
             weaponLabelString = @"BOMB";
             break;
         case WEAPON_GADGET2:
-            weaponLabelString = @"GADGET 2 (not functional)";
+            weaponLabelString = @"GADGET 2";
             break;
     }
-    [_label setString:[NSString stringWithFormat:@"Active Weapon: %@", weaponLabelString]];
+    [_label setString:[NSString stringWithFormat:@"%@", weaponLabelString]];
     uiLayer.killed = [spriteLayer enemiesKilled];
     [uiLayer updateKillCounter];
     [uiLayer updateTimer:_timeRemaining];
@@ -207,21 +241,27 @@ bool musicPlaying = false;
 }
 
 -(void) pauseGame {
-    CCLabelTTF* pauseLabel = [[CCLabelTTF labelWithString:@"PAUSE" fontName:@"Arial" fontSize:30] retain];
-    pauseLabel.position = ccp(winSize.width/2, winSize.height/2);
-    [pauseLayer addChild:pauseLabel];
-    [spriteLayer setIsTouchEnabled:NO];
-    [uiLayer setIsTouchEnabled:NO];    
+    [pauseLayer setVisible:YES];
+   // [spriteLayer setIsTouchEnabled:NO];
+    [spriteLayer setTouchEnabled:NO];
+    //[uiLayer setIsTouchEnabled:NO];
 }
 
 -(void) resumeGame {
-    [spriteLayer setIsTouchEnabled:YES];
-    [uiLayer setIsTouchEnabled:YES];
-    [pauseLayer removeAllChildren];
+    //[spriteLayer setIsTouchEnabled:YES];
+    [spriteLayer setTouchEnabled:YES];
+   // [uiLayer setIsTouchEnabled:YES];
+    [pauseLayer setVisible:NO];
 }
 
 -(void) endGame {
     
+        if(_killCount>10*missionLevel){
+            NSLog(@"YOU WIN");
+        }
+        else{
+            NSLog(@"YOU LOSE........");
+        }
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSNumber *ns_KillCount = [NSNumber numberWithInt:_killCount];
@@ -263,7 +303,7 @@ bool musicPlaying = false;
 
     
     [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.0 scene:
-                                               [[GameoverScene alloc] gameOverWithScore:_killCount outOf:_quota]]];
+                                               [[GameoverScene alloc] gameOverWithScore:_killCount outOf:_quota currentLevel:missionLevel]]];
 }
 
 -(void)update:(ccTime)dt{
@@ -293,6 +333,14 @@ bool musicPlaying = false;
     [spriteLayer setWeaponMode:weaponMode];
     
      _killCount = [spriteLayer enemiesKilled];
+//    if([spriteLayer gameOver]){
+//        if(_killCount>10*missionLevel){
+//            NSLog(@"YOU WIN");
+//        }
+//        else{
+//            NSLog(@"You lose.....");
+//        }
+//    }
 //    if([spriteLayer gameOver]){
 //        CCLabelTTF* winMessage = [[CCLabelTTF labelWithString:@"WIN!" fontName:@"Arial" fontSize:30] retain];
 //        winMessage.position = ccp(winSize.width/2, winSize.height/2);

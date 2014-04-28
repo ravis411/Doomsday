@@ -15,13 +15,16 @@
 #include "CCTouchDelegateProtocol.h"
 #import "GameoverScene.h"
 #import "SimpleAudioEngine.h"
+#import "PauseLayer.h"
 //#import "GameOverLayer.h"
 
 
 @interface GameplayScene : CCScene {
     int _timeRemaining;
+    bool _firstBlood;
     int _quota;
     int _killCount;
+    int missionLevel;
     Boolean _timerOn;
     Boolean _paused;
     enum playerWeapon weaponMode;
@@ -29,6 +32,7 @@
     UILayer *uiLayer;
     BackgroundLayer *bgLayer;
     CCParallaxNode *background;
+    
 //    Ship *_ship;
 //    int m_Level;
 //    int m_Lives;
@@ -43,20 +47,21 @@
     //gameplay UI
     CCLabelTTF *_label;
     CGSize winSize;
-    UILayer *pauseLayer;
+    PauseLayer *pauseLayer;
     NSMutableArray *m_topScores;
-
-    
 }
++(id)nodeWithGameLevel:(int)level;
 
--(void) buildUI;
+
 -(void) laserButtonTapped:(id)sender;
 -(void) gadgetButtonRTapped:(id)sender;
 -(void) gadgetButtonLTapped:(id)sender;
--(void) freezeGame;
+-(void)pauseTapped:(id)sender;
 -(void) pauseGame;
+-(void) resumeGame;
 -(void) endGame;
 -(void) save;
+-(void) buildUI;
 //-(void) moveScreenLeft;
 //-(void) moveScreenRight;
 //@property int level;

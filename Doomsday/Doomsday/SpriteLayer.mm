@@ -23,15 +23,23 @@
 @synthesize weaponMode = _weaponMode;
 @synthesize gameOver = _gameOver;
 
++(id)nodeWithGameLevel:(int)level{
+//    return  [[[self alloc] initWithGameLevel:level] autorelease];
+    
+    return  [[[self alloc] initWithLevel:level] autorelease];
+}
 
--(id)init{
+-(id)initWithLevel:(int)level{
     if(self = [super init]){
+        missionLevel = level;
         [self setTouchEnabled:YES];
         _gameOver = NO;
+        _firstBlood = NO;
         bombArray = [[NSMutableArray alloc]init];
         hoipolloiArray = [[NSMutableArray alloc]init];
         buildingsArray = [[NSMutableArray alloc] init];
         debrisArray = [[NSMutableArray alloc] init];
+        deletedDebris = [[NSMutableArray alloc] init];
         explosionArray = [[NSMutableArray alloc]init];
         laserArray = [[NSMutableArray alloc]init];
         deletedBombs = [[NSMutableArray alloc]init];
@@ -123,6 +131,7 @@
         shipShapeDef.density = 1.0f;
         shipShapeDef.friction = 0.2f;
         shipShapeDef.restitution = 0.6f;
+        shipShapeDef.filter.categoryBits = 0;//This makes the ship not collide with anything!
         _shipBody->CreateFixture(&shipShapeDef);
     
         _shipBody->SetGravityScale(0);
@@ -159,12 +168,14 @@
 
 
 -(void)update:(ccTime)dt{
+  
+    
     if( (NSInteger)(dt*769) % 2 == 0){
         if((int)[hoipolloiArray count]<50)
             [self spawnPerson];
     }
-    
-    if(_enemiesKilled >60){
+
+    if(_enemiesKilled >10*missionLevel){
         _gameOver = YES;
     }
     
@@ -194,21 +205,23 @@
     }
     
     for(Hoipolloi* pBody in hoipolloiArray){
+        
+//        Hoipolloi hp = [pBody pointerValue];
+        b2Body *pody = (b2Body*)[pBody pointerValue];
+        
         float s = 50 + arc4random_uniform(40);
         s += ((1 - (int)(arc4random_uniform(2))) * 120);
+        if (!_firstBlood) {
+            s = s/3;
+            int g = [(id)pody->GetUserData() gawp];
+            if (g > 0) {s = 0;}
+            float doesStop = arc4random_uniform(100);
+            if (doesStop > 98) {[(id)pody->GetUserData() gawpFor:60];}
+        }
         left = b2Vec2((-1 * s)/PTM_RATIO,0);
         right = b2Vec2((s)/PTM_RATIO,0);
         
-        b2Body *pody = (b2Body*)[pBody pointerValue];
         
-        if(pody->GetPosition().x/PTM_RATIO <= ((pos.x/PTM_RATIO)+0.10f) && pody->GetPosition().x >= (pos.x)){
-            pody->SetLinearVelocity(right);
-            [(id)pody->GetUserData() setMovingRight:YES];
-        }else  if(pody->GetPosition().x/PTM_RATIO >= ((pos.x/PTM_RATIO)-0.10f) && pody->GetPosition().x <= (pos.x)){
-            pody->SetLinearVelocity(left);
-            [(id)pody->GetUserData() setMovingRight:NO];
-        }
-        else{
             if([(id)pody->GetUserData() stamina] <= 0){
                 NSUInteger r = arc4random_uniform(2);
                 if(r==0){
@@ -222,7 +235,14 @@
                 [(id)pody->GetUserData() resetStamina];
             }
             else{
-                if([(id)pody->GetUserData() movingRight]){
+                if(pody->GetPosition().x/PTM_RATIO <= ((pos.x/PTM_RATIO)+0.10f) && pody->GetPosition().x >= (pos.x)){
+                    pody->SetLinearVelocity(right);
+                    [(id)pody->GetUserData() setMovingRight:YES];
+                }else  if(pody->GetPosition().x/PTM_RATIO >= ((pos.x/PTM_RATIO)-0.10f) && pody->GetPosition().x <= (pos.x)){
+                    pody->SetLinearVelocity(left);
+                    [(id)pody->GetUserData() setMovingRight:NO];
+                }
+                else if([(id)pody->GetUserData() movingRight]){
                     pody->SetLinearVelocity(right);
                 }else{
                     pody->SetLinearVelocity(left);
@@ -308,7 +328,6 @@
         
         MyContact contact = *position;
         //Collision detection for explosion
-        
         for(NSValue* pBody in hoipolloiArray){
             b2Body *pody = (b2Body*)[pBody pointerValue];
         
@@ -335,7 +354,27 @@
                     NSLog(@"\nEnemies Killed: %d\n\n", _enemiesKilled);
                     
                 }
+            }//Collision detection for building debris should kill humans if it lands on them?
+            for (NSValue* ds in debrisArray) {
+                b2Body *dbody = (b2Body*)[ds pointerValue];
+                if((contact.fixtureA == dbody->GetFixtureList() && contact.fixtureB == pody->GetFixtureList()) || (contact.fixtureA == pody->GetFixtureList() && contact.fixtureB == dbody->GetFixtureList())) {
+                    if ( (dbody->GetPosition().y - (30/PTM_RATIO) ) > pody->GetPosition().y ) {
+                         NSLog(@"\nDebris landed on a person?...\n");
+                        _enemiesKilled++;
+                        CCSprite* dead = [CCSprite spriteWithFile:@"deadhoipolloi.png"];
+                        dead.position = CGPointMake(size.width/2, size.height/2);
+                        [dead setScale:0.3];
+                        [self addChild:dead];
+                        [self removeChild:(CCSprite*)pody->GetUserData()];
+                        pody->SetUserData(dead);
+                        [deletedPeople addObject:pBody];
+                        NSLog(@"\nEnemies Killed: %d\n\n", _enemiesKilled);
+
+                    }
+                   
+                }
             }
+            
         }
         
         //NSLog(@"\n\nNumber of Bullets: %d\n\n",enemyWeaponArray.count);
@@ -356,14 +395,18 @@
             if ((contact.fixtureA == body->GetFixtureList() || contact.fixtureB == body->GetFixtureList()) && (contact.fixtureA != _shipBody->GetFixtureList() && contact.fixtureB != _shipBody->GetFixtureList()) && (contact.fixtureA != _groundBody->GetFixtureList() && contact.fixtureB != _groundBody->GetFixtureList())){
                 NSLog(@"Heyo, bomb touched something.");
                 [deletedBombs addObject:bBody];
+                if (!_firstBlood) {_firstBlood = YES;}
+
             }
         }
+        
         for(NSValue* bBody in laserArray){
             b2Body *body = (b2Body*)[bBody pointerValue];
             if ((contact.fixtureA == body->GetFixtureList() || contact.fixtureB == body->GetFixtureList()) && (contact.fixtureA != _shipBody->GetFixtureList() && contact.fixtureB != _shipBody->GetFixtureList()) && (contact.fixtureA != _groundBody->GetFixtureList() && contact.fixtureB != _groundBody->GetFixtureList())){
                 if(!hitPerson){
                     NSLog(@"Heyo, laser touched something.");
                     hitPerson = YES;
+                    if (!_firstBlood) {_firstBlood = YES;}
                     [deletedLaser addObject:bBody];
                 }
             }
@@ -886,14 +929,15 @@
 }
 
 -(void) spawnDebrisRectAt:(float)mX width:(int)w height:(int)h {
-    float dim = 60;
+    float dimY = 60;
+    float dimX = 70;
     float tX = mX;
     float tY = groundLevel + 31 + 1;
     CGPoint tCGP;
     
     for (int jj = 0; jj < h; jj++) {
         for(int ii = 0; ii < w; ii++) {
-            tCGP = ccp(tX + 1 + (ii * dim), tY + 1 + (jj * dim));
+            tCGP = ccp(tX + 1 + (ii * dimX), tY  + (jj * dimY));
             [self spawnDebrisAtPosition:tCGP];
         }
     }
@@ -975,6 +1019,7 @@
     [explosionArray release];
     [buildingsArray release];
     [debrisArray release];
+    [deletedDebris release];
     [laserArray release];
     [deletedBombs release];
     [deletedLaser release];

@@ -29,11 +29,13 @@
 	GLESDebugDraw *m_debugDraw;		// strong ref
     CCSpriteBatchNode *uiAtlasNode;
     CCSpriteBatchNode *spriteAtlasNode;
+    CCSpriteBatchNode *buildingAtlasNode;
     UILayer *uiLayer;
     UILayer *levelSelectLayer;
     CGSize size;
     CCScene *menuScene;
     CCSprite* mishPane;
+    CCSprite* settingPane;
 }
 
 @property UILayer* uiL;

@@ -16,11 +16,16 @@
     b2Fixture* _fixture;
     b2Body *_body;
     b2BodyDef _bodyDef;
+    int spriteVersion;
+    BOOL _removeMe;
 }
+
+@property BOOL shouldRemoveMe;
 
 -(id) makeInWorld:(b2World*)world atPosition:(CGPoint)point;
 -(b2Shape*) shape;
 -(b2FixtureDef) fixtureDef;
 -(b2Body*) body;
+-(void) hitByExplosion;
 
 @end
