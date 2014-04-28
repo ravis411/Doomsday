@@ -12,6 +12,7 @@
 @implementation EnemyGunBody
 
 @synthesize enemyWeaponCooldownMode = _enemyWeaponCooldownMode;
+@synthesize movingRight = _movingRight;
 
 - (instancetype)init
 {

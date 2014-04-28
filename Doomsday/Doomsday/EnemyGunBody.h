@@ -12,7 +12,10 @@
 @interface EnemyGunBody : CCSprite {
     int health;
     BOOL _enemyWeaponCooldownMode;
+    BOOL _movingRight;
+
 }
 
 @property BOOL enemyWeaponCooldownMode;
+@property BOOL movingRight;
 @end

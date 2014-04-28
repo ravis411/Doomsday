@@ -149,9 +149,9 @@
             [self spawnRandomPerson];
         }
         
-        //for(NSInteger i = 1; i < 5; i++ ){
+        for(NSInteger i = 1; i < 3; i++ ){
             [self spawnRandomEnemyWeaponBody];
-        //}
+        }
         
         _contactListener = new MyContactListener();
         _world->SetContactListener(_contactListener);
@@ -195,7 +195,10 @@
     //This code makes the people move away from the ship.
     b2Vec2 left = b2Vec2((-80)/PTM_RATIO,0);
     b2Vec2 right = b2Vec2((80)/PTM_RATIO,0);
-    
+
+    b2Vec2 tankLeft = b2Vec2((-40)/PTM_RATIO,0);
+    b2Vec2 tankRight = b2Vec2((40)/PTM_RATIO,0);
+
     if(enemyWeaponCooldownMode == NO){
         for (EnemyGunBody* tank in enemyGunBodyArray){
             b2Body *tankBody = (b2Body*)[tank pointerValue];
@@ -204,6 +207,20 @@
                 //[self performSelector:@selector(enemyReadyToAttack:) withObject:self afterDelay:2.0];
             //}
         }
+    }
+    
+    for(EnemyGunBody* pBody in enemyGunBodyArray){
+        b2Body *pody = (b2Body*)[pBody pointerValue];
+//        if(pody->GetPosition().x/PTM_RATIO <= ((_shipBody->GetPosition().x/PTM_RATIO)) && pody->GetPosition().x >= (_shipBody->GetPosition().x)){
+        if(pody->GetPosition().x/PTM_RATIO <= ((_shipBody->GetPosition().x/PTM_RATIO))){
+            pody->SetLinearVelocity(tankRight);
+            [(id)pody->GetUserData() setMovingRight:YES];
+//        }else  if(pody->GetPosition().x/PTM_RATIO >= ((_shipBody->GetPosition().x/PTM_RATIO)-0.10f) && pody->GetPosition().x <= (_shipBody->GetPosition().x)){
+            }else  if(pody->GetPosition().x/PTM_RATIO >= ((_shipBody->GetPosition().x/PTM_RATIO))){
+            pody->SetLinearVelocity(tankLeft);
+            [(id)pody->GetUserData() setMovingRight:NO];
+        }
+
     }
     
     for(Hoipolloi* pBody in hoipolloiArray){
@@ -671,7 +688,8 @@
     
     //Creating Tank Box2D Body
     b2BodyDef tankBodyDef;
-    tankBodyDef.type = b2_staticBody;
+    //tankBodyDef.type = b2_staticBody;
+    tankBodyDef.type = b2_dynamicBody;
     tankBodyDef.position.Set((x)/PTM_RATIO, (size.height/4)/PTM_RATIO);
     tankBodyDef.userData = _tankSprite;
     tankBodyDef.fixedRotation = false;
@@ -1029,7 +1047,14 @@
 
     
     //b2Vec2 force = b2Vec2(xPoint, yPoint);
-    b2Vec2 force = b2Vec2((_shipBody->GetPosition().x*PTM_RATIO)-(xPoint/4)/PTM_RATIO, _shipBody->GetPosition().y*PTM_RATIO);
+    
+//    _bombBody->SetLinearVelocity(b2Vec2((0)/PTM_RATIO,100));
+    
+//    b2Vec2 force = b2Vec2((_shipBody->GetPosition().x*PTM_RATIO)-(xPoint/4)/PTM_RATIO, _shipBody->GetPosition().y*PTM_RATIO);
+    
+    b2Vec2 force = b2Vec2(0, _shipBody->GetPosition().y*PTM_RATIO);
+
+    
     //force *= 5.5;  // Use this if your game engine uses an explicit time step
     b2Vec2 p = _bulletBody->GetWorldPoint(b2Vec2(0.0f, 0.0f));
     _bulletBody->ApplyForce(force, p);
