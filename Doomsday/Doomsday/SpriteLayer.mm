@@ -52,6 +52,8 @@
         intentToMoveRight = NO;
         shipLaserCooldownMode = NO;
         shipBombCooldownMode = NO;
+        [[SimpleAudioEngine sharedEngine] preloadEffect:@"laser.mp3"];
+        [[SimpleAudioEngine sharedEngine] preloadEffect:@"explosion.mp3"];
         enemyWeaponCooldownMode = NO;
         
         _enemiesKilled = 0;
@@ -252,7 +254,7 @@
         }
         
        
-    }
+    
     
  /*
     //Update children
@@ -413,6 +415,33 @@
         }
 
         
+        //Collision detection for building debris and explosions
+        for (NSValue* d in debrisArray) {
+            b2Body *b = (b2Body*)[d pointerValue];
+            
+            for(NSValue* eBody in explosionArray){
+                b2Body *eX = (b2Body*)[eBody pointerValue];
+                
+                if ((contact.fixtureA == eX->GetFixtureList() && contact.fixtureB == b->GetFixtureList()) || (contact.fixtureA == b->GetFixtureList() && contact.fixtureB == eX->GetFixtureList())) {
+                    NSLog(@"Explosion hit building debris.");
+                    
+                    if (eX->GetPosition().x > b->GetPosition().x) {
+                        b->SetAngularVelocity(20);
+                    }
+                    else{
+                        b->SetAngularVelocity(-20);
+                    }
+                    [((Debris *)(b->GetUserData())) hitByExplosion];
+                }
+            }
+        
+            //Check if debris should be removed.
+            if ( ((Debris*)b->GetUserData()).shouldRemoveMe) {
+                [deletedDebris addObject:d];
+                ((Debris*)b->GetUserData()).shouldRemoveMe = NO;//dont want to add to deletedtwice
+            }
+        }
+        
     }
 
 
@@ -432,6 +461,18 @@
         b2Body* nuke = (b2Body*)[bBody pointerValue];
         [self explodeAndRemoveLaser:nuke];
     }
+    for(NSValue* dBody in deletedDebris){
+        [debrisArray removeObject:dBody];
+        b2Body* nuke = (b2Body*)[dBody pointerValue];
+        NSLog(@"Destroy Debris");
+        for(b2Body *b = _world->GetBodyList();b;b = b->GetNext()){
+            if(nuke != NULL && nuke == b){
+                _world->DestroyBody(b);
+                [self removeChild:(CCSprite*)b->GetUserData()];
+                break;
+            }
+        }
+    }
     for(NSValue* bBody in deletedEnemyWeapon){
         [enemyWeaponArray removeObject:bBody];
         b2Body* nuke = (b2Body*)[bBody pointerValue];
@@ -442,6 +483,7 @@
     [deletedBombs removeAllObjects];
     [deletedPeople removeAllObjects];
     [deletedLaser removeAllObjects];
+    [deletedDebris removeAllObjects];
     [deletedEnemyWeapon removeAllObjects];
 }
 

@@ -69,7 +69,7 @@ bool musicPlaying = false;
 //        [self addChild:pauseLayer];
         
         [self buildUI];
-        [self setTimer:1600];
+        [self setTimer:400];
         
 //        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
 //        NSString *documentsDirectory = [paths objectAtIndex:0];

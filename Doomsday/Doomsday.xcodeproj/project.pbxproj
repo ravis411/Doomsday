@@ -791,6 +791,8 @@
 				497A4FD718E11B8500B19D54 /* Resources */,
 				497A4FEF18E11B8500B19D54 /* libs */,
 				497A51F618E11B8800B19D54 /* Supporting Files */,
+				3F88DA9C190C99DB000E6271 /* PauseLayer.h */,
+				3F88DA9D190C99DB000E6271 /* PauseLayer.m */,
 				A2A776FF190CB2D200A3E8E9 /* EnemyGunBody.h */,
 				A2A77700190CB2D200A3E8E9 /* EnemyGunBody.mm */,
 				497A4FC118E11B8500B19D54 /* Frameworks */,
@@ -801,6 +803,13 @@
 		497A4FD718E11B8500B19D54 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				3DDF5826190CD23300DD19B5 /* buildingatlas.plist */,
+				3DDF5827190CD23300DD19B5 /* buildingatlas.png */,
+				3DDF5820190CC49D00DD19B5 /* buildingpiece-1.png */,
+				3DDF581E190CC49D00DD19B5 /* buildingpiece-2.png */,
+				3DDF581F190CC49D00DD19B5 /* buildingpiece-1-off.png */,
+				3DDF5821190CC49D00DD19B5 /* buildingpiece-2-off.png */,
+				3DDF581C190CB9BF00DD19B5 /* activeweaponbar.png */,
 				A2A77704190DF2B700A3E8E9 /* bullet.png */,
 				A2A77702190CB95C00A3E8E9 /* tank.png */,
 				3DDF581A190C93C800DD19B5 /* levelselectpanel-14.png */,

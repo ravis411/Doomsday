@@ -49,7 +49,9 @@
     BOOL _gameOver;
     enum playerWeapon _weaponMode;
     ALuint soundEffectID;
+    int missionLevel;
     BOOL enemyWeaponCooldownMode;
+    
 
 }
 @property BOOL gameOver;
