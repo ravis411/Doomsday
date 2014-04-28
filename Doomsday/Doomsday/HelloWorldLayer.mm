@@ -433,6 +433,7 @@ enum {
     
     CCMenuItem *soundOnItem = [uiLayer makeButtonWithText:[NSString stringWithFormat:@"Sound: ON"] ShapeID:1 x:0 y:0];
     CCMenuItem *soundOffItem = [uiLayer makeButtonWithText:[NSString stringWithFormat:@"Sound: OFF"] ShapeID:1 x:0 y:0];
+    NSLog(@" soundOffItem.retainCount = %i", soundOffItem.retainCount);
     CCMenuItemToggle *soundToggleItem;
     if(soundOn){
     soundToggleItem = [CCMenuItemToggle itemWithTarget:self
@@ -486,12 +487,12 @@ enum {
 
 -(void) levelSelect:(id)sender {
     int buttonNum = 9;
-    int activeLevels = 4;
-    id clearFunct;
     NSMutableArray *levelButtons = [[NSMutableArray alloc] init];
     
     for (int ii = 1; ii<=buttonNum; ii++) {
-        [levelButtons addObject:[uiLayer makeButtonWithText:[NSString stringWithFormat:@"%d",ii] ShapeID:1 x:0 y:0]];
+        CCMenuItemSprite  *item= [uiLayer makeButtonWithText:[NSString stringWithFormat:@"%d",ii] ShapeID:1 x:0 y:0];
+        [levelButtons addObject:item];
+//        [item release];
         CCMenuItemSprite* ccMS = [levelButtons objectAtIndex:(ii-1)];
         //decides level
         ccMS.tag = ii;
@@ -508,6 +509,7 @@ enum {
     
     CCMenu *mishMenu = [CCMenu menuWithArray:levelButtons];
     mishMenu.position = ccp(size.width/2-20, size.height/2-20);
+   
     
     NSNumber* itemsPerRow = [NSNumber numberWithInt:3];
     [mishMenu alignItemsInColumns:itemsPerRow, itemsPerRow, itemsPerRow, nil];
@@ -528,6 +530,7 @@ enum {
 }
 
 -(void) removeMissionPane {
+    [mishPane removeAllChildren];
     [uiLayer removeChild:mishPane];
 }
 
