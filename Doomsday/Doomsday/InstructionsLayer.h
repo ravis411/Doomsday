@@ -7,7 +7,10 @@
 //
 
 #import "CCLayer.h"
+#import "UILayer.h"
 
-@interface InstructionsLayer : CCLayer
+@interface InstructionsLayer : CCLayer{
+    UILayer *menu;
+}
 
 @end
