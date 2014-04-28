@@ -314,15 +314,15 @@ enum {
 	// This is only for debug purposes
 	// It is recommend to disable it
 	//
-	[super draw];
+	//[super draw];
 	
-	ccGLEnableVertexAttribs( kCCVertexAttribFlag_Position );
+	//ccGLEnableVertexAttribs( kCCVertexAttribFlag_Position );
 	
-	kmGLPushMatrix();
+	//kmGLPushMatrix();
 	
-	world->DrawDebugData();	
+	//world->DrawDebugData();
 	
-	kmGLPopMatrix();
+	//kmGLPopMatrix();
 }
 
 -(void) addNewSpriteAtPosition:(CGPoint)p
