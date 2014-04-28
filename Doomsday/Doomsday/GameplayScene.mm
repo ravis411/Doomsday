@@ -305,7 +305,7 @@ bool musicPlaying = false;
     
 
     
-    [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.0 scene:
+    [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:1.0 scene:
                                                [[GameoverScene alloc] gameOverWithScore:_killCount outOf:_quota currentLevel:missionLevel sound:soundOn music:musicOn]]];
 }
 
