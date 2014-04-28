@@ -22,6 +22,7 @@
 @synthesize enemiesKilled = _enemiesKilled;
 @synthesize weaponMode = _weaponMode;
 @synthesize gameOver = _gameOver;
+@synthesize playerDead = _playerDead;
 
 +(id)nodeWithGameLevel:(int)level{
 //    return  [[[self alloc] initWithGameLevel:level] autorelease];
@@ -34,6 +35,7 @@
         missionLevel = level;
         [self setTouchEnabled:YES];
         _gameOver = NO;
+        _firstBlood = NO;
         bombArray = [[NSMutableArray alloc]init];
         hoipolloiArray = [[NSMutableArray alloc]init];
         buildingsArray = [[NSMutableArray alloc] init];
@@ -44,12 +46,21 @@
         deletedBombs = [[NSMutableArray alloc]init];
         deletedLaser = [[NSMutableArray alloc]init];
         deletedPeople= [[NSMutableArray alloc]init];
+        enemyGunBodyArray = [[NSMutableArray alloc] init];
+        enemyWeaponArray = [[NSMutableArray alloc]init];
+        deletedEnemyWeapon = [[NSMutableArray alloc] init];
         intentToMoveLeft = NO;
         intentToMoveRight = NO;
         shipLaserCooldownMode = NO;
         shipBombCooldownMode = NO;
         [[SimpleAudioEngine sharedEngine] preloadEffect:@"laser.mp3"];
         [[SimpleAudioEngine sharedEngine] preloadEffect:@"explosion.mp3"];
+        enemyWeaponCooldownMode = NO;
+        _playerDead = NO;
+        
+        //Initialize Player Health to 100
+        playerHealth = 100;
+        
         _enemiesKilled = 0;
 
 //        CCLayerColor* color = [CCLayerColor layerWithColor:ccc4(255,0,255,255)];
@@ -62,6 +73,7 @@
 //        _shipSprite = [CCSprite spriteWithFile:@"ship.png"];
         _shipSprite = [CCSprite spriteWithFile:@"ship.png"];
         [_shipSprite setScale:0.3];
+        
         
 //        [_bombSprite setScale:0.2];
         [self addChild:_shipSprite];
@@ -123,13 +135,17 @@
         
         b2FixtureDef shipShapeDef;
         shipShapeDef.shape = &circle;
-        shipShapeDef.density = 1.0f;
+//        shipShapeDef.density = 1.0f;
+        shipShapeDef.density = 200.0f;
         shipShapeDef.friction = 0.2f;
-        shipShapeDef.restitution = 0.6f;
-        shipShapeDef.filter.categoryBits = 0;//This makes the ship not collide with anything!
+        shipShapeDef.restitution = 0.1f;
+        shipShapeDef.filter.categoryBits = 0x001;//This makes the ship not collide with anything!
+        //shipShapeDef.filter.maskBits = 0x002;
         _shipBody->CreateFixture(&shipShapeDef);
     
         _shipBody->SetGravityScale(0);
+        
+
         
 //      _hoipolloiBody->SetGravityScale(2);
         
@@ -140,6 +156,9 @@
             [self spawnRandomPerson];
         }
         
+        for(NSInteger i = 1; i < 3; i++ ){
+            [self spawnRandomEnemyWeaponBody];
+        }
         
         _contactListener = new MyContactListener();
         _world->SetContactListener(_contactListener);
@@ -169,6 +188,10 @@
         _gameOver = YES;
     }
     
+    if(playerHealth <= 0){
+        _playerDead = YES;
+    }
+    
     //Makes sure ship stays in place in the center
     b2Vec2 pos = _shipBody->GetPosition();
     b2Vec2 center = b2Vec2(pos.x,(size.height-50)/PTM_RATIO);
@@ -183,14 +206,57 @@
     //This code makes the people move away from the ship.
     b2Vec2 left = b2Vec2((-80)/PTM_RATIO,0);
     b2Vec2 right = b2Vec2((80)/PTM_RATIO,0);
+
+    b2Vec2 tankLeft = b2Vec2((-40)/PTM_RATIO,0);
+    b2Vec2 tankRight = b2Vec2((40)/PTM_RATIO,0);
+
+    if(enemyWeaponCooldownMode == NO){
+        for (EnemyGunBody* tank in enemyGunBodyArray){
+            b2Body *tankBody = (b2Body*)[tank pointerValue];
+            //if ([tank enemyWeaponCooldownMode] == NO){
+                [self enemyAttack:tankBody];
+                //[self performSelector:@selector(enemyReadyToAttack:) withObject:self afterDelay:2.0];
+            //}
+        }
+    }
+    
+    for(EnemyGunBody* pBody in enemyGunBodyArray){
+        b2Body *pody = (b2Body*)[pBody pointerValue];
+//        if(pody->GetPosition().x/PTM_RATIO <= ((_shipBody->GetPosition().x/PTM_RATIO)) && pody->GetPosition().x >= (_shipBody->GetPosition().x)){
+        if(pody->GetPosition().x/PTM_RATIO <= ((_shipBody->GetPosition().x/PTM_RATIO))){
+            pody->SetLinearVelocity(tankRight);
+            [(id)pody->GetUserData() setMovingRight:YES];
+//        }else  if(pody->GetPosition().x/PTM_RATIO >= ((_shipBody->GetPosition().x/PTM_RATIO)-0.10f) && pody->GetPosition().x <= (_shipBody->GetPosition().x)){
+            }else  if(pody->GetPosition().x/PTM_RATIO >= ((_shipBody->GetPosition().x/PTM_RATIO))){
+            pody->SetLinearVelocity(tankLeft);
+            [(id)pody->GetUserData() setMovingRight:NO];
+        }
+
+    }
+    
+    for(NSValue* pBody in enemyWeaponArray){
+        b2Body *pody = (b2Body*)[pBody pointerValue];
+        if(pody->GetPosition().y/PTM_RATIO >= ((_shipBody->GetPosition().y/PTM_RATIO))) {
+            [deletedEnemyWeapon addObject:pBody];
+        }
+    }
     
     for(Hoipolloi* pBody in hoipolloiArray){
+        
+//        Hoipolloi hp = [pBody pointerValue];
+        b2Body *pody = (b2Body*)[pBody pointerValue];
+        
         float s = 50 + arc4random_uniform(40);
         s += ((1 - (int)(arc4random_uniform(2))) * 120);
+        if (!_firstBlood) {
+            s = s/3;
+            int g = [(id)pody->GetUserData() gawp];
+            if (g > 0) {s = 0;}
+            float doesStop = arc4random_uniform(100);
+            if (doesStop > 98) {[(id)pody->GetUserData() gawpFor:60];}
+        }
         left = b2Vec2((-1 * s)/PTM_RATIO,0);
         right = b2Vec2((s)/PTM_RATIO,0);
-        
-        b2Body *pody = (b2Body*)[pBody pointerValue];
         
         
             if([(id)pody->GetUserData() stamina] <= 0){
@@ -220,8 +286,10 @@
                 }
                 [(id)pody->GetUserData() decreaseStamina];
             }
+        }
         
-    }
+       
+    
     
  /*
     //Update children
@@ -297,7 +365,6 @@
         
         MyContact contact = *position;
         //Collision detection for explosion
-        
         for(NSValue* pBody in hoipolloiArray){
             b2Body *pody = (b2Body*)[pBody pointerValue];
         
@@ -347,12 +414,26 @@
             
         }
         
+        //NSLog(@"\n\nNumber of Bullets: %d\n\n",enemyWeaponArray.count);
+        for(NSValue* pBody in enemyWeaponArray){
+            //NSLog(@"\na bullet in the enemy array\n");
+            b2Body *pody = (b2Body*)[pBody pointerValue];
+            if ((contact.fixtureA == _shipBody->GetFixtureList() && contact.fixtureB == pody->GetFixtureList()) || (contact.fixtureA == pody->GetFixtureList() && contact.fixtureB == _shipBody->GetFixtureList())) {
+                NSLog(@"\nEnemy Bullet hit the ship\n");
+                playerHealth = playerHealth - 20;
+                [deletedEnemyWeapon addObject:pBody];
+            }
+        }
+        
+        
         //Collision detection for bomb
         for(NSValue* bBody in bombArray){
             b2Body *body = (b2Body*)[bBody pointerValue];
             if ((contact.fixtureA == body->GetFixtureList() || contact.fixtureB == body->GetFixtureList()) && (contact.fixtureA != _shipBody->GetFixtureList() && contact.fixtureB != _shipBody->GetFixtureList()) && (contact.fixtureA != _groundBody->GetFixtureList() && contact.fixtureB != _groundBody->GetFixtureList())){
                 NSLog(@"Heyo, bomb touched something.");
                 [deletedBombs addObject:bBody];
+                if (!_firstBlood) {_firstBlood = YES;}
+
             }
         }
         
@@ -362,10 +443,12 @@
                 if(!hitPerson){
                     NSLog(@"Heyo, laser touched something.");
                     hitPerson = YES;
+                    if (!_firstBlood) {_firstBlood = YES;}
                     [deletedLaser addObject:bBody];
                 }
             }
         }
+
         
         //Collision detection for building debris and explosions
         for (NSValue* d in debrisArray) {
@@ -425,12 +508,18 @@
             }
         }
     }
+    for(NSValue* bBody in deletedEnemyWeapon){
+        [enemyWeaponArray removeObject:bBody];
+        b2Body* nuke = (b2Body*)[bBody pointerValue];
+        [self explodeAndRemoveEnemyWeapon:nuke];
+    }
  
     
     [deletedBombs removeAllObjects];
     [deletedPeople removeAllObjects];
     [deletedLaser removeAllObjects];
     [deletedDebris removeAllObjects];
+    [deletedEnemyWeapon removeAllObjects];
 }
 
 -(void)removeDeadBodies:(NSValue*)pBody{
@@ -537,6 +626,16 @@
     [self removeChild:(CCSprite*)b->GetUserData()];
     }
 }
+-(void)explodeAndRemoveEnemyWeapon:(b2Body*)b{
+    NSLog(@"explode!");
+    
+    [self createSingleExplosion:CGPointMake(b->GetPosition().x*PTM_RATIO, (b->GetPosition().y*PTM_RATIO)-10)];
+    NSLog(@"Destroy b");
+    if(b!=NULL){
+        _world->DestroyBody(b);
+        [self removeChild:(CCSprite*)b->GetUserData()];
+    }
+}
 
 
 //returns the array of Hoipolloi
@@ -592,6 +691,50 @@
     _hoipolloiBody->CreateFixture(&hoipolloiShapeDef);
     
     [hoipolloiArray addObject:[NSValue valueWithPointer:_hoipolloiBody]];
+    
+}
+
+-(void)spawnRandomEnemyWeaponBody{
+    NSInteger x =( arc4random() % (int)(size.width - 0+1)) + 0;
+    
+    EnemyGunBody* _tankSprite = [[[EnemyGunBody alloc]init]autorelease];
+    //CCSprite *_tankSprite = [CCSprite spriteWithFile:@"tank.png"];
+    _tankSprite.position = CGPointMake(x, size.height/4);
+    [_tankSprite setScale:0.7];
+    [self addChild:_tankSprite];
+    b2Body* _tankBody;
+    
+    //Creating Tank Box2D Body
+    b2BodyDef tankBodyDef;
+    //tankBodyDef.type = b2_staticBody;
+    tankBodyDef.type = b2_dynamicBody;
+    tankBodyDef.position.Set((x)/PTM_RATIO, (size.height/4)/PTM_RATIO);
+    tankBodyDef.userData = _tankSprite;
+    tankBodyDef.fixedRotation = false;
+    _tankBody = _world->CreateBody(&tankBodyDef);
+    
+    
+    b2FixtureDef tankShapeDef;
+    b2PolygonShape polygon;
+    int num = 4;
+    
+    b2Vec2 vertices[4];
+    
+    vertices[0].Set(-7/ PTM_RATIO, -20/ PTM_RATIO);
+    vertices[1].Set(7/ PTM_RATIO,-20/ PTM_RATIO);
+    vertices[2].Set(7/ PTM_RATIO,20/ PTM_RATIO);
+    vertices[3].Set(-7/ PTM_RATIO,20/ PTM_RATIO);
+    
+    polygon.Set(vertices, num);
+    tankShapeDef.shape = &polygon;
+    tankShapeDef.density = 2.0f;
+    tankShapeDef.friction = 0.01f;
+    tankShapeDef.restitution = 0.2f;
+    tankShapeDef.filter.categoryBits = 1;
+    tankShapeDef.filter.maskBits = 2;
+    _tankBody->CreateFixture(&tankShapeDef);
+    
+    [enemyGunBodyArray addObject:[NSValue valueWithPointer:_tankBody]];
     
 }
 
@@ -807,7 +950,8 @@
     bombShapeDef.restitution = 0.2f;
     _bombBody->CreateFixture(&bombShapeDef);
     [bombArray addObject:[NSValue valueWithPointer:_bombBody]];
-    shipBombCooldownMode = YES;
+    
+    _bombBody->SetLinearVelocity(b2Vec2((0)/PTM_RATIO,100));
     
     [self performSelector:@selector(bombWeaponReadyToFire) withObject:self afterDelay:0.5];
 }
@@ -831,11 +975,11 @@
 //        _shipBody->SetLinearDamping(2);
 //    }
     if(pos.y > center.y){
-        _shipBody->ApplyForce(b2Vec2(0, -10*(pos.y-center.y)), center);
+        _shipBody->ApplyForce(b2Vec2(0, -1000*(pos.y-center.y)), center);
 //        _shipBody->SetLinearDamping(2);
     }
     if(pos.y < center.y){
-        _shipBody->ApplyForce(b2Vec2(0, 10*(center.y-pos.y)), center);
+        _shipBody->ApplyForce(b2Vec2(0, 1000*(center.y-pos.y)), center);
 //        _shipBody->SetLinearDamping(2);
     }
     
@@ -876,7 +1020,81 @@
         }
     }
 }
-     
+
+//Enemy Attack
+- (void)enemyAttack: (b2Body *)tankBody {
+
+    
+    //Second Implementation
+    
+    CGPoint point = ccp(_shipBody->GetPosition().x, _shipBody->GetPosition().y);
+    
+    //float xPoint = point.x-283.00f;
+    float xPoint = point.x;
+    
+    
+    float yPoint = (tankBody->GetPosition().y*PTM_RATIO)- point.y;
+    float answer = atanf(xPoint/yPoint)*55;
+    
+    CCSprite* _bulletSprite = [CCSprite spriteWithFile:@"bullet.png"];
+    [_bulletSprite setScale:0.3f];
+    
+    [_bulletSprite setPosition:CGPointMake((tankBody->GetPosition().x*PTM_RATIO)+xPoint, (tankBody->GetPosition().y*PTM_RATIO)+30)];
+    //NSLog(@"ship x position: %f", _shipSprite.position.x);
+    
+    [self addChild:_bulletSprite];
+    
+    b2BodyDef bulletBodyDef;
+    
+    bulletBodyDef.position.Set(((tankBody->GetPosition().x*PTM_RATIO)+(xPoint/2))/PTM_RATIO, ((tankBody->GetPosition().y*PTM_RATIO))/PTM_RATIO);
+    NSLog(@"x: %f y:%f angle:%f",xPoint,yPoint,answer);
+    bulletBodyDef.type = b2_dynamicBody;
+    bulletBodyDef.userData = _bulletSprite;
+    bulletBodyDef.fixedRotation = true;
+    b2Body* _bulletBody = _world->CreateBody(&bulletBodyDef);
+    
+
+    b2CircleShape circle;
+    circle.m_radius = 10.0/PTM_RATIO;
+    b2FixtureDef bulletShapeDef;
+    bulletShapeDef.shape = &circle;
+    bulletShapeDef.density = 2.5f;
+    bulletShapeDef.friction = 0.8f;
+    bulletShapeDef.restitution = 0.2f;
+    _bulletBody->CreateFixture(&bulletShapeDef);
+
+    
+    //b2Vec2 force = b2Vec2(xPoint, yPoint);
+    
+//    _bombBody->SetLinearVelocity(b2Vec2((0)/PTM_RATIO,100));
+    
+//    b2Vec2 force = b2Vec2((_shipBody->GetPosition().x*PTM_RATIO)-(xPoint/4)/PTM_RATIO, _shipBody->GetPosition().y*PTM_RATIO);
+    
+    b2Vec2 force = b2Vec2(0, _shipBody->GetPosition().y*PTM_RATIO);
+
+    
+    //force *= 5.5;  // Use this if your game engine uses an explicit time step
+    b2Vec2 p = _bulletBody->GetWorldPoint(b2Vec2(0.0f, 0.0f));
+    _bulletBody->ApplyForce(force, p);
+    
+    _bulletBody->SetGravityScale(0.0f);
+    //    _laserBody->SetFixedRotation(YES);
+
+
+    [enemyWeaponArray addObject:[NSValue valueWithPointer:_bulletBody]];
+    enemyWeaponCooldownMode = YES;
+    [self performSelector:@selector(enemyReadyToAttack) withObject:self afterDelay:3.0];
+    NSLog(@"\n\nENEMY FIRED\n\n");
+    NSLog(@"\n\nNumber of Bullets: %d\n\n",enemyWeaponArray.count);
+
+    
+    
+}
+
+-(void) enemyReadyToAttack{
+    //[tank setEnemyWeaponCooldownMode:YES];
+    enemyWeaponCooldownMode = NO;
+}
     
 
 - (void)dealloc {

@@ -16,6 +16,7 @@
     int _maxStamina;
     int _health;
     BOOL _movingRight;
+    int _gawping;
 }
 
 @property int movementSpeed;
@@ -23,9 +24,13 @@
 @property int stamina;
 @property int maxStamina;
 @property BOOL movingRight;
+@property int gawp;
 
 -(id)init;
 -(float) getSpeed;
 -(void)decreaseStamina;
 -(void)resetStamina;
+-(bool) isGawping;
+-(void) gawpFor:(int)ticks;
+-(void) update:(ccTime)delta;
 @end

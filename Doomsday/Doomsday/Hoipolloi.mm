@@ -15,6 +15,7 @@
 @synthesize health = _health;
 @synthesize stamina = _stamina;
 @synthesize movingRight = _movingRight;
+@synthesize gawp = _gawping;
 
 - (id)init
 {
@@ -24,6 +25,8 @@
         _maxStamina = 100;
         _stamina = 0;
         _movingRight = YES;
+        _gawping = 0;
+        [self scheduleUpdate];
     }
     return self;
 }
@@ -47,6 +50,17 @@
     _stamina = _maxStamina;
 }
 
+-(bool)isGawping {
+    return (_gawping > 0);
+}
+
+-(void) gawpFor:(int)ticks{
+    _gawping += ticks;
+}
+
+-(void) update:(ccTime)delta {
+    _gawping--;
+}
 
 
 

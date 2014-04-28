@@ -449,7 +449,7 @@ enum {
     
     [settingsMenu alignItemsVertically];
 	
-    settingPane = [CCSprite spriteWithFile:@"levelselectpanel-14.png"];
+    settingPane = [CCSprite spriteWithFile:@"levelselectpanel.png"];
     settingPane.position = ccp(size.width/2, size.height/2);
     
     CCMenuItemSprite* closeButton = [uiLayer makeButtonWithText:@"x" ShapeID:3 x:40 y:size.height - 70];

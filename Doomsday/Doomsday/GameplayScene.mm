@@ -43,6 +43,7 @@ bool musicPlaying = false;
         pauseLayer.gameplayScene = self;
         background = [CCParallaxNode node];
         _paused = false;
+        _firstBlood = false;
         
         winSize = [[CCDirector sharedDirector] winSize];
 
@@ -356,6 +357,10 @@ bool musicPlaying = false;
             [self endGame];
 //            [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.0 scene: [HelloWorldLayer node]]];
         }
+    }
+    
+    if ([spriteLayer playerDead] == YES) {
+        [self endGame];
     }
 
 }
