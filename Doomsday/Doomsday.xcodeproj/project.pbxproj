@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0299693F190EF2DF00452E94 /* InstructionsLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 0299693E190EF2DF00452E94 /* InstructionsLayer.m */; };
 		3D15CB1018F7665900A5510B /* cosmos.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D15CB0F18F7665900A5510B /* cosmos.png */; };
 		3D268F2218F3695800E35F33 /* button_carrot_lit.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D268F1E18F3695800E35F33 /* button_carrot_lit.png */; };
 		3D268F2318F3695800E35F33 /* button_carrot_unlit.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D268F1F18F3695800E35F33 /* button_carrot_unlit.png */; };
@@ -247,6 +248,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0299693D190EF2DF00452E94 /* InstructionsLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstructionsLayer.h; sourceTree = "<group>"; };
+		0299693E190EF2DF00452E94 /* InstructionsLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstructionsLayer.m; sourceTree = "<group>"; };
 		3D15CB0F18F7665900A5510B /* cosmos.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = cosmos.png; path = Resources/GUI/cosmos.png; sourceTree = "<group>"; };
 		3D181E7018FA495700BD47A9 /* PlayerWeapon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerWeapon.h; sourceTree = "<group>"; };
 		3D268F1E18F3695800E35F33 /* button_carrot_lit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = button_carrot_lit.png; path = Resources/button_carrot_lit.png; sourceTree = "<group>"; };
@@ -796,6 +799,8 @@
 				A2A776FF190CB2D200A3E8E9 /* EnemyGunBody.h */,
 				A2A77700190CB2D200A3E8E9 /* EnemyGunBody.mm */,
 				497A4FC118E11B8500B19D54 /* Frameworks */,
+				0299693D190EF2DF00452E94 /* InstructionsLayer.h */,
+				0299693E190EF2DF00452E94 /* InstructionsLayer.m */,
 			);
 			path = Doomsday;
 			sourceTree = "<group>";
@@ -1607,6 +1612,7 @@
 				497A501A18E11B8500B19D54 /* CCAnimation.m in Sources */,
 				497A514518E11B8700B19D54 /* aabb.c in Sources */,
 				497A50BC18E11B8600B19D54 /* CCTMXObjectGroup.m in Sources */,
+				0299693F190EF2DF00452E94 /* InstructionsLayer.m in Sources */,
 				497A51C718E11B8700B19D54 /* b2EdgeAndPolygonContact.cpp in Sources */,
 				497A51CA18E11B8700B19D54 /* b2PolygonAndCircleContact.cpp in Sources */,
 				497A51AE18E11B8700B19D54 /* b2World.cpp in Sources */,

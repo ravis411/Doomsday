@@ -10,6 +10,7 @@
 #import "HelloWorldLayer.h"
 #import "GameplayScene.h"
 
+
 // Not included in "cocos2d.h"
 #import "CCPhysicsSprite.h"
 
@@ -457,7 +458,12 @@ enum {
                                                      items:musicOffItem, musicOnItem, nil];
     }
 
-
+    
+    //Instructions button.
+    CCMenuItem *instructionsButton = [uiLayer makeButtonWithText:[NSString stringWithFormat:@"Instructions"] ShapeID:1 x:0 y:0];
+    [instructionsButton setTarget:self selector:@selector(showInstructions)];
+    
+    [settingButtons addObject:instructionsButton];
     [settingButtons addObject:soundToggleItem];
     [settingButtons addObject:musicToggleItem];
     
@@ -525,6 +531,10 @@ enum {
     [mishPane addChild:missionTitle];
     [uiLayer addChild:mishPane ];
     
+}
+
+-(void) showInstructions {
+    [self addChild:[InstructionsLayer node] z:50];//Or maybe just make it visible instead of adding it?
 }
 
 -(void) removeMissionPane {
