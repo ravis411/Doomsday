@@ -55,7 +55,11 @@
     BOOL _playerDead;
     BOOL musicOn;
     BOOL soundOn;
+    int shipSpriteCooldown;
+    CCTexture2D *shipHitTex;
+    CCTexture2D *shipNormalTex;
 
+    
 }
 @property BOOL gameOver;
 @property BOOL movingLeft;

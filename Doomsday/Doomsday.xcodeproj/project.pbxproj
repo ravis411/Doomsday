@@ -49,6 +49,8 @@
 		3DB9733A190F0A6800666447 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DB97339190F0A6800666447 /* Default-568h@2x.png */; };
 		3DB9733B190F0AC000666447 /* splash-640x960.png in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DB97332190F0A4100666447 /* splash-640x960.png */; };
 		3DB9733D190F0AC500666447 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DB9733C190F0AC500666447 /* Default@2x.png */; };
+		3DB9733F190F243D00666447 /* ship_hit.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DB9733E190F243D00666447 /* ship_hit.png */; };
+		3DB97341190F265100666447 /* ship_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DB97340190F265100666447 /* ship_normal.png */; };
 		3DDF5819190C644200DD19B5 /* The Ballad of Jack Noir.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 3DDF5818190C644200DD19B5 /* The Ballad of Jack Noir.mp3 */; };
 		3DDF581B190C93C800DD19B5 /* levelselectpanel-14.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DDF581A190C93C800DD19B5 /* levelselectpanel-14.png */; };
 		3DDF581D190CB9BF00DD19B5 /* activeweaponbar.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DDF581C190CB9BF00DD19B5 /* activeweaponbar.png */; };
@@ -310,6 +312,8 @@
 		3DB97337190F0A5C00666447 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		3DB97339190F0A6800666447 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		3DB9733C190F0AC500666447 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		3DB9733E190F243D00666447 /* ship_hit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ship_hit.png; sourceTree = "<group>"; };
+		3DB97340190F265100666447 /* ship_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ship_normal.png; sourceTree = "<group>"; };
 		3DDF5818190C644200DD19B5 /* The Ballad of Jack Noir.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "The Ballad of Jack Noir.mp3"; sourceTree = "<group>"; };
 		3DDF581A190C93C800DD19B5 /* levelselectpanel-14.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "levelselectpanel-14.png"; path = "Resources/levelselectpanel-14.png"; sourceTree = "<group>"; };
 		3DDF581C190CB9BF00DD19B5 /* activeweaponbar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = activeweaponbar.png; path = Resources/activeweaponbar.png; sourceTree = "<group>"; };
@@ -848,6 +852,8 @@
 		497A4FD718E11B8500B19D54 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				3DB97340190F265100666447 /* ship_normal.png */,
+				3DB9733E190F243D00666447 /* ship_hit.png */,
 				3DB9732A190F09EB00666447 /* splash */,
 				3DDF5826190CD23300DD19B5 /* buildingatlas.plist */,
 				3DDF5827190CD23300DD19B5 /* buildingatlas.png */,
@@ -1548,6 +1554,8 @@
 				3DB97338190F0A5C00666447 /* Default.png in Resources */,
 				3DB9733A190F0A6800666447 /* Default-568h@2x.png in Resources */,
 				3DB9733D190F0AC500666447 /* Default@2x.png in Resources */,
+				3DB9733F190F243D00666447 /* ship_hit.png in Resources */,
+				3DB97341190F265100666447 /* ship_normal.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
