@@ -49,6 +49,13 @@ _missionLabel = [[CCLabelTTF labelWithString:[NSString stringWithFormat:@"Missio
     [self addChild:_scoreLabel];
 }
 
+-(void) displayHealthLabel {
+
+_healthLabel = [[CCLabelTTF labelWithString:@"Life: 100" fontName:@"Arial" fontSize:24.0] retain];
+_healthLabel.position = ccp(140,size.height-18);
+[self addChild:_healthLabel];
+}
+
 -(void) displayTimer {
     _timeLabel = [[CCLabelTTF labelWithString:@"XXX" fontName:@"Arial" fontSize:20.0] retain];
     _timeLabel.position = ccp(size.width-96,size.height-42);
@@ -62,6 +69,11 @@ NSString *updateLabel = [NSString stringWithFormat:@"%d/%d", _killCount, _quota]
 
 -(void) updateTimer:(int)newTime {
 [_timeLabel setString:[NSString stringWithFormat:@"%d SCHMECKONDS", [self ticksToSchmeckonds:newTime]]];
+}
+
+-(void) updateHealth:(int)health{
+NSString *updateLabel = [NSString stringWithFormat:@"Life: %d", health];
+[_healthLabel setString:updateLabel];
 }
 
 

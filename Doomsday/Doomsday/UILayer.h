@@ -20,11 +20,13 @@
 //    CCLabelTTF *m_GameOverLabel;
 //    CCLabelTTF *m_EnemyKilledLabel;
     CCLabelTTF *m_TotalScore;
+
 //    NSMutableArray *heartCount;
     CGSize size;
 //    CCSpriteBatchNode *uiAtlasNode;
 //    CCSprite* _dash;
 //    CCLabelTTF *_label;
+    CCLabelTTF *_healthLabel;
     CCLabelTTF *_scoreLabel;
     CCLabelTTF *_timeLabel;
     CCLabelTTF *_missionLabel;
@@ -45,9 +47,11 @@
 +(id)nodeWithGameLevel:(int)level;
 -(void) updateKillCounter;
 -(void) updateTimer:(int)newTime;
+-(void) updateHealth:(int)health;
 -(void) displayScoreLabel;
 -(void) displayTimer;
 -(void) displayMissionLevel;
+-(void)displayHealthLabel;
 -(void) addUIElement:(CCSprite*)element withFrame:(NSString*)elemFile x:(int)mX y:(int)mY;
 -(void) setMenuItem:(CCMenuItem*)element buttonID:(int)bID x:(int)mX y:(int)mY;
 -(CCMenuItem*) buildButtonWithShapeID:(int)sID x:(int)mX y:(int)mY;
@@ -56,4 +60,5 @@
 -(void) nullSelector;
 -(void) update:(ccTime)dt level:(int) currentLevel lives:(int)currentLives killed:(int)currentKilled score:(double)s;
 -(int) ticksToSchmeckonds:(int)ticks;
+
 @end
