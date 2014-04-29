@@ -50,7 +50,7 @@ bool musicPlaying = false;
         playerHealth = 100;
         TopScores = [NSString stringWithFormat:@"TopScores%d",level];
         //NSLog(@"\n\n%@\n\n",TopScores);
-
+        
         
         winSize = [[CCDirector sharedDirector] winSize];
 
@@ -196,7 +196,7 @@ bool musicPlaying = false;
     
     //TIMER UI
     [uiLayer displayTimer];
-    
+    [uiLayer displayHealthLabel];
     
     
     
@@ -355,18 +355,19 @@ bool musicPlaying = false;
     [spriteLayer update:dt];
     if(playerHealth != [spriteLayer getPlayerHealth]){
         playerHealth = [spriteLayer getPlayerHealth];
-        if(playerHealth==100){
-            NSLog(@"PLayer health 100");
-        }else if(playerHealth==80){
-                        NSLog(@"PLayer health 80");
-        }else if(playerHealth==60){
-                        NSLog(@"PLayer health 60");
-        }else if(playerHealth==40){
-                        NSLog(@"PLayer health 40");
-        }
-        else if(playerHealth==20){
-                        NSLog(@"PLayer health 20");
-        }
+        [uiLayer updateHealth:playerHealth];
+//        if(playerHealth==100){
+//            NSLog(@"PLayer health 100");
+//        }else if(playerHealth==80){
+//                        NSLog(@"PLayer health 80");
+//        }else if(playerHealth==60){
+//                        NSLog(@"PLayer health 60");
+//        }else if(playerHealth==40){
+//                        NSLog(@"PLayer health 40");
+//        }
+//        else if(playerHealth==20){
+//                        NSLog(@"PLayer health 20");
+//        }
     }
        
     //    if (([spriteLayer movingRight] == YES) && background.position.x >= -14795) {
