@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0299693F190EF2DF00452E94 /* InstructionsLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 0299693E190EF2DF00452E94 /* InstructionsLayer.m */; };
+		02E589EE190F2D7800074794 /* instructs.png in Resources */ = {isa = PBXBuildFile; fileRef = 02E589ED190F2D7800074794 /* instructs.png */; };
 		3D15CB1018F7665900A5510B /* cosmos.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D15CB0F18F7665900A5510B /* cosmos.png */; };
 		3D268F2218F3695800E35F33 /* button_carrot_lit.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D268F1E18F3695800E35F33 /* button_carrot_lit.png */; };
 		3D268F2318F3695800E35F33 /* button_carrot_unlit.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D268F1F18F3695800E35F33 /* button_carrot_unlit.png */; };
@@ -267,6 +268,7 @@
 /* Begin PBXFileReference section */
 		0299693D190EF2DF00452E94 /* InstructionsLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstructionsLayer.h; sourceTree = "<group>"; };
 		0299693E190EF2DF00452E94 /* InstructionsLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstructionsLayer.m; sourceTree = "<group>"; };
+		02E589ED190F2D7800074794 /* instructs.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = instructs.png; sourceTree = "<group>"; };
 		3D15CB0F18F7665900A5510B /* cosmos.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = cosmos.png; path = Resources/GUI/cosmos.png; sourceTree = "<group>"; };
 		3D181E7018FA495700BD47A9 /* PlayerWeapon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerWeapon.h; sourceTree = "<group>"; };
 		3D268F1E18F3695800E35F33 /* button_carrot_lit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = button_carrot_lit.png; path = Resources/button_carrot_lit.png; sourceTree = "<group>"; };
@@ -860,6 +862,7 @@
 		497A4FD718E11B8500B19D54 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				02E589ED190F2D7800074794 /* instructs.png */,
 				3DB97340190F265100666447 /* ship_normal.png */,
 				3DB9733E190F243D00666447 /* ship_hit.png */,
 				3DB9732A190F09EB00666447 /* splash */,
@@ -1514,6 +1517,7 @@
 				49EC18A418E900CB00186109 /* rifle.png in Resources */,
 				497A4FE718E11B8500B19D54 /* Icon-Small@2x.png in Resources */,
 				49D35A5F18EA8AAA002D5E12 /* bomb.png in Resources */,
+				02E589EE190F2D7800074794 /* instructs.png in Resources */,
 				49AB937B190F242000DC08A3 /* killcounter2lives.png in Resources */,
 				49D0FB72190BB75C00771F5B /* laser.mp3 in Resources */,
 				4937867918FA6D6600ECA5F8 /* laser.png in Resources */,

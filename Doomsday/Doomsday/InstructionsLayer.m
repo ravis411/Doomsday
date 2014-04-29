@@ -24,6 +24,12 @@
         CCLayerColor* color = [CCLayerColor layerWithColor:ccc4(255,255,255, 255)];
         [self addChild: color];
         
+        CCSprite * background;
+        
+        background = [CCSprite spriteWithFile:@"instructs.png"];
+        background.position = ccp(size.width/2, size.height/2);
+        [self addChild:background];
+        
         CCLabelTTF *l = [CCLabelTTF labelWithString:@"Instructions" fontName:@"Helvetica" fontSize:42.0f];
         l.color = ccORANGE;
         l.position = ccp(size.width/2, size.height-42) ;
@@ -57,7 +63,6 @@
         [self removeMe];
     }
     
-    
     return true;
 }
 -(void) registerWithTouchDispatcher
@@ -66,7 +71,6 @@
 }
 
 -(void)removeMe{
-    NSLog(@"\n\nClosing Me\n\n");
     [self removeFromParentAndCleanup:YES];
 }
 
