@@ -136,9 +136,9 @@ bool musicPlaying = false;
     uiLayer.quota = _quota;
     
     _dash = [CCSprite spriteWithFile:@"dashboard.png"];
-   
-    _dash.position = CGPointMake(size.width/2, _dash.contentSize.height/2);
-    [self addChild:_dash];
+    
+    [uiLayer addUIElement:_dash withFrame:@"dashboard.png" x:size.width/2 y:_dash.contentSize.height/2];
+//    [self addChild:_dash];
     
     [uiLayer displayMissionLevel];
     
@@ -149,11 +149,11 @@ bool musicPlaying = false;
     
     CCSprite* weaponModePanel = [CCSprite spriteWithFile:@"activeweaponbar.png"];
     [weaponModePanel setScale:0.4];
-    weaponModePanel.position = ccp(size.width/2 - 120, 24);
+    weaponModePanel.position = ccp(size.width/2 - 136, 32);
     _label.position = ccp(weaponModePanel.contentSize.width/2, weaponModePanel.contentSize.height/2);
 
     [weaponModePanel addChild:_label];
-    [_dash addChild:weaponModePanel];
+    [uiLayer addChild:weaponModePanel];
 
     
     //killcounter

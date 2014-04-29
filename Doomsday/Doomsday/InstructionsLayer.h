@@ -8,9 +8,11 @@
 
 #import "CCLayer.h"
 #import "UILayer.h"
+#import "CCMenu.h"
 
 @interface InstructionsLayer : CCLayer{
-    UILayer *menu;
+    UILayer *uiLayer;
+    CCMenuItemSprite *closeB;
 }
 
 @end

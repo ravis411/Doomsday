@@ -57,6 +57,9 @@
         intentToMoveRight = NO;
         shipLaserCooldownMode = NO;
         shipBombCooldownMode = NO;
+        shipSpriteCooldown = 0;
+        shipHitTex = [[CCTextureCache sharedTextureCache] addImage:@"ship_hit.png"];
+        shipNormalTex = [[CCTextureCache sharedTextureCache] addImage:@"ship_normal.png"];
         if(soundOn){
             [[SimpleAudioEngine sharedEngine] preloadEffect:@"laser.mp3"];
             [[SimpleAudioEngine sharedEngine] preloadEffect:@"explosion.mp3"];
@@ -214,6 +217,14 @@
 
     if(_enemiesKilled >10*missionLevel){
         _gameOver = YES;
+    }
+    
+    
+    if (shipSpriteCooldown > 0) {
+        shipSpriteCooldown--;
+    }
+    else {
+        [_shipSprite setTexture:shipNormalTex];
     }
     
     if(playerHealth <= 0){
@@ -452,6 +463,8 @@
                 playerHealth = playerHealth - 20;
                 
                 [deletedEnemyWeapon addObject:pBody];
+                shipSpriteCooldown = 12;
+                [_shipSprite setTexture:shipHitTex];
             }
         }
         
