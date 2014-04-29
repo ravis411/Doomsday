@@ -40,9 +40,13 @@
         [quitButton setTarget:self selector:@selector(endGame)];
         [quitButton setColor:ccRED];
 
+        //A button to resume the game.
+        CCMenuItemSprite* instructs = [menu makeButtonWithText:@"HELP" ShapeID:1 x:0 y:0];
+        [instructs setTarget:self selector:@selector(showInstructions)];
+
         
         
-        CCMenu *menuuu = [CCMenu menuWithItems: resumeButton, quitButton, nil];
+        CCMenu *menuuu = [CCMenu menuWithItems: resumeButton, quitButton, instructs, nil];
         
         [menu addChild: menuuu];
 	    
@@ -53,6 +57,11 @@
         [self setTouchSwallow:YES];
     }
     return self;
+}
+
+-(void)showInstructions{
+    InstructionsLayer * instructions = [InstructionsLayer node];
+    [self addChild:instructions z:50];
 }
 
 -(void)endGame{

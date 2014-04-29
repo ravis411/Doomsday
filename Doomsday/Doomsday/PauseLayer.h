@@ -9,6 +9,7 @@
 #import "CCLayer.h"
 #import "CCMenu.h"
 #import "UILayer.h"
+#import "InstructionsLayer.h"
 @class GameplayScene;
 
 @interface PauseLayer : CCLayer{
