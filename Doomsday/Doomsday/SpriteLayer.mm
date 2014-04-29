@@ -623,6 +623,10 @@
         }
     }
 }
+-(void)ccTouchesMoved:(NSSet *)touches withEvent:(UIEvent *)event{
+    [self ccTouchesEnded:touches withEvent:event];
+}
+
 
 -(void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
     for( UITouch *touch in touches)
