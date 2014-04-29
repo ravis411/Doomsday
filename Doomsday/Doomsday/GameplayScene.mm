@@ -47,7 +47,7 @@ bool musicPlaying = false;
         _paused = false;
         _firstBlood = false;
         _levelOverBecausePlayerDied = NO;
-        
+        playerHealth = 100;
         TopScores = [NSString stringWithFormat:@"TopScores%d",level];
         //NSLog(@"\n\n%@\n\n",TopScores);
 
@@ -127,6 +127,10 @@ bool musicPlaying = false;
     CCSprite* _dash;
     CCLabelTTF *_scoreLabel = [[CCLabelTTF labelWithString:@"-/-" fontName:@"Futura-Medium" fontSize:24.0] retain];
     CCSprite* _killCounter;
+        CCSprite* _killCounter4;
+        CCSprite* _killCounter3;
+        CCSprite* _killCounter2;
+        CCSprite* _killCounter1;
     CCLabelTTF* _timeLabel = [[CCLabelTTF labelWithString:@"000" fontName:@"Futura-Medium" fontSize:18] retain];
     //CCSprite* pause = null;
     uiLayer.quota = _quota;
@@ -154,6 +158,10 @@ bool musicPlaying = false;
     
     //killcounter
     [uiLayer addUIElement:_killCounter withFrame:@"killcounter.png" x:(size.width-115) y:(size.height-18)];
+//    [uiLayer addUIElement:_killCounter4 withFrame:@"killcounter4lives.png" x:(size.width-115) y:(size.height-18)];
+//    [uiLayer addUIElement:_killCounter3 withFrame:@"killcounter3lives.png" x:(size.width-115) y:(size.height-18)];
+//    [uiLayer addUIElement:_killCounter2 withFrame:@"killcounter2lives.png" x:(size.width-115) y:(size.height-18)];
+//    [uiLayer addUIElement:_killCounter1 withFrame:@"killcounter1lives.png" x:(size.width-115) y:(size.height-18)];
     [uiLayer displayScoreLabel];
     
     NSString* placeHolderSprite = @"button_round_unlit.png";
@@ -345,7 +353,21 @@ bool musicPlaying = false;
     }
     
     [spriteLayer update:dt];
-   
+    if(playerHealth != [spriteLayer getPlayerHealth]){
+        playerHealth = [spriteLayer getPlayerHealth];
+        if(playerHealth==100){
+            NSLog(@"PLayer health 100");
+        }else if(playerHealth==80){
+                        NSLog(@"PLayer health 80");
+        }else if(playerHealth==60){
+                        NSLog(@"PLayer health 60");
+        }else if(playerHealth==40){
+                        NSLog(@"PLayer health 40");
+        }
+        else if(playerHealth==20){
+                        NSLog(@"PLayer health 20");
+        }
+    }
        
     //    if (([spriteLayer movingRight] == YES) && background.position.x >= -14795) {
     if (([spriteLayer movingRight] == YES) && background.position.x >= -8000) {

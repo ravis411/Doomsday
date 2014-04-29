@@ -69,7 +69,7 @@
 -(void) moveScreenLeft;
 -(void) moveScreenRight;
 -(void) kick;
-
+-(int)getPlayerHealth;
 -(void) spawnBuilding:(int)height;
 -(void) spawnDebrisAtPosition:(CGPoint)cgp;
 

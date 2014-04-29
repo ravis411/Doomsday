@@ -36,7 +36,7 @@
     BOOL musicOn;
     NSString *TopScores;
     BOOL _levelOverBecausePlayerDied;
-    
+    int playerHealth;
     
 //    Ship *_ship;
 //    int m_Level;
