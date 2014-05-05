@@ -624,6 +624,31 @@
     }
 }
 
+-(void)ccTouchesMoved:(NSSet *)touches withEvent:(UIEvent *)event{
+    for( UITouch *touch in touches)
+    {
+        CGPoint location = [touch locationInView:[touch view]];
+        location = [[CCDirector sharedDirector] convertToGL:location];
+        
+        if ((location.x <= ARROWBUTTONWIDTH && ( location.y <= GROUNDBOTTOM || location.y >= GROUNDTOP ) ) || (location.x >= size.width - ARROWBUTTONWIDTH && (location.y <= GROUNDBOTTOM || location.y >= GROUNDTOP) )) {//touch left
+            
+            //Stop the ship
+            _shipBody->SetLinearVelocity(b2Vec2((0)/PTM_RATIO,0));
+            if (_movingLeft == YES) {
+                _movingLeft = NO;
+            }
+            
+            if (_movingRight == YES) {
+                _movingRight = NO;
+            }
+            intentToMoveLeft = NO;
+            intentToMoveRight = NO;
+
+        }
+
+    }
+}
+
 
 
 

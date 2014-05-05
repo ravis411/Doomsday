@@ -64,6 +64,7 @@
 		3F88DA9E190C99DB000E6271 /* PauseLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F88DA9D190C99DB000E6271 /* PauseLayer.m */; };
 		4900CB9218FB6D6F0079CCF9 /* deadhoipolloi.png in Resources */ = {isa = PBXBuildFile; fileRef = 4900CB9118FB6D6F0079CCF9 /* deadhoipolloi.png */; };
 		4937867918FA6D6600ECA5F8 /* laser.png in Resources */ = {isa = PBXBuildFile; fileRef = 4937867818FA6D6600ECA5F8 /* laser.png */; };
+		494503791914B58B002770BC /* bashscript.sh in Resources */ = {isa = PBXBuildFile; fileRef = 494503781914B58B002770BC /* bashscript.sh */; };
 		497A4FC318E11B8500B19D54 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 497A4FC218E11B8500B19D54 /* QuartzCore.framework */; };
 		497A4FC518E11B8500B19D54 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 497A4FC418E11B8500B19D54 /* OpenGLES.framework */; };
 		497A4FC718E11B8500B19D54 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 497A4FC618E11B8500B19D54 /* OpenAL.framework */; };
@@ -333,6 +334,7 @@
 		3F88DA9D190C99DB000E6271 /* PauseLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PauseLayer.m; sourceTree = "<group>"; };
 		4900CB9118FB6D6F0079CCF9 /* deadhoipolloi.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = deadhoipolloi.png; sourceTree = "<group>"; };
 		4937867818FA6D6600ECA5F8 /* laser.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = laser.png; sourceTree = "<group>"; };
+		494503781914B58B002770BC /* bashscript.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = bashscript.sh; sourceTree = "<group>"; };
 		497A4FBF18E11B8500B19D54 /* Doomsday.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Doomsday.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		497A4FC218E11B8500B19D54 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		497A4FC418E11B8500B19D54 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -773,6 +775,7 @@
 		497A4FB618E11B8500B19D54 = {
 			isa = PBXGroup;
 			children = (
+				494503781914B58B002770BC /* bashscript.sh */,
 				49AB9374190F1BE200DC08A3 /* Default~iphone.png */,
 				3DB9733C190F0AC500666447 /* Default@2x.png */,
 				3DB97339190F0A6800666447 /* Default-568h@2x.png */,
@@ -1456,6 +1459,7 @@
 				497A4FBB18E11B8500B19D54 /* Sources */,
 				497A4FBC18E11B8500B19D54 /* Frameworks */,
 				497A4FBD18E11B8500B19D54 /* Resources */,
+				494503771914B508002770BC /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1566,6 +1570,7 @@
 				3DDF5828190CD23300DD19B5 /* buildingatlas.plist in Resources */,
 				3DDF5829190CD23300DD19B5 /* buildingatlas.png in Resources */,
 				3DB9732E190F09EB00666447 /* splash-320x480.jpg in Resources */,
+				494503791914B58B002770BC /* bashscript.sh in Resources */,
 				3DB9732F190F09EB00666447 /* splash-640x1136.jpg in Resources */,
 				3DB97330190F09EB00666447 /* splash-640x960.jpg in Resources */,
 				3DB97334190F0A4100666447 /* splash-320x480.png in Resources */,
@@ -1580,6 +1585,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		494503771914B508002770BC /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "echo \"Hello, world\"";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		497A4FBB18E11B8500B19D54 /* Sources */ = {
